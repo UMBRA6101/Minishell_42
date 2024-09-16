@@ -14,4 +14,6 @@ typedef struct	s_token
 	char		*value;
 }				t_token;
 
+char	**ft_lexing_split();
+
 #endif //MINISHELL_42_LEXING_H
