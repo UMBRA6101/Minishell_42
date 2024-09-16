@@ -21,7 +21,7 @@ t_token	*Lexing(char *rule)
 	int nbr_token;
 
 	itr_rule = 0;
-	ft_split(rule, " ");
+	//custome split pour garder les ""
 	nbr_token = how_token();
 	return (token);
 }
