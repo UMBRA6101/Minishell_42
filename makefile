@@ -14,6 +14,9 @@ NAME = Minishell
 ### INC ###
 DIRINC = ./includes/
 
+### LIB ###
+DIRLIBFT = ./lib/libft
+
 ### SRC ###
 SRCDIR = src/
 SRC =	main.c \
@@ -35,6 +38,7 @@ all:$(NAME)
 	@echo "$(tput bold)$(GREEN)$@ is compile$(END)"
 
 $(OBJS): $(SRCS)
+	@make -C $(DIRLIBFT) && cp $(DIRLIBFT)/libft.a ./
 	@$(CC) $(CCFLAG) $(INCFLAG) -c $< -o $@
 	@echo "$(tput dim) $(MAJA)$<$(END)"
 
