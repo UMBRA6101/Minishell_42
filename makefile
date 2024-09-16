@@ -30,6 +30,7 @@ CC = cc
 CCFLAG = -Wextra -Wall -Werror -g3
 INCFLAG = -I$(DIRINC)
 LIBFTDIR = libft/
+PIPEXDIR = pipex/
 
 all:$(NAME)
 	@echo "$(tput bold)$(GREEN)$@ is compile$(END)"
