@@ -17,6 +17,7 @@ typedef struct 	s_data_rule
 	char	*dir_path;
 	char	**argument;
 	char	*out;
+	char	*in;
 }				t_data_rule;
 
 char			*lexing(char *brut_rules); // transformation de commande en token

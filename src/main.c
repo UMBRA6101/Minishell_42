@@ -6,12 +6,12 @@ int	main(void)
 	char	*lex;
 
 	rule = NULL;
+	lex = NULL;
 	rule = readline(PROMPT);
-	
 	if (rule != NULL)
 	{
 		lex = lexing(rule);
+		printf("%s\n", lex);
 	}
-
 	return (0);
 }
