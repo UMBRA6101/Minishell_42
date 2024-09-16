@@ -5,6 +5,9 @@
 #ifndef MINISHELL_42_LEXING_H
 #define MINISHELL_42_LEXING_H
 
+# include <stdlib.h>
+# include <stdio.h>
+
 typedef struct	s_token
 {
 	char		*kind;
