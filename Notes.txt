@@ -1,0 +1,7 @@
+Salut,
+J ai rajouter des notes pour faire des annotions
+J ai rajouter mon pipex plus propre cette fois, je veux l ajouter au makefile pour le compiler, mais jle comprend pas trop ton makefile
+
+dans ta libft, ya pas de main
+
+est ce qu on pourrait reussir a le lancer, comme ca on pourrait traviller a partir de la
