@@ -6,16 +6,14 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:30:17 by raphox            #+#    #+#             */
-/*   Updated: 2024/09/22 18:41:13 by raphox           ###   ########.fr       */
+/*   Updated: 2024/09/24 18:01:31 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-// #include "../includes/minishell.h"
-// #include "../includes/Lexing.h"
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
+#include "../includes/minishell.h"
+#include "../includes/Lexing.h"
+#include "../includes/libft.h"
 
 
 int ft_strlen(char *str)
@@ -90,7 +88,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	
 // }
 
-void cd(char *command, char *arguments, char **envp)
+void cd(char *command, char **arguments, char **envp)
 {
 	const char *path;
 	const char *user;
@@ -106,8 +104,6 @@ void cd(char *command, char *arguments, char **envp)
 		chdir(arguments);
 		envp[64] = arguments;
 	}
-	
-
 }
 
 // int main(int argc, char **argv, char **envp)
