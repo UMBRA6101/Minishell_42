@@ -1,0 +1,13 @@
+.
+..
+a.out
+file.txt
+.git
+.idea
+includes
+lib
+libft.a
+makefile
+obj
+src
+test.txt
