@@ -1,7 +1,9 @@
 
 
 
-#include <stdio.h>
+#include "../includes/minishell.h"
+#include "../includes/Lexing.h"
+#include "../includes/libft.h"
 
 static char  **copy_env(char **envp)
 {
@@ -23,8 +25,8 @@ void display_env(char **envp)
 }
 
 
-int main(int argc, char **argv, char **envp)
-{
-	display_env(envp);
+// int main(int argc, char **argv, char **envp)
+// {
+// 	display_env(envp);
 
-}
+// }
