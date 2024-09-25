@@ -15,7 +15,11 @@ static int	is_d_quote(char *command, int i, t_token *token)
 static int	is_quote(char *command, int i, t_token *token)
 {
 	while (command[i] && command[i] != '\'')
+	{
 		i++;
+		printf("%c", command[i]);
+	}
+	printf("\n");
 	while (command[i] && !ft_isend(command[i]))
 		i++;
 	return (r_value(command, i, token));
@@ -25,6 +29,8 @@ static int	is_space(char *command, int i, t_token *token)
 {
 	while (command[i] && !ft_isend(command[i]))
 		i++;
+	if (token->len_word == 0)
+		token->len_word = i;
 	return (r_value(command, i, token));
 }
 
@@ -33,16 +39,15 @@ int	r_value(char *command, int i, t_token *token)
 	int	l;
 
 	l = ft_strlen(command);
-	printf("i = %d | l = %d\n", i, l);
-	printf("%c\n", token->sep);
 	if (i >= l)
+		return (state_finish(token));
+	if (token->len_word > 0)
 		return (state_finish(token));
 	while (ft_isspace(command[i]))
 		i++;
 	if (command[i] == '\0')
 		return (state_finish(token));
 	token->sep = command[i];
-	printf("state = %d\n", token->state);
 	token->state = state_in_view(command, i);
 	(token->nb_word)++;
 	if (token->state == SPACES)

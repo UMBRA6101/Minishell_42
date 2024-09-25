@@ -51,3 +51,14 @@ int	nb_words(char *command)
 	token.sep = ' ';
 	return (r_value(command, 0, &token));
 }
+
+int	len_of_word(char *command, int i)
+{
+	t_token	token;
+
+	token.len_word = 0;
+	token.nb_word = 0;
+	token.state = RESET;
+	token.sep = ' ';
+	return (r_value(command, i, &token));
+}
