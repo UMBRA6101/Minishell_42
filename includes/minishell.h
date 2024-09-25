@@ -29,6 +29,6 @@ typedef struct 	s_data_rule
 
 // Main.c
 char			*lexing(char *brut_rules); // transformation de commande en token
-t_data_rule		parsing(char *token); // verification du token et decoupage dans la structure
+t_data_rule		*parsing(char *token); // verification du token et decoupage dans la structure
 
 #endif
