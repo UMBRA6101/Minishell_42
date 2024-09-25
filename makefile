@@ -32,7 +32,7 @@ OBJS = $(addprefix $(OBJDIR), $(OBJ))
 CC = cc
 CCFLAG = -Wextra -Wall -Werror -g3
 INCFLAG = -I$(DIRINC)
-LIBFTDIR = libft/
+LIBFTDIR = lib/libft/
 PIPEXDIR = pipex/
 
 all:$(NAME)
@@ -52,7 +52,9 @@ clean:
 
 fclean: clean
 	@rm $(NAME)
+	@make -C $(LIBFTDIR) clean
 	@echo "$(RED)objet and exec of $(NAME) is removed$(END)"
 
 re: fclean all
+	@make -C $(LIBFTDIR) fclean
 	@echo $(NAME) is recompiled
