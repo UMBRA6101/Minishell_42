@@ -1,28 +1,37 @@
 //
 // Created by umbra on 9/23/24.
 //
-#include "Parsing.h"
+#include "../../includes/Parsing.h"
 
 static int	is_d_quote(char *command, int i, t_token *token)
 {
 	while (command[i] && command[i] == '\"')
 		i++;
-	while (command[i] && !ft_isend(command[i]))
-		i++;
-	return (r_value(command, i, token));
+	if (token->len_word == 0)
+		token->len_word = i + 2;
+	return (r_value(command, i + 1, token));
 }
 
 static int	is_quote(char *command, int i, t_token *token)
 {
 	while (command[i] && command[i] != '\'')
+		i++;
+	if (command[i] == '\'')
 	{
-		i++;
-		printf("%c", command[i]);
+		if (token->len_word == 0)
+			token->len_word = i + 2;
+		return (r_value(command, i + 1, token));
 	}
-	printf("\n");
-	while (command[i] && !ft_isend(command[i]))
-		i++;
-	return (r_value(command, i, token));
+	return (-1);
+}
+
+static int	is_r_oper(char *command, int i, t_token *token)
+{
+	if (token->len_word == 0)
+	{
+		token->len_word = 1;
+	}
+	return (r_value(command, i + 1, token));
 }
 
 static int	is_space(char *command, int i, t_token *token)
@@ -56,5 +65,7 @@ int	r_value(char *command, int i, t_token *token)
 		return (is_quote(command, i + 1, token));
 	else if (token->state == D_QUOTE)
 		return (is_d_quote(command, i + 1, token));
+	else if (token->state == OPER)
+		return (is_r_oper(command, i, token));
 	return (0);
 }

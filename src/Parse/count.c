@@ -2,7 +2,7 @@
 // Created by umbra on 9/23/24.
 //
 
-# include "Parsing.h"
+# include "../../includes/Parsing.h"
 
 int	state_in_view(const char *command, const int i)
 {
@@ -13,4 +13,26 @@ int	state_in_view(const char *command, const int i)
 	if (is_oper(command[i]))
 		return (OPER);
 	return (SPACES);
+}
+
+int	len_of_word(char *command, int i)
+{
+	t_token	token;
+
+	token.len_word = 0;
+	token.nb_word = 0;
+	token.state = RESET;
+	token.sep = ' ';
+	return (r_value(command, i, &token));
+}
+
+int	nb_words(char *command)
+{
+	t_token token;
+
+	token.len_word = -1;
+	token.nb_word = 0;
+	token.state = RESET;
+	token.sep = ' ';
+	return (r_value(command, 0, &token));
 }
