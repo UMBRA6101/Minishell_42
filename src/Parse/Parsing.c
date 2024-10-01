@@ -4,20 +4,27 @@
 #include "../../includes/minishell.h"
 #include "../../includes/Parsing.h"
 
+void add_word(t_split *word, char *command, int word_len)
+{
+	ft_strlcpy(word->word, command, word_len + 1);
+	word->word[word_len + 1] = '\0';
+}
+
 static int	fill_info(char *command, int word, t_split *split)
 {
 	int		k;
 	int 	i;
-	int 	word_len;
 
 	k = 0;
+	i = 0;
 	while (k < word)
 	{
 		while (ft_isspace(command[i]))
 			i++;
-		word_len = len_of_word(command, i);
-		printf("ici %d\n", word_len);
-		command + word_len;
+		split[k].len_word = len_of_word(command, i);
+		split[k].word = malloc(sizeof(char) * (split[k].len_word + 2));
+		add_word(&split[k], command + i , split[k].len_word);
+		i = split[k].len_word + i;
 		k++;
 	}
 	return (0);
@@ -27,21 +34,19 @@ t_data_rule	*parsing(char *command)
 {
 	t_split		*split;
 	int			word_count;
+	int i;
 
+	i = 0;
 	split = NULL;
 	command = delete_space(command);
 	word_count = nb_words(command);
-	split = malloc(sizeof(t_data_rule) * word_count + 1);
-	if (!split || fill_info(command, word_count, split))
+	split = malloc(sizeof(t_split) * (word_count + 1));
+	if (!split || fill_info(command, word_count, split) < 0)
 		return (NULL);
 	return (NULL);
 }
 
 int main()
 {
-	int i;
-	t_data_rule *rule_test;
-
-	i = 0;
-	rule_test = parsing("ls -a | grep 'count.c' > test.txt");
+	parsing("ls -a | grep 'count.c truc' > test.txt");
 }

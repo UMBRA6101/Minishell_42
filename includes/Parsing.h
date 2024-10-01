@@ -21,7 +21,7 @@ typedef struct	s_split
 {
 	char 	sep;
 	int		len_word;
-	char 	*words;
+	char 	*word;
 	int 	state;
 }				t_split;
 
