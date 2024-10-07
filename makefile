@@ -39,7 +39,7 @@ OBJS = $(addprefix $(OBJDIR), $(OBJ))
 CC = cc
 CCFLAG = -Wextra -Wall -Werror -g3
 INCFLAG = -I$(DIRINC)
-LIBFTDIR = lib/libft/
+LIBFTDIR = lib/libft
 PIPEXDIR = pipex/
 
 all:$(NAME)
@@ -57,7 +57,7 @@ $(OBJDIR)%.o: $(SRCDIR)%.c
 	@echo "$(tput dim) $(MAJA)$<$(END)"
 
 $(NAME): libft $(OBJS)
-	$(CC) $(CCFLAG) $(INCFLAG) libft.a $(OBJS) -lreadline -o $@
+	$(CC) $(CCFLAG) $(INCFLAG) $(OBJS) src/Parse/libft.a -lreadline -o $@
 
 clean:
 	@rm -rf $(OBJDIR)

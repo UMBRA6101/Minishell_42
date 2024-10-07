@@ -72,17 +72,17 @@ OBJ = $(SRC:.c=.o)
 HEADER = libft.h 
 
 # nom de la bibliotheque / du projet
-TARGET = libft.a
+NAME = libft.a
 
 AR = ar rc
 
 # Demande à tout compiler lorsque l'on utilisera la commande make
-all: $(TARGET)
+all: $(NAME)
 	@echo "$(tput bold)$(GREEN)$(TARGET) is compile$(END)"
 
 so:
-	@$(CC) -fPIC $(CFLAGS) -c $(SRC)  # Compilation des fichiers sources en fichiers objets
-	@$(CC) -shared -o libft.so $(OBJ)  # Création de la bibliothèque partagée
+	$(CC) -fPIC $(CFLAGS) -c $(SRC)  # Compilation des fichiers sources en fichiers objets
+	$(CC) -shared -o libft.so $(OBJ)  # Création de la bibliothèque partagée
 
 
 # règles de compilation des .c en .o
@@ -90,7 +90,7 @@ main.o: main.c $(HEADER)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 # règles de compilation de l'éxécutable
-$(TARGET): $(OBJECTS)
+$(NAME): $(OBJECTS)
 	@ar rcs $@ $^
 	@make -C ft_printf all && cp ./ft_printf/ft_printf.a ./$@
 
