@@ -8,6 +8,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include "libft.h"
+# include "minishell.h"
 
 typedef struct	s_token
 {
@@ -34,7 +35,13 @@ int	state_finish(t_token *token);
 int	ft_isend(const char c);
 int	state_in_view(const char *command, const int i);
 int	len_of_word(char *command, int i);
+int	nb_command(t_split *split, int count_word);
+int request_count(t_split *split, int count_word);
+t_data_rule	*parsing_tree(t_split *split, const int count_word);
+int r_node(t_split *split, int i);
+int	check_rdir(char *buff, int len);
 
 enum {RESET, SPACES, OPER, QUOTE, D_QUOTE};
+enum {VARIABLE, RDIR, D_RDIR, N_OPER, PIPE, OTHER};
 
 #endif //MINISHELL_42_LEXING_H

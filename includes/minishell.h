@@ -13,6 +13,7 @@
 # include <sys/errno.h>
 # include <sys/wait.h>
 # include "libft.h"
+# include "stdbool.h"
 
 # define PROMPT "Minishell-> "
 
@@ -24,7 +25,8 @@ typedef struct 	s_data_rule
 	const char 		**arguments;
 	char	*dir_path;
 	char	*out;
-	char 	*oper;
+	char 	oper; // r = >>
+	bool 	pipe;
 }				t_data_rule;
 
 // Main.c
