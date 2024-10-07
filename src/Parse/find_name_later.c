@@ -9,7 +9,7 @@ int	ft_isspace(char c)
 
 int	is_oper(char c)
 {
-	if (c == '=' || c == '|' || c == ';' || c == '<' || c == '>')
+	if (c == '=' || c == '|' || c == ';')
 		return (1);
 	return (0);
 }

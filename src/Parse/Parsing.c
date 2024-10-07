@@ -22,7 +22,7 @@ static int	fill_info(char *command, int word, t_split *split)
 		while (ft_isspace(command[i]))
 			i++;
 		split[k].len_word = len_of_word(command, i);
-		split[k].word = malloc(sizeof(char) * (split[k].len_word + 2));
+		split[k].word = ft_calloc(sizeof(char), (split[k].len_word + 2));
 		add_word(&split[k], command + i , split[k].len_word);
 		i = split[k].len_word + i;
 		k++;
@@ -40,13 +40,14 @@ t_data_rule	*parsing(char *command)
 	split = NULL;
 	command = delete_space(command);
 	word_count = nb_words(command);
-	split = malloc(sizeof(t_split) * (word_count + 1));
-	if (!split || fill_info(command, word_count, split) < 0)
+	split = ft_calloc(sizeof(t_split), (word_count + 1));
+	if (!split || (fill_info(command, word_count, split) < 0))
 		return (NULL);
+	parsing_tree(split, word_count);
 	return (NULL);
 }
 
 int main()
 {
-	parsing("ls -a | grep 'count.c truc' > test.txt");
+	parsing("ls -a >> text |");
 }

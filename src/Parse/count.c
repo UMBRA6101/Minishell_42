@@ -36,3 +36,19 @@ int	nb_words(char *command)
 	token.sep = ' ';
 	return (r_value(command, 0, &token));
 }
+
+int	nb_command(t_split *split, int count_word)
+{
+	int count;
+	int k;
+
+	count = 1;
+	k = 0;
+	while (k < count_word)
+	{
+		if (ft_strncmp(split[k].word, "|", 1) == 0)
+			count++;
+		k++;
+	}
+	return (count);
+}
