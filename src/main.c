@@ -1,14 +1,16 @@
 #include "minishell.h"
+
 int	main(void)
 {
 	char	*rule;
+	t_data_rule *request;
 
 	rule = NULL;
 	rule = readline(PROMPT);
 	if (rule != NULL)
 	{
-		//lex = lexing(rule);
-		//printf("%s\n", lex);
+		request = parsing(rule);
+		(void)request;
 	}
 	return (0);
 }

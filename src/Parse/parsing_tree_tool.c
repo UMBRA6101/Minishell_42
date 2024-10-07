@@ -62,6 +62,5 @@ int r_node(t_split *split, int nb_node)
 		r_node(split, nb_node);
 	else if (node_type == RDIR)
 		return (nb_node);
-	else
-		return (-1);
+	return (-1);
 }

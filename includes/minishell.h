@@ -14,6 +14,7 @@
 # include <sys/wait.h>
 # include "libft.h"
 # include "stdbool.h"
+# include "Parsing.h"
 
 # define PROMPT "Minishell-> "
 
@@ -31,7 +32,7 @@ typedef struct 	s_data_rule
 
 // Main.c
 char			*lexing(char *brut_rules); // transformation de commande en token
-t_data_rule		*parsing(char *token); // verification du token et decoupage dans la structure
+t_data_rule		*parsing(char *command); // verification du token et decoupage dans la structure
 
 // Builtins
 void cd(char *command, char **arguments, char **envp); // recopie cd // good

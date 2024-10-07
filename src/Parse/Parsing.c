@@ -34,9 +34,7 @@ t_data_rule	*parsing(char *command)
 {
 	t_split		*split;
 	int			word_count;
-	int i;
 
-	i = 0;
 	split = NULL;
 	command = delete_space(command);
 	word_count = nb_words(command);
@@ -45,9 +43,4 @@ t_data_rule	*parsing(char *command)
 		return (NULL);
 	parsing_tree(split, word_count);
 	return (NULL);
-}
-
-int main()
-{
-	parsing("ls -a >> text |");
 }

@@ -19,13 +19,13 @@ DIRLIBFT = ./lib/libft
 
 ### SRC ###
 SRCDIR = src/
-SRC =	main.c \
-		Parse/count.c \
-		Parse/find_name_later.c \
-		Parse/Parsing.c \
-		Parse/parsing_tree.c \
-		Parse/parsing_tree_tool.c \
-		Parse/set_value.c \
+SRC =		main.c \
+			Parse/count.c \
+			Parse/find_name_later.c \
+			Parse/Parsing.c \
+			Parse/parsing_tree.c \
+			Parse/parsing_tree_tool.c \
+			Parse/set_value.c
 
 SRCS = $(addprefix $(SRCDIR), $(SRC))
 
@@ -45,17 +45,19 @@ PIPEXDIR = pipex/
 all:$(NAME)
 	@echo "$(tput bold)$(GREEN)$@ is compile$(END)"
 
-$(OBJS): $(SRCS)
-	@make -C $(DIRLIBFT) && cp $(DIRLIBFT)/libft.a ./
-	@if [ ! -d "$(OBJDIR)" ]; then \
-		mkdir -p "$(OBJDIR)" ;\
-		mkdir -p "$(PARS_OBJDIR)" ;\
+libft:
+	@if [ ! -f "libft.a" ]; then \
+		make -C $(LIBFTDIR) make ;\
+		cp $(LIBFTDIR)/libft.a ./; \
 	fi;
+
+$(OBJDIR)%.o: $(SRCDIR)%.c
+	@mkdir -p $(dir $@)
 	@$(CC) $(CCFLAG) $(INCFLAG) -c $< -o $@
 	@echo "$(tput dim) $(MAJA)$<$(END)"
 
-$(NAME): $(OBJS)
-	$(CC) $(CCFLAG) $(INCFLAG) $(OBJS) -o $@ -lreadline
+$(NAME): libft $(OBJS)
+	$(CC) $(CCFLAG) $(INCFLAG) libft.a $(OBJS) -lreadline -o $@
 
 clean:
 	@rm -rf $(OBJDIR)

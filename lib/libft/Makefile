@@ -10,15 +10,63 @@
 #                                                                              #
 # **************************************************************************** #
 
+GREEN = \e[32m
+END = \e[0m
+
 # Compilateur et regles de compilation
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -I./ 
 
+
 # Tout les .c qu'on souhaite compiler
-SOURCES =  $(wildcard src/*.c)
+SRC =	ft_atoi.c \
+		ft_bzero.c \
+		ft_calloc.c \
+           ft_isalnum.c \
+           ft_isalpha.c \
+           ft_isascii.c \
+           ft_isdigit.c \
+           ft_isprint.c \
+           ft_itoa.c \
+           ft_lstadd_back_bonus.c \
+           ft_lstadd_front_bonus.c \
+           ft_lstclear_bonus.c \
+           ft_lstdelone_bonus.c \
+           ft_lstlast_bonus.c \
+           ft_lstmap_bonus.c \
+           ft_lstnew_bonus.c \
+           ft_lstsize_bonus.c \
+           ft_lststiter_bonus.c \
+           ft_memchr.c \
+           ft_memcmp.c \
+           ft_memcpy.c \
+           ft_memmove.c \
+           ft_memset.c \
+           ft_putchar_fd.c \
+           ft_putendl_fd.c \
+           ft_putnbr_fd.c \
+           ft_putstr_fd.c \
+           ft_split.c \
+           ft_strchr.c \
+           ft_strdup.c \
+           ft_striteri.c \
+           ft_strjoin.c \
+           ft_strlcat.c \
+           ft_strlcpy.c \
+           ft_strlen.c \
+           ft_strmapi.c \
+           ft_strncmp.c \
+           ft_strnstr.c \
+           ft_strrchr.c \
+           ft_strtrim.c \
+           ft_substr.c \
+           ft_tolower.c \
+           ft_toupper.c \
+           get_next_line.c \
+           get_next_line_utils.c \
 
 # Tout les .c qu'on souhaite compiler en .o
-OBJECTS = $(SOURCES:.c=.o)
+OBJ = $(SRC:.c=.o)
 
 # .h qu'on souhaite intégrer à l'éxécutable
 HEADER = libft.h 
@@ -30,10 +78,11 @@ AR = ar rc
 
 # Demande à tout compiler lorsque l'on utilisera la commande make
 all: $(TARGET)
+	@echo "$(tput bold)$(GREEN)$(TARGET) is compile$(END)"
 
 so:
-	@$(CC) -fPIC $(CFLAGS) -c $(SOURCES)  # Compilation des fichiers sources en fichiers objets
-	@$(CC) -shared -o libft.so $(OBJECTS)  # Création de la bibliothèque partagée
+	@$(CC) -fPIC $(CFLAGS) -c $(SRC)  # Compilation des fichiers sources en fichiers objets
+	@$(CC) -shared -o libft.so $(OBJ)  # Création de la bibliothèque partagée
 
 
 # règles de compilation des .c en .o
@@ -47,7 +96,7 @@ $(TARGET): $(OBJECTS)
 
 # Nettoyer les .o compilés
 clean:
-	rm -f $(OBJECTS)
+	rm -f $(OBJ)
 	make -C ft_printf clean
 
 # Commande pour nettoyer les .o et l'éxécutable

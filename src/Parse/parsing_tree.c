@@ -1,8 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_tree.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: umbra <umbra@student.1337.ma>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/07 11:04:30 by umbra             #+#    #+#             */
+/*   Updated: 2024/10/07 15:05:34 by umbra            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 //
 // Created by umbra on 10/1/24.
 //
+
 #include "../../includes/Parsing.h"
-#include "../../includes/minishell.h"
+#include "Parsing.h"
 
 static int	add_arg_request(t_data_rule *request, t_split  *split, int nb_node);
 
@@ -60,9 +73,7 @@ static int add_arg_request(t_data_rule *request, t_split  *split, int nb_node)
 static int fill_request(t_split *split, t_data_rule *request, int count_word, int k)
 {
 	int nb_node;
-	int itr_temp;
 
-	itr_temp = 0;
 	nb_node = 0;
 	if (count_word <= 0)
 		return (0);
@@ -85,7 +96,7 @@ static int fill_request(t_split *split, t_data_rule *request, int count_word, in
 	return (0);
 }
 
-t_data_rule	*parsing_tree(t_split *split, const int count_word)
+t_data_rule		*parsing_tree(t_split *split, const int count_word)
 {
 	t_data_rule *out;
 	int i = 0;
