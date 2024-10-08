@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: thodos-s <thodos-s@student.42.fr>          +#+  +:+       +#+         #
+#    By: raphox <raphox@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/17 16:39:09 by thodos-s          #+#    #+#              #
-#    Updated: 2023/11/20 15:18:56 by thodos-s         ###   ########.fr        #
+#    Updated: 2024/10/08 15:13:04 by raphox           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,20 +15,21 @@ END = \e[0m
 
 # Compilateur et regles de compilation
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I./ 
+CFLAGS = -Wall -Wextra -Werror -I./
 
 
 # Tout les .c qu'on souhaite compiler
+SRCDIR = src/
 SRC =	ft_atoi.c \
 		ft_bzero.c \
 		ft_calloc.c \
-           ft_isalnum.c \
-           ft_isalpha.c \
-           ft_isascii.c \
-           ft_isdigit.c \
-           ft_isprint.c \
-           ft_itoa.c \
-           ft_lstadd_back_bonus.c \
+		ft_isalnum.c \
+		ft_isalpha.c \
+		ft_isascii.c \
+		ft_isdigit.c \
+		ft_isprint.c \
+		ft_itoa.c \
+		ft_lstadd_back_bonus.c \
            ft_lstadd_front_bonus.c \
            ft_lstclear_bonus.c \
            ft_lstdelone_bonus.c \
@@ -65,8 +66,9 @@ SRC =	ft_atoi.c \
            get_next_line.c \
            get_next_line_utils.c \
 
+SRCS = $(addprefix $(SRCDIR), $(SRC))
 # Tout les .c qu'on souhaite compiler en .o
-OBJ = $(SRC:.c=.o)
+OBJ = $(SRCS:.c=.o)
 
 # .h qu'on souhaite intégrer à l'éxécutable
 HEADER = libft.h 
@@ -80,29 +82,24 @@ AR = ar rc
 all: $(NAME)
 	@echo "$(tput bold)$(GREEN)$(TARGET) is compile$(END)"
 
-so:
-	$(CC) -fPIC $(CFLAGS) -c $(SRC)  # Compilation des fichiers sources en fichiers objets
-	$(CC) -shared -o libft.so $(OBJ)  # Création de la bibliothèque partagée
-
-
-# règles de compilation des .c en .o
-main.o: main.c $(HEADER)
+%.o: $(SRCDIR)%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 # règles de compilation de l'éxécutable
-$(NAME): $(OBJECTS)
+$(NAME): $(OBJ)
 	@ar rcs $@ $^
+	@ranlib $(NAME)
 	@make -C ft_printf all && cp ./ft_printf/ft_printf.a ./$@
 
 # Nettoyer les .o compilés
 clean:
-	rm -f $(OBJ)
-	make -C ft_printf clean
+	@rm -f $(OBJ)
+	@make -C ft_printf clean
 
 # Commande pour nettoyer les .o et l'éxécutable
 fclean: clean
-	rm -f $(TARGET)
-	make -C ft_printf fclean
+	@rm -f $(NAME)
+	@make -C ft_printf fclean
 
 
 # Re-Build tout le projet

@@ -6,27 +6,15 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 17:47:30 by raphox            #+#    #+#             */
-/*   Updated: 2024/09/24 16:18:15 by raphox           ###   ########.fr       */
+/*   Updated: 2024/10/08 11:55:07 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // envp deja copier auparavant !!!!!! sinon ne marche pas !!!!!!!
 
 #include "../includes/minishell.h"
-#include "../includes/Lexing.h"
+// #include "../includes/Lexing.h"
 #include "../includes/libft.h"
-
-
-void display_env(char **envp)
-{
-	int i;
-	i = 0;
-	while (envp[i])
-	{
-		printf("%s\n", envp[i]);
-		i++;
-	}
-}
 
 void	unset_var(char **env, const char *var)
 {

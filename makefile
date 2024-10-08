@@ -20,12 +20,20 @@ DIRLIBFT = ./lib/libft
 ### SRC ###
 SRCDIR = src/
 SRC =		main.c \
+			execute.c \
+			builtins/builtins.c \
+			builtins/cd.c \
+			builtins/echo.c \
+			builtins/env.c \
+			builtins/export.c \
+			builtins/pwd.c \
+			builtins/unset.c \
 			Parse/count.c \
 			Parse/find_name_later.c \
 			Parse/Parsing.c \
 			Parse/parsing_tree.c \
 			Parse/parsing_tree_tool.c \
-			Parse/set_value.c
+			Parse/set_value.c \
 
 SRCS = $(addprefix $(SRCDIR), $(SRC))
 
@@ -37,9 +45,9 @@ OBJS = $(addprefix $(OBJDIR), $(OBJ))
 
 ### COMPILE ###
 CC = cc
-CCFLAG = -Wextra -Wall -Werror -g3
+# CCFLAG = -Wextra -Wall -Werror -g3
 INCFLAG = -I$(DIRINC)
-LIBFTDIR = lib/libft
+LIBFTDIR = ./lib/libft/
 PIPEXDIR = pipex/
 
 all:$(NAME)
@@ -47,8 +55,8 @@ all:$(NAME)
 
 libft:
 	@if [ ! -f "libft.a" ]; then \
-		make -C $(LIBFTDIR) make ;\
-		cp $(LIBFTDIR)/libft.a ./; \
+		make -C $(LIBFTDIR) all ;\
+		cp $(LIBFTDIR)libft.a ./; \
 	fi;
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
@@ -57,10 +65,11 @@ $(OBJDIR)%.o: $(SRCDIR)%.c
 	@echo "$(tput dim) $(MAJA)$<$(END)"
 
 $(NAME): libft $(OBJS)
-	$(CC) $(CCFLAG) $(INCFLAG) $(OBJS) src/Parse/libft.a -lreadline -o $@
+	@$(CC) $(CCFLAG) $(INCFLAG) $(OBJS) libft.a -lreadline -o $@
 
 clean:
 	@rm -rf $(OBJDIR)
+	@rm libft.a
 	@echo "$(RED)objet of $(NAME) is removed$(END)"
 
 fclean: clean

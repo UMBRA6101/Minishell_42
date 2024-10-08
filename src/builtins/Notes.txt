@@ -1,0 +1,17 @@
+ENV A COPIER DES LE DEBUT
+Export a revoir car pas sur, demander a pote
+
+
+
+STACK SMASHING DANS CE CAS LA
+	const char *tab[1];
+	tab[0] = "bonjouret toi";
+	tab[1] = 0;
+	probleme de main surement.
+
+
+
+//env good
+//pwd good
+//echo good
+//export
