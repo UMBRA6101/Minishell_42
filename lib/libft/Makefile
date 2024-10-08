@@ -80,13 +80,7 @@ AR = ar rc
 all: $(NAME)
 	@echo "$(tput bold)$(GREEN)$(TARGET) is compile$(END)"
 
-so:
-	$(CC) -fPIC $(CFLAGS) -c $(SRC)  # Compilation des fichiers sources en fichiers objets
-	$(CC) -shared -o libft.so $(OBJ)  # Création de la bibliothèque partagée
-
-
-# règles de compilation des .c en .o
-main.o: main.c $(HEADER)
+$(OBJ): $(SRC)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 # règles de compilation de l'éxécutable
@@ -96,13 +90,13 @@ $(NAME): $(OBJECTS)
 
 # Nettoyer les .o compilés
 clean:
-	rm -f $(OBJ)
-	make -C ft_printf clean
+	@rm -f $(OBJ)
+	@make -C ft_printf clean
 
 # Commande pour nettoyer les .o et l'éxécutable
 fclean: clean
-	rm -f $(TARGET)
-	make -C ft_printf fclean
+	@rm -f $(TARGET)
+	@make -C ft_printf fclean
 
 
 # Re-Build tout le projet
