@@ -53,14 +53,17 @@ int r_node(t_split *split, int nb_node)
 
 	node_type = 0;
 	if (split[nb_node].word == NULL)
+	{
+		printf("nb_node : %d\n", nb_node);
 		return (nb_node);
+	}
 	if (node_finish(split[nb_node].word, split[nb_node].len_word))
 		return (nb_node);
 	node_type = check_rdir(split->word, split->len_word);
 	nb_node++;
+	printf("%d\n", node_type);
 	if (node_type == OTHER)
 		r_node(split, nb_node);
-	else if (node_type == RDIR)
+	else
 		return (nb_node);
-	return (-1);
 }

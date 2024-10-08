@@ -78,6 +78,10 @@ static int fill_request(t_split *split, t_data_rule *request, int count_word, in
 	if (count_word <= 0)
 		return (0);
 	nb_node = r_node(split, 0);
+	if (nb_node == -1) {
+		printf("surment une erreur mais la quel aucune idee\n");
+		return (-1);
+	}
 	request[k].arguments = malloc(sizeof(char *) * nb_node + 1);
 	add_arg_request(&request[k], split, nb_node);
 	request[k].pipe = false;
@@ -105,7 +109,11 @@ t_data_rule		*parsing_tree(t_split *split, const int count_word)
 	out = ft_calloc(sizeof(t_data_rule), nb_command(split, count_word));
 	if (!out)
 		return (NULL);
-	fill_request(split, &out[k], count_word, 0);
+	if (fill_request(split, &out[k], count_word, 0) == -1)
+	{
+		free (out);
+		return NULL;
+	}
 	while (k < nb_command(split, count_word))
 	{
 		i = 0;

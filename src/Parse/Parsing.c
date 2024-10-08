@@ -4,6 +4,19 @@
 #include "../../includes/minishell.h"
 #include "../../includes/Parsing.h"
 
+static void free_split(t_split *split)
+{
+	t_split *temp;
+
+	temp = split;
+	if (!split)
+		return ;
+	free(split->word);
+	split++;
+	if (temp)
+		free(temp);
+}
+
 void add_word(t_split *word, char *command, int word_len)
 {
 	ft_strlcpy(word->word, command, word_len + 1);
@@ -42,5 +55,6 @@ t_data_rule	*parsing(char *command)
 	if (!split || (fill_info(command, word_count, split) < 0))
 		return (NULL);
 	parsing_tree(split, word_count);
+	free_split(split);
 	return (NULL);
 }
