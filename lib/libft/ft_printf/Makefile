@@ -39,15 +39,14 @@ CFLAGS		= -Wall -Wextra -Werror -g3
 $(NAME):	${OBJS}
 			@cp ../libft.a ./$@
 			@${AR} $@ ${OBJS}
-			#${RN} ${NAME}
 
 all:		$(NAME)
 
 clean:
-			${RM} ${OBJS}
+			@${RM} ${OBJS}
 
 fclean:		clean
-			${RM} $(NAME)
+			@${RM} $(NAME)
 
 re:			fclean all
 
