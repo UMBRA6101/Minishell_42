@@ -75,9 +75,10 @@ t_data_rule	*parsing(char *command, t_erreur *err)
 	if (ft_strlen(command) == 0)
 		return (NULL);
 	word_count = nb_words(command);
-	err->error_code = SYNTAX_QUOTE;
+	err->error_code = STX_QUOTE;
 	if (word_count < 0)
 		return (NULL);
+	err->error_code = STX_ALLOC;
 	split = ft_calloc(sizeof(t_split), (word_count + 1));
 	if (!split || (fill_info(command, word_count, split) < 0))
 		return (NULL);

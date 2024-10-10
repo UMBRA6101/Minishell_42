@@ -16,6 +16,6 @@ typedef struct	s_erreur
 
 void print_parsing_error(t_erreur err);
 
-enum {SYNTAX_QUOTE, SYNTAX};
+enum {STX_QUOTE, SYNTAX, STX_ALLOC};
 
 #endif //MINISHELL_42_PARSING_ERROR_H
