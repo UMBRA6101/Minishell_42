@@ -6,7 +6,16 @@
 #define MINISHELL_42_PARSING_ERROR_H
 
 # define ERR_SYX "bash: syntax error near"
+# define ERROR_FD 2
 
-enum {SYNTAX};
+typedef struct	s_erreur
+{
+	int error_code;
+	char c;
+}				t_erreur;
+
+void print_parsing_error(t_erreur err);
+
+enum {SYNTAX_QUOTE, SYNTAX};
 
 #endif //MINISHELL_42_PARSING_ERROR_H

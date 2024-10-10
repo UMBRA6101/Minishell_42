@@ -36,7 +36,8 @@ static int	converte_rdir(t_data_rule *request, t_split *split)
 	int rdir;
 
 	rdir = check_rdir(split->word, split->len_word);
-	if (rdir != OTHER)
+	printf("%d\n", rdir);
+	if (rdir != OTHER && rdir != PIPE)
 	{
 		if (rdir == D_RDIR)
 			request->oper = 'r';
@@ -82,13 +83,16 @@ static int fill_request(t_split *split, t_data_rule *request, int count_word, in
 		printf("surment une erreur mais la quel aucune idee\n");
 		return (-1);
 	}
-	request[k].arguments = malloc(sizeof(char *) * nb_node + 1);
+	printf("nb_node fill request : %d\n", nb_node);
+	request[k].arguments = ft_calloc(sizeof(char *), nb_node + 1);
 	add_arg_request(&request[k], split, nb_node);
 	request[k].pipe = false;
 	if (converte_rdir(request, &split[nb_node]))
 	{
+		printf("yes\n");
 		nb_node++;
 		if (add_out_request(&request[k], split + nb_node)) {
+			printf("yes again\n");
 			nb_node++;
 		}
 	}
@@ -97,7 +101,6 @@ static int fill_request(t_split *split, t_data_rule *request, int count_word, in
 	}
 	count_word -= nb_node;
 	return (fill_request(split + nb_node, request, count_word, k + 1));
-	return (0);
 }
 
 t_data_rule		*parsing_tree(t_split *split, const int count_word)

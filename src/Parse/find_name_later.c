@@ -26,7 +26,7 @@ char	*delete_space(char *command)
 	int	i;
 
 	i = ft_strlen(command) - 1;
-	while (i > 0 && ft_isspace(command[i]))
+	while (i >= 0 && ft_isspace(command[i]))
 	{
 		command[i] = '\0';
 		i--;

@@ -15,6 +15,7 @@
 # include "libft.h"
 # include "stdbool.h"
 # include "Parsing.h"
+# include "parsing_error.h"
 
 # define PROMPT "Minishell-> "
 
@@ -23,16 +24,15 @@ typedef struct 	s_data_rule
 	char	**env;
 	const char	*command;
 	const char *options;
-	const char 		**arguments;
+	const char 		**arguments; // il faut free
 	char	*dir_path;
-	char	*out;
+	char	*out; // il faut free
 	char 	oper; // r = >>
 	bool 	pipe;
 }				t_data_rule;
 
 // Main.c
-char			*lexing(char *brut_rules); // transformation de commande en token
-t_data_rule		*parsing(char *command); // verification du token et decoupage dans la structure
+t_data_rule		*parsing(char *command, t_erreur *err); // verification du token et decoupage dans la structure
 
 // Builtins
 void cd(char *command, char **arguments, char **envp); // recopie cd // good
@@ -42,9 +42,5 @@ void display_env(char **envp); // Affiche l env fonction : env
 void export(char *command, char **arguments, char **env); // ajouter variable a l env 2 ou+ 
 void pwd(char *command, char **arguments, char **envp); // recopie pwd
 void	unset_var(char **env, const char *var);  // retirer variable de l env
-
-
-
-
 
 #endif

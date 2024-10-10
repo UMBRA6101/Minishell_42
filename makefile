@@ -20,6 +20,7 @@ DIRLIBFT = ./lib/libft
 ### SRC ###
 SRCDIR = src/
 SRC =		main.c \
+			error.c \
 			Parse/count.c \
 			Parse/find_name_later.c \
 			Parse/Parsing.c \
@@ -37,7 +38,7 @@ OBJS = $(addprefix $(OBJDIR), $(OBJ))
 
 ### COMPILE ###
 CC = cc
-CCFLAG = -Wextra -Wall -Werror -g3
+CCFLAG = -Wextra -Wall -g3
 INCFLAG = -I$(DIRINC)
 LIBFTDIR = ./lib/libft/
 PIPEXDIR = pipex/
