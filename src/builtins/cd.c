@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:30:17 by raphox            #+#    #+#             */
-/*   Updated: 2024/10/08 12:56:35 by raphox           ###   ########.fr       */
+/*   Updated: 2024/10/11 17:33:03 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,38 @@
 #include "../includes/libft.h"
 
 
-void cd(char *command, char **arguments, char **envp)
+void cd(char *command, const char **arguments, char **envp)
 {
-	const char *path;
-	const char *user;
 	
-	if (command != 0 && arguments[0] == '\0') // > cd (fait mais inutile, car pas demander)
-	{
+	if (command != 0 && arguments == 0) // > cd (fait mais inutile, car pas demander)
 		chdir(getenv("HOME"));
-		// printf("%d",chdir(path));
-	}
-	if (command != 0 && arguments[0] != 0) // > cd "arguments"
+			
+		// printf("%s",getenv("PWD"));
+	
+	else if (command != 0 && arguments != 0 && (arguments[0][0] == '/')) // > cd "arguments"
 	{
-		chdir(arguments);
-		envp[64] = arguments;
+			chdir(arguments[0]);
+			return ;
 	}
+
+	else if ((command != 0 && arguments != 0 && arguments[0][0] != '/'))
+	{
+		char *pwd;
+		char *short_path;
+		char *result_path;
+		
+		char slash[] = "/";
+		pwd = getenv("PWD");
+		
+		short_path = ft_strjoin(pwd, slash, 0);
+		result_path = ft_strjoin(short_path, arguments[0], 0);
+		
+		chdir(result_path);
+		
+		free(short_path);
+		free(result_path);
+	}
+	return ;
 }
 
 // int main(int argc, char **argv, char **envp)

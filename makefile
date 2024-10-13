@@ -22,7 +22,9 @@ SRCDIR = src/
 SRC =		main.c \
 			execute.c \
 			builtins/builtins.c \
+			builtins/error.c \
 			builtins/cd.c \
+			builtins/tools.c \
 			builtins/echo.c \
 			builtins/env.c \
 			builtins/export.c \
@@ -44,14 +46,14 @@ OBJ = $(SRC:.c=.o)
 OBJS = $(addprefix $(OBJDIR), $(OBJ))
 
 ### COMPILE ###
-CC = cc
-# CCFLAG = -Wextra -Wall -Werror -g3
+CC = gcc -no-pie
+CCFLAG = -g3
 INCFLAG = -I$(DIRINC)
 LIBFTDIR = ./lib/libft/
 PIPEXDIR = pipex/
 
 all:$(NAME)
-	@echo "$(tput bold)$(GREEN)$@ is compile$(END)"
+	@echo "$(tput bold)$(GREEN)$ All is compiled$(END)"
 
 libft:
 	@if [ ! -f "libft.a" ]; then \

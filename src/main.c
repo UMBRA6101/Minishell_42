@@ -3,35 +3,46 @@
 int	main(int argc, char **argv, char **envp)
 {
 
-	char	*rule;
-	t_data_rule *request;
-	rule = NULL;
+	// char	*rule;
+	// t_data_rule *request;
+
+	// rule = NULL;
+
+	// char **env;
+	// env = envp;
+
+//---------------------------------
+	t_data_rule first;
+
+	const char *tab[5];
+	tab[0] = "bonjou";
+	tab[1] = "var2";
+	tab[2] = "var3";
+	tab[3] = "var4";
+	tab[4] = NULL;
 
 	// const char **tab;
 	// *tab = NULL;
-	const char *tab[2];
-	tab[0] = "MY_VAR=LA BONNE VARIABLE";
-	tab[1] = "comment";
-	tab[2] = 0;
-	
-	t_data_rule first;
-	first.envv = envp;
-	first.command = "unset";
+
+	first.command = "export";
 	first.options = NULL;
-	first.arguments = tab;
+	first.arguments = NULL;
+// -----------------------------------------
 
 
-	exec_builtins(first);
+	exec_builtins(first, envp);
+	// display_env(envp);
 	return (0);
 
+//---------------------------------
 
 
-	rule = readline(PROMPT);
-	if (rule != NULL)
-	{
-		// request = parsing(rule);
-		exec_builtins(first);
-		(void)request;
-	}
+	// rule = readline(PROMPT);
+	// if (rule != NULL)
+	// {
+	// 	// request = parsing(rule);
+	// 	exec_builtins(first, genv);
+	// 	(void)request;
+	// }
 	return (0);
 }

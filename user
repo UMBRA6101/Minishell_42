@@ -1,0 +1,893 @@
+VALGRIND(1)                                      valgrind                                      VALGRIND(1)
+
+NNAAMMEE
+       valgrind - a suite of tools for debugging and profiling programs
+
+SSYYNNOOPPSSIISS
+       vvaallggrriinndd [_v_a_l_g_r_i_n_d_-_o_p_t_i_o_n_s] [_y_o_u_r_-_p_r_o_g_r_a_m] [_y_o_u_r_-_p_r_o_g_r_a_m_-_o_p_t_i_o_n_s]
+
+DDEESSCCRRIIPPTTIIOONN
+       VVaallggrriinndd is a flexible program for debugging and profiling Linux executables. It consists of a
+       core, which provides a synthetic CPU in software, and a series of debugging and profiling tools.
+       The architecture is modular, so that new tools can be created easily and without disturbing the
+       existing structure.
+
+       Some of the options described below work with all Valgrind tools, and some only work with a few or
+       one. The section MEMCHECK OPTIONS and those below it describe tool-specific options.
+
+       This manual page covers only basic usage and options. For more comprehensive information, please
+       see the HTML documentation on your system: $INSTALL/share/doc/valgrind/html/index.html, or online:
+       http://www.valgrind.org/docs/manual/index.html.
+
+TTOOOOLL SSEELLEECCTTIIOONN OOPPTTIIOONNSS
+       The single most important option.
+
+       ----ttooooll==<<ttoooollnnaammee>> [[ddeeffaauulltt:: mmeemmcchheecckk]]
+           Run the Valgrind tool called _t_o_o_l_n_a_m_e, e.g. memcheck, cachegrind, callgrind, helgrind, drd,
+           massif, dhat, lackey, none, exp-bbv, etc.
+
+BBAASSIICC OOPPTTIIOONNSS
+       These options work with all tools.
+
+       --hh ----hheellpp
+           Show help for all options, both for the core and for the selected tool. If the option is
+           repeated it is equivalent to giving ----hheellpp--ddeebbuugg.
+
+       ----hheellpp--ddeebbuugg
+           Same as ----hheellpp, but also lists debugging options which usually are only of use to Valgrind's
+           developers.
+
+       ----vveerrssiioonn
+           Show the version number of the Valgrind core. Tools can have their own version numbers. There
+           is a scheme in place to ensure that tools only execute when the core version is one they are
+           known to work with. This was done to minimise the chances of strange problems arising from
+           tool-vs-core version incompatibilities.
+
+       --qq, ----qquuiieett
+           Run silently, and only print error messages. Useful if you are running regression tests or have
+           some other automated test machinery.
+
+       --vv, ----vveerrbboossee
+           Be more verbose. Gives extra information on various aspects of your program, such as: the
+           shared objects loaded, the suppressions used, the progress of the instrumentation and execution
+           engines, and warnings about unusual behaviour. Repeating the option increases the verbosity
+           level.
+
+       ----ttrraaccee--cchhiillddrreenn==<<yyeess||nnoo>> [[ddeeffaauulltt:: nnoo]]
+           When enabled, Valgrind will trace into sub-processes initiated via the _e_x_e_c system call. This
+           is necessary for multi-process programs.
+
+           Note that Valgrind does trace into the child of a _f_o_r_k (it would be difficult not to, since
+           _f_o_r_k makes an identical copy of a process), so this option is arguably badly named. However,
+           most children of _f_o_r_k calls immediately call _e_x_e_c anyway.
+
+       ----ttrraaccee--cchhiillddrreenn--sskkiipp==ppaatttt11,,ppaatttt22,,......
+           This option only has an effect when ----ttrraaccee--cchhiillddrreenn==yyeess is specified. It allows for some
+           children to be skipped. The option takes a comma separated list of patterns for the names of
+           child executables that Valgrind should not trace into. Patterns may include the metacharacters
+           ?  and *, which have the usual meaning.
+
+           This can be useful for pruning uninteresting branches from a tree of processes being run on
+           Valgrind. But you should be careful when using it. When Valgrind skips tracing into an
+           executable, it doesn't just skip tracing that executable, it also skips tracing any of that
+           executable's child processes. In other words, the flag doesn't merely cause tracing to stop at
+           the specified executables -- it skips tracing of entire process subtrees rooted at any of the
+           specified executables.
+
+       ----ttrraaccee--cchhiillddrreenn--sskkiipp--bbyy--aarrgg==ppaatttt11,,ppaatttt22,,......
+           This is the same as ----ttrraaccee--cchhiillddrreenn--sskkiipp, with one difference: the decision as to whether to
+           trace into a child process is made by examining the arguments to the child process, rather than
+           the name of its executable.
+
+       ----cchhiilldd--ssiilleenntt--aafftteerr--ffoorrkk==<<yyeess||nnoo>> [[ddeeffaauulltt:: nnoo]]
+           When enabled, Valgrind will not show any debugging or logging output for the child process
+           resulting from a _f_o_r_k call. This can make the output less confusing (although more misleading)
+           when dealing with processes that create children. It is particularly useful in conjunction with
+           _-_-_t_r_a_c_e_-_c_h_i_l_d_r_e_n_=. Use of this option is also strongly recommended if you are requesting XML
+           output (_-_-_x_m_l_=_y_e_s), since otherwise the XML from child and parent may become mixed up, which
+           usually makes it useless.
+
+       ----vvggddbb==<<nnoo||yyeess||ffuullll>> [[ddeeffaauulltt:: yyeess]]
+           Valgrind will provide "gdbserver" functionality when ----vvggddbb==yyeess or ----vvggddbb==ffuullll is specified.
+           This allows an external GNU GDB debugger to control and debug your program when it runs on
+           Valgrind.  ----vvggddbb==ffuullll incurs significant performance overheads, but provides more precise
+           breakpoints and watchpoints. See Debugging your program using Valgrind's gdbserver and GDB for
+           a detailed description.
+
+           If the embedded gdbserver is enabled but no gdb is currently being used, the vgdb command line
+           utility can send "monitor commands" to Valgrind from a shell. The Valgrind core provides a set
+           of Valgrind monitor commands. A tool can optionally provide tool specific monitor commands,
+           which are documented in the tool specific chapter.
+
+       ----vvggddbb--eerrrroorr==<<nnuummbbeerr>> [[ddeeffaauulltt:: 999999999999999999]]
+           Use this option when the Valgrind gdbserver is enabled with ----vvggddbb==yyeess or ----vvggddbb==ffuullll. Tools
+           that report errors will wait for "number" errors to be reported before freezing the program and
+           waiting for you to connect with GDB. It follows that a value of zero will cause the gdbserver
+           to be started before your program is executed. This is typically used to insert GDB breakpoints
+           before execution, and also works with tools that do not report errors, such as Massif.
+
+       ----vvggddbb--ssttoopp--aatt==<<sseett>> [[ddeeffaauulltt:: nnoonnee]]
+           Use this option when the Valgrind gdbserver is enabled with ----vvggddbb==yyeess or ----vvggddbb==ffuullll. The
+           Valgrind gdbserver will be invoked for each error after ----vvggddbb--eerrrroorr have been reported. You
+           can additionally ask the Valgrind gdbserver to be invoked for other events, specified in one of
+           the following ways:
+
+           •   a comma separated list of one or more of ssttaarrttuupp eexxiitt vvaallggrriinnddaabbeexxiitt.
+
+               The values ssttaarrttuupp eexxiitt vvaallggrriinnddaabbeexxiitt respectively indicate to invoke gdbserver before
+               your program is executed, after the last instruction of your program, on Valgrind abnormal
+               exit (e.g. internal error, out of memory, ...).
+
+               Note: ssttaarrttuupp and ----vvggddbb--eerrrroorr==00 will both cause Valgrind gdbserver to be invoked before
+               your program is executed. The ----vvggddbb--eerrrroorr==00 will in addition cause your program to stop on
+               all subsequent errors.
+
+           •   aallll to specify the complete set. It is equivalent to
+               ----vvggddbb--ssttoopp--aatt==ssttaarrttuupp,,eexxiitt,,vvaallggrriinnddaabbeexxiitt.
+
+           •   nnoonnee for the empty set.
+
+       ----ttrraacckk--ffddss==<<yyeess||nnoo||aallll>> [[ddeeffaauulltt:: nnoo]]
+           When enabled, Valgrind will print out a list of open file descriptors on exit or on request,
+           via the gdbserver monitor command _v_._i_n_f_o _o_p_e_n___f_d_s. Along with each file descriptor is printed a
+           stack backtrace of where the file was opened and any details relating to the file descriptor
+           such as the file name or socket details. Use aallll to include reporting on stdin, stdout and
+           stderr.
+
+       ----ttiimmee--ssttaammpp==<<yyeess||nnoo>> [[ddeeffaauulltt:: nnoo]]
+           When enabled, each message is preceded with an indication of the elapsed wallclock time since
+           startup, expressed as days, hours, minutes, seconds and milliseconds.
+
+       ----lloogg--ffdd==<<nnuummbbeerr>> [[ddeeffaauulltt:: 22,, ssttddeerrrr]]
+           Specifies that Valgrind should send all of its messages to the specified file descriptor. The
+           default, 2, is the standard error channel (stderr). Note that this may interfere with the
+           client's own use of stderr, as Valgrind's output will be interleaved with any output that the
+           client sends to stderr.
+
+       ----lloogg--ffiillee==<<ffiilleennaammee>>
+           Specifies that Valgrind should send all of its messages to the specified file. If the file name
+           is empty, it causes an abort. There are three special format specifiers that can be used in the
+           file name.
+
+           %%pp is replaced with the current process ID. This is very useful for program that invoke
+           multiple processes. WARNING: If you use ----ttrraaccee--cchhiillddrreenn==yyeess and your program invokes multiple
+           processes OR your program forks without calling exec afterwards, and you don't use this
+           specifier (or the %%qq specifier below), the Valgrind output from all those processes will go
+           into one file, possibly jumbled up, and possibly incomplete. Note: If the program forks and
+           calls exec afterwards, Valgrind output of the child from the period between fork and exec will
+           be lost. Fortunately this gap is really tiny for most programs; and modern programs use
+           posix_spawn anyway.
+
+           %%nn is replaced with a file sequence number unique for this process. This is useful for
+           processes that produces several files from the same filename template.
+
+           %%qq{{FFOOOO}} is replaced with the contents of the environment variable _F_O_O. If the {{FFOOOO}} part is
+           malformed, it causes an abort. This specifier is rarely needed, but very useful in certain
+           circumstances (eg. when running MPI programs). The idea is that you specify a variable which
+           will be set differently for each process in the job, for example BPROC_RANK or whatever is
+           applicable in your MPI setup. If the named environment variable is not set, it causes an abort.
+           Note that in some shells, the {{ and }} characters may need to be escaped with a backslash.
+
+           %%%% is replaced with %%.
+
+           If an %% is followed by any other character, it causes an abort.
+
+           If the file name specifies a relative file name, it is put in the program's initial working
+           directory: this is the current directory when the program started its execution after the fork
+           or after the exec. If it specifies an absolute file name (ie. starts with '/') then it is put
+           there.
+
+       ----lloogg--ssoocckkeett==<<iipp--aaddddrreessss::ppoorrtt--nnuummbbeerr>>
+           Specifies that Valgrind should send all of its messages to the specified port at the specified
+           IP address. The port may be omitted, in which case port 1500 is used. If a connection cannot be
+           made to the specified socket, Valgrind falls back to writing output to the standard error
+           (stderr). This option is intended to be used in conjunction with the valgrind-listener program.
+           For further details, see the commentary in the manual.
+
+EERRRROORR--RREELLAATTEEDD OOPPTTIIOONNSS
+       These options are used by all tools that can report errors, e.g. Memcheck, but not Cachegrind.
+
+       ----xxmmll==<<yyeess||nnoo>> [[ddeeffaauulltt:: nnoo]]
+           When enabled, the important parts of the output (e.g. tool error messages) will be in XML
+           format rather than plain text. Furthermore, the XML output will be sent to a different output
+           channel than the plain text output. Therefore, you also must use one of ----xxmmll--ffdd, ----xxmmll--ffiillee or
+           ----xxmmll--ssoocckkeett to specify where the XML is to be sent.
+
+           Less important messages will still be printed in plain text, but because the XML output and
+           plain text output are sent to different output channels (the destination of the plain text
+           output is still controlled by ----lloogg--ffdd, ----lloogg--ffiillee and ----lloogg--ssoocckkeett) this should not cause
+           problems.
+
+           This option is aimed at making life easier for tools that consume Valgrind's output as input,
+           such as GUI front ends. Currently this option works with Memcheck, Helgrind and DRD. The output
+           format is specified in the file docs/internals/xml-output-protocol4.txt in the source tree for
+           Valgrind 3.5.0 or later.
+
+           The recommended options for a GUI to pass, when requesting XML output, are: ----xxmmll==yyeess to enable
+           XML output, ----xxmmll--ffiillee to send the XML output to a (presumably GUI-selected) file, ----lloogg--ffiillee
+           to send the plain text output to a second GUI-selected file, ----cchhiilldd--ssiilleenntt--aafftteerr--ffoorrkk==yyeess, and
+           --qq to restrict the plain text output to critical error messages created by Valgrind itself. For
+           example, failure to read a specified suppressions file counts as a critical error message. In
+           this way, for a successful run the text output file will be empty. But if it isn't empty, then
+           it will contain important information which the GUI user should be made aware of.
+
+       ----xxmmll--ffdd==<<nnuummbbeerr>> [[ddeeffaauulltt:: --11,, ddiissaabblleedd]]
+           Specifies that Valgrind should send its XML output to the specified file descriptor. It must be
+           used in conjunction with ----xxmmll==yyeess.
+
+       ----xxmmll--ffiillee==<<ffiilleennaammee>>
+           Specifies that Valgrind should send its XML output to the specified file. It must be used in
+           conjunction with ----xxmmll==yyeess. Any %%pp or %%qq sequences appearing in the filename are expanded in
+           exactly the same way as they are for ----lloogg--ffiillee. See the description of --log-file for details.
+
+       ----xxmmll--ssoocckkeett==<<iipp--aaddddrreessss::ppoorrtt--nnuummbbeerr>>
+           Specifies that Valgrind should send its XML output the specified port at the specified IP
+           address. It must be used in conjunction with ----xxmmll==yyeess. The form of the argument is the same as
+           that used by ----lloogg--ssoocckkeett. See the description of ----lloogg--ssoocckkeett for further details.
+
+       ----xxmmll--uusseerr--ccoommmmeenntt==<<ssttrriinngg>>
+           Embeds an extra user comment string at the start of the XML output. Only works when ----xxmmll==yyeess
+           is specified; ignored otherwise.
+
+       ----ddeemmaannggllee==<<yyeess||nnoo>> [[ddeeffaauulltt:: yyeess]]
+           Enable/disable automatic demangling (decoding) of C++ names. Enabled by default. When enabled,
+           Valgrind will attempt to translate encoded C++ names back to something approaching the
+           original. The demangler handles symbols mangled by g++ versions 2.X, 3.X and 4.X.
+
+           An important fact about demangling is that function names mentioned in suppressions files
+           should be in their mangled form. Valgrind does not demangle function names when searching for
+           applicable suppressions, because to do otherwise would make suppression file contents dependent
+           on the state of Valgrind's demangling machinery, and also slow down suppression matching.
+
+       ----nnuumm--ccaalllleerrss==<<nnuummbbeerr>> [[ddeeffaauulltt:: 1122]]
+           Specifies the maximum number of entries shown in stack traces that identify program locations.
+           Note that errors are commoned up using only the top four function locations (the place in the
+           current function, and that of its three immediate callers). So this doesn't affect the total
+           number of errors reported.
+
+           The maximum value for this is 500. Note that higher settings will make Valgrind run a bit more
+           slowly and take a bit more memory, but can be useful when working with programs with
+           deeply-nested call chains.
+
+       ----uunnww--ssttaacckk--ssccaann--tthhrreesshh==<<nnuummbbeerr>> [[ddeeffaauulltt:: 00]] , ----uunnww--ssttaacckk--ssccaann--ffrraammeess==<<nnuummbbeerr>> [[ddeeffaauulltt:: 55]]
+           Stack-scanning support is available only on ARM targets.
+
+           These flags enable and control stack unwinding by stack scanning. When the normal stack
+           unwinding mechanisms -- usage of Dwarf CFI records, and frame-pointer following -- fail, stack
+           scanning may be able to recover a stack trace.
+
+           Note that stack scanning is an imprecise, heuristic mechanism that may give very misleading
+           results, or none at all. It should be used only in emergencies, when normal unwinding fails,
+           and it is important to nevertheless have stack traces.
+
+           Stack scanning is a simple technique: the unwinder reads words from the stack, and tries to
+           guess which of them might be return addresses, by checking to see if they point just after ARM
+           or Thumb call instructions. If so, the word is added to the backtrace.
+
+           The main danger occurs when a function call returns, leaving its return address exposed, and a
+           new function is called, but the new function does not overwrite the old address. The result of
+           this is that the backtrace may contain entries for functions which have already returned, and
+           so be very confusing.
+
+           A second limitation of this implementation is that it will scan only the page (4KB, normally)
+           containing the starting stack pointer. If the stack frames are large, this may result in only a
+           few (or not even any) being present in the trace. Also, if you are unlucky and have an initial
+           stack pointer near the end of its containing page, the scan may miss all interesting frames.
+
+           By default stack scanning is disabled. The normal use case is to ask for it when a stack trace
+           would otherwise be very short. So, to enable it, use --unw-stack-scan-thresh=number. This
+           requests Valgrind to try using stack scanning to "extend" stack traces which contain fewer than
+           number frames.
+
+           If stack scanning does take place, it will only generate at most the number of frames specified
+           by --unw-stack-scan-frames. Typically, stack scanning generates so many garbage entries that
+           this value is set to a low value (5) by default. In no case will a stack trace larger than the
+           value specified by --num-callers be created.
+
+       ----eerrrroorr--lliimmiitt==<<yyeess||nnoo>> [[ddeeffaauulltt:: yyeess]]
+           When enabled, Valgrind stops reporting errors after 10,000,000 in total, or 1,000 different
+           ones, have been seen. This is to stop the error tracking machinery from becoming a huge
+           performance overhead in programs with many errors.
+
+       ----eerrrroorr--eexxiittccooddee==<<nnuummbbeerr>> [[ddeeffaauulltt:: 00]]
+           Specifies an alternative exit code to return if Valgrind reported any errors in the run. When
+           set to the default value (zero), the return value from Valgrind will always be the return value
+           of the process being simulated. When set to a nonzero value, that value is returned instead, if
+           Valgrind detects any errors. This is useful for using Valgrind as part of an automated test
+           suite, since it makes it easy to detect test cases for which Valgrind has reported errors, just
+           by inspecting return codes.
+
+       ----eexxiitt--oonn--ffiirrsstt--eerrrroorr==<<yyeess||nnoo>> [[ddeeffaauulltt:: nnoo]]
+           If this option is enabled, Valgrind exits on the first error. A nonzero exit value must be
+           defined using --error-exitcode option. Useful if you are running regression tests or have some
+           other automated test machinery.
+
+       ----eerrrroorr--mmaarrkkeerrss==<<bbeeggiinn>>,,<<eenndd>> [[ddeeffaauulltt:: nnoonnee]]
+           When errors are output as plain text (i.e. XML not used), ----eerrrroorr--mmaarrkkeerrss instructs to output a
+           line containing the bbeeggiinn (eenndd) string before (after) each error.
+
+           Such marker lines facilitate searching for errors and/or extracting errors in an output file
+           that contain valgrind errors mixed with the program output.
+
+           Note that empty markers are accepted. So, only using a begin (or an end) marker is possible.
+
+       ----sshhooww--eerrrroorr--lliisstt==nnoo||yyeess [[ddeeffaauulltt:: nnoo]]
+           If this option is enabled, for tools that report errors, valgrind will show the list of
+           detected errors and the list of used suppressions at exit.
+
+           Note that at verbosity 2 and above, valgrind automatically shows the list of detected errors
+           and the list of used suppressions at exit, unless ----sshhooww--eerrrroorr--lliisstt==nnoo is selected.
+
+       --ss
+           Specifying --ss is equivalent to ----sshhooww--eerrrroorr--lliisstt==yyeess.
+
+       ----ssiiggiillll--ddiiaaggnnoossttiiccss==<<yyeess||nnoo>> [[ddeeffaauulltt:: yyeess]]
+           Enable/disable printing of illegal instruction diagnostics. Enabled by default, but defaults to
+           disabled when ----qquuiieett is given. The default can always be explicitly overridden by giving this
+           option.
+
+           When enabled, a warning message will be printed, along with some diagnostics, whenever an
+           instruction is encountered that Valgrind cannot decode or translate, before the program is
+           given a SIGILL signal. Often an illegal instruction indicates a bug in the program or missing
+           support for the particular instruction in Valgrind. But some programs do deliberately try to
+           execute an instruction that might be missing and trap the SIGILL signal to detect processor
+           features. Using this flag makes it possible to avoid the diagnostic output that you would
+           otherwise get in such cases.
+
+       ----kkeeeepp--ddeebbuuggiinnffoo==<<yyeess||nnoo>> [[ddeeffaauulltt:: nnoo]]
+           When enabled, keep ("archive") symbols and all other debuginfo for unloaded code. This allows
+           saved stack traces to include file/line info for code that has been dlclose'd (or similar). Be
+           careful with this, since it can lead to unbounded memory use for programs which repeatedly load
+           and unload shared objects.
+
+           Some tools and some functionalities have only limited support for archived debug info. Memcheck
+           fully supports it. Generally, tools that report errors can use archived debug info to show the
+           error stack traces. The known limitations are: Helgrind's past access stack trace of a race
+           condition is does not use archived debug info. Massif (and more generally the xtree Massif
+           output format) does not make use of archived debug info. Only Memcheck has been (somewhat)
+           tested with ----kkeeeepp--ddeebbuuggiinnffoo==yyeess, so other tools may have unknown limitations.
+
+       ----sshhooww--bbeellooww--mmaaiinn==<<yyeess||nnoo>> [[ddeeffaauulltt:: nnoo]]
+           By default, stack traces for errors do not show any functions that appear beneath mmaaiinn because
+           most of the time it's uninteresting C library stuff and/or gobbledygook. Alternatively, if mmaaiinn
+           is not present in the stack trace, stack traces will not show any functions below mmaaiinn-like
+           functions such as glibc's ____lliibbcc__ssttaarrtt__mmaaiinn. Furthermore, if mmaaiinn-like functions are present in
+           the trace, they are normalised as ((bbeellooww mmaaiinn)), in order to make the output more deterministic.
+
+           If this option is enabled, all stack trace entries will be shown and mmaaiinn-like functions will
+           not be normalised.
+
+       ----ffuullllppaatthh--aafftteerr==<<ssttrriinngg>> [[ddeeffaauulltt:: ddoonn''tt sshhooww ssoouurrccee ppaatthhss]]
+           By default Valgrind only shows the filenames in stack traces, but not full paths to source
+           files. When using Valgrind in large projects where the sources reside in multiple different
+           directories, this can be inconvenient.  ----ffuullllppaatthh--aafftteerr provides a flexible solution to this
+           problem. When this option is present, the path to each source file is shown, with the following
+           all-important caveat: if ssttrriinngg is found in the path, then the path up to and including ssttrriinngg
+           is omitted, else the path is shown unmodified. Note that ssttrriinngg is not required to be a prefix
+           of the path.
+
+           For example, consider a file named /home/janedoe/blah/src/foo/bar/xyzzy.c. Specifying
+           ----ffuullllppaatthh--aafftteerr==//hhoommee//jjaanneeddooee//bbllaahh//ssrrcc// will cause Valgrind to show the name as
+           foo/bar/xyzzy.c.
+
+           Because the string is not required to be a prefix, ----ffuullllppaatthh--aafftteerr==ssrrcc// will produce the same
+           output. This is useful when the path contains arbitrary machine-generated characters. For
+           example, the path /my/build/dir/C32A1B47/blah/src/foo/xyzzy can be pruned to foo/xyzzy using
+           ----ffuullllppaatthh--aafftteerr==//bbllaahh//ssrrcc//.
+
+           If you simply want to see the full path, just specify an empty string: ----ffuullllppaatthh--aafftteerr==. This
+           isn't a special case, merely a logical consequence of the above rules.
+
+           Finally, you can use ----ffuullllppaatthh--aafftteerr multiple times. Any appearance of it causes Valgrind to
+           switch to producing full paths and applying the above filtering rule. Each produced path is
+           compared against all the ----ffuullllppaatthh--aafftteerr-specified strings, in the order specified. The first
+           string to match causes the path to be truncated as described above. If none match, the full
+           path is shown. This facilitates chopping off prefixes when the sources are drawn from a number
+           of unrelated directories.
+
+       ----eexxttrraa--ddeebbuuggiinnffoo--ppaatthh==<<ppaatthh>> [[ddeeffaauulltt:: uunnddeeffiinneedd aanndd uunnuusseedd]]
+           By default Valgrind searches in several well-known paths for debug objects, such as
+           /usr/lib/debug/.
+
+           However, there may be scenarios where you may wish to put debug objects at an arbitrary
+           location, such as external storage when running Valgrind on a mobile device with limited local
+           storage. Another example might be a situation where you do not have permission to install debug
+           object packages on the system where you are running Valgrind.
+
+           In these scenarios, you may provide an absolute path as an extra, final place for Valgrind to
+           search for debug objects by specifying ----eexxttrraa--ddeebbuuggiinnffoo--ppaatthh==//ppaatthh//ttoo//ddeebbuugg//oobbjjeeccttss. The given
+           path will be prepended to the absolute path name of the searched-for object. For example, if
+           Valgrind is looking for the debuginfo for /w/x/y/zz.so and ----eexxttrraa--ddeebbuuggiinnffoo--ppaatthh==//aa//bb//cc is
+           specified, it will look for a debug object at /a/b/c/w/x/y/zz.so.
+
+           This flag should only be specified once. If it is specified multiple times, only the last
+           instance is honoured.
+
+       ----ddeebbuuggiinnffoo--sseerrvveerr==iippaaddddrr::ppoorrtt [[ddeeffaauulltt:: uunnddeeffiinneedd aanndd uunnuusseedd]]
+           This is a new, experimental, feature introduced in version 3.9.0.
+
+           In some scenarios it may be convenient to read debuginfo from objects stored on a different
+           machine. With this flag, Valgrind will query a debuginfo server running on ipaddr and listening
+           on port port, if it cannot find the debuginfo object in the local filesystem.
+
+           The debuginfo server must accept TCP connections on port port. The debuginfo server is
+           contained in the source file auxprogs/valgrind-di-server.c. It will only serve from the
+           directory it is started in.  port defaults to 1500 in both client and server if not specified.
+
+           If Valgrind looks for the debuginfo for /w/x/y/zz.so by using the debuginfo server, it will
+           strip the pathname components and merely request zz.so on the server. That in turn will look
+           only in its current working directory for a matching debuginfo object.
+
+           The debuginfo data is transmitted in small fragments (8 KB) as requested by Valgrind. Each
+           block is compressed using LZO to reduce transmission time. The implementation has been tuned
+           for best performance over a single-stage 802.11g (WiFi) network link.
+
+           Note that checks for matching primary vs debug objects, using GNU debuglink CRC scheme, are
+           performed even when using the debuginfo server. To disable such checking, you need to also
+           specify --allow-mismatched-debuginfo=yes.
+
+           By default the Valgrind build system will build valgrind-di-server for the target platform,
+           which is almost certainly not what you want. So far we have been unable to find out how to get
+           automake/autoconf to build it for the build platform. If you want to use it, you will have to
+           recompile it by hand using the command shown at the top of auxprogs/valgrind-di-server.c.
+
+           Valgrind can also download debuginfo via debuginfod. See the DEBUGINFOD section for more
+           information.
+
+       ----aallllooww--mmiissmmaattcchheedd--ddeebbuuggiinnffoo==nnoo||yyeess [[nnoo]]
+           When reading debuginfo from separate debuginfo objects, Valgrind will by default check that the
+           main and debuginfo objects match, using the GNU debuglink mechanism. This guarantees that it
+           does not read debuginfo from out of date debuginfo objects, and also ensures that Valgrind
+           can't crash as a result of mismatches.
+
+           This check can be overridden using --allow-mismatched-debuginfo=yes. This may be useful when
+           the debuginfo and main objects have not been split in the proper way. Be careful when using
+           this, though: it disables all consistency checking, and Valgrind has been observed to crash
+           when the main and debuginfo objects don't match.
+
+       ----ssuupppprreessssiioonnss==<<ffiilleennaammee>> [[ddeeffaauulltt:: $$PPRREEFFIIXX//lliibb//vvaallggrriinndd//ddeeffaauulltt..ssuupppp]]
+           Specifies an extra file from which to read descriptions of errors to suppress. You may use up
+           to 100 extra suppression files.
+
+       ----ggeenn--ssuupppprreessssiioonnss==<<yyeess||nnoo||aallll>> [[ddeeffaauulltt:: nnoo]]
+           When set to _y_e_s, Valgrind will pause after every error shown and print the line:
+
+                   ---- Print suppression ? --- [Return/N/n/Y/y/C/c] ----
+
+           Pressing _R_e_t, or _N _R_e_t or _n _R_e_t, causes Valgrind continue execution without printing a
+           suppression for this error.
+
+           Pressing _Y _R_e_t or _y _R_e_t causes Valgrind to write a suppression for this error. You can then cut
+           and paste it into a suppression file if you don't want to hear about the error in the future.
+
+           When set to _a_l_l, Valgrind will print a suppression for every reported error, without querying
+           the user.
+
+           This option is particularly useful with C++ programs, as it prints out the suppressions with
+           mangled names, as required.
+
+           Note that the suppressions printed are as specific as possible. You may want to common up
+           similar ones, by adding wildcards to function names, and by using frame-level wildcards. The
+           wildcarding facilities are powerful yet flexible, and with a bit of careful editing, you may be
+           able to suppress a whole family of related errors with only a few suppressions.
+
+           Sometimes two different errors are suppressed by the same suppression, in which case Valgrind
+           will output the suppression more than once, but you only need to have one copy in your
+           suppression file (but having more than one won't cause problems). Also, the suppression name is
+           given as <insert a suppression name here>; the name doesn't really matter, it's only used with
+           the --vv option which prints out all used suppression records.
+
+       ----iinnppuutt--ffdd==<<nnuummbbeerr>> [[ddeeffaauulltt:: 00,, ssttddiinn]]
+           When using ----ggeenn--ssuupppprreessssiioonnss==yyeess, Valgrind will stop so as to read keyboard input from you
+           when each error occurs. By default it reads from the standard input (stdin), which is
+           problematic for programs which close stdin. This option allows you to specify an alternative
+           file descriptor from which to read input.
+
+       ----ddssyymmuuttiill==nnoo||yyeess [[yyeess]]
+           This option is only relevant when running Valgrind on Mac OS X.
+
+           Mac OS X uses a deferred debug information (debuginfo) linking scheme. When object files
+           containing debuginfo are linked into a .dylib or an executable, the debuginfo is not copied
+           into the final file. Instead, the debuginfo must be linked manually by running dsymutil, a
+           system-provided utility, on the executable or .dylib. The resulting combined debuginfo is
+           placed in a directory alongside the executable or .dylib, but with the extension .dSYM.
+
+           With ----ddssyymmuuttiill==nnoo, Valgrind will detect cases where the .dSYM directory is either missing, or
+           is present but does not appear to match the associated executable or .dylib, most likely
+           because it is out of date. In these cases, Valgrind will print a warning message but take no
+           further action.
+
+           With ----ddssyymmuuttiill==yyeess, Valgrind will, in such cases, automatically run dsymutil as necessary to
+           bring the debuginfo up to date. For all practical purposes, if you always use ----ddssyymmuuttiill==yyeess,
+           then there is never any need to run dsymutil manually or as part of your applications's build
+           system, since Valgrind will run it as necessary.
+
+           Valgrind will not attempt to run dsymutil on any executable or library in /usr/, /bin/, /sbin/,
+           /opt/, /sw/, /System/, /Library/ or /Applications/ since dsymutil will always fail in such
+           situations. It fails both because the debuginfo for such pre-installed system components is not
+           available anywhere, and also because it would require write privileges in those directories.
+
+           Be careful when using ----ddssyymmuuttiill==yyeess, since it will cause pre-existing .dSYM directories to be
+           silently deleted and re-created. Also note that dsymutil is quite slow, sometimes excessively
+           so.
+
+       ----mmaaxx--ssttaacckkffrraammee==<<nnuummbbeerr>> [[ddeeffaauulltt:: 22000000000000]]
+           The maximum size of a stack frame. If the stack pointer moves by more than this amount then
+           Valgrind will assume that the program is switching to a different stack.
+
+           You may need to use this option if your program has large stack-allocated arrays. Valgrind
+           keeps track of your program's stack pointer. If it changes by more than the threshold amount,
+           Valgrind assumes your program is switching to a different stack, and Memcheck behaves
+           differently than it would for a stack pointer change smaller than the threshold. Usually this
+           heuristic works well. However, if your program allocates large structures on the stack, this
+           heuristic will be fooled, and Memcheck will subsequently report large numbers of invalid stack
+           accesses. This option allows you to change the threshold to a different value.
+
+           You should only consider use of this option if Valgrind's debug output directs you to do so. In
+           that case it will tell you the new threshold you should specify.
+
+           In general, allocating large structures on the stack is a bad idea, because you can easily run
+           out of stack space, especially on systems with limited memory or which expect to support large
+           numbers of threads each with a small stack, and also because the error checking performed by
+           Memcheck is more effective for heap-allocated data than for stack-allocated data. If you have
+           to use this option, you may wish to consider rewriting your code to allocate on the heap rather
+           than on the stack.
+
+       ----mmaaiinn--ssttaacckkssiizzee==<<nnuummbbeerr>> [[ddeeffaauulltt:: uussee ccuurrrreenntt ''uulliimmiitt'' vvaalluuee]]
+           Specifies the size of the main thread's stack.
+
+           To simplify its memory management, Valgrind reserves all required space for the main thread's
+           stack at startup. That means it needs to know the required stack size at startup.
+
+           By default, Valgrind uses the current "ulimit" value for the stack size, or 16 MB, whichever is
+           lower. In many cases this gives a stack size in the range 8 to 16 MB, which almost never
+           overflows for most applications.
+
+           If you need a larger total stack size, use ----mmaaiinn--ssttaacckkssiizzee to specify it. Only set it as high
+           as you need, since reserving far more space than you need (that is, hundreds of megabytes more
+           than you need) constrains Valgrind's memory allocators and may reduce the total amount of
+           memory that Valgrind can use. This is only really of significance on 32-bit machines.
+
+           On Linux, you may request a stack of size up to 2GB. Valgrind will stop with a diagnostic
+           message if the stack cannot be allocated.
+
+           ----mmaaiinn--ssttaacckkssiizzee only affects the stack size for the program's initial thread. It has no
+           bearing on the size of thread stacks, as Valgrind does not allocate those.
+
+           You may need to use both ----mmaaiinn--ssttaacckkssiizzee and ----mmaaxx--ssttaacckkffrraammee together. It is important to
+           understand that ----mmaaiinn--ssttaacckkssiizzee sets the maximum total stack size, whilst ----mmaaxx--ssttaacckkffrraammee
+           specifies the largest size of any one stack frame. You will have to work out the
+           ----mmaaiinn--ssttaacckkssiizzee value for yourself (usually, if your applications segfaults). But Valgrind
+           will tell you the needed ----mmaaxx--ssttaacckkffrraammee size, if necessary.
+
+           As discussed further in the description of ----mmaaxx--ssttaacckkffrraammee, a requirement for a large stack is
+           a sign of potential portability problems. You are best advised to place all large data in
+           heap-allocated memory.
+
+       ----mmaaxx--tthhrreeaaddss==<<nnuummbbeerr>> [[ddeeffaauulltt:: 550000]]
+           By default, Valgrind can handle to up to 500 threads. Occasionally, that number is too small.
+           Use this option to provide a different limit. E.g.  --max-threads=3000.
+
+MMAALLLLOOCC(())--RREELLAATTEEDD OOPPTTIIOONNSS
+       For tools that use their own version of malloc (e.g. Memcheck, Massif, Helgrind, DRD), the
+       following options apply.
+
+       ----aalliiggnnmmeenntt==<<nnuummbbeerr>> [[ddeeffaauulltt:: 88 oorr 1166,, ddeeppeennddiinngg oonn tthhee ppllaattffoorrmm]]
+           By default Valgrind's mmaalllloocc, rreeaalllloocc, etc, return a block whose starting address is 8-byte
+           aligned or 16-byte aligned (the value depends on the platform and matches the platform
+           default). This option allows you to specify a different alignment. The supplied value must be
+           greater than or equal to the default, less than or equal to 4096, and must be a power of two.
+
+       ----rreeddzzoonnee--ssiizzee==<<nnuummbbeerr>> [[ddeeffaauulltt:: ddeeppeennddss oonn tthhee ttooooll]]
+           Valgrind's mmaalllloocc,, rreeaalllloocc,, etc, add padding blocks before and after each heap block allocated
+           by the program being run. Such padding blocks are called redzones. The default value for the
+           redzone size depends on the tool. For example, Memcheck adds and protects a minimum of 16 bytes
+           before and after each block allocated by the client. This allows it to detect block underruns
+           or overruns of up to 16 bytes.
+
+           Increasing the redzone size makes it possible to detect overruns of larger distances, but
+           increases the amount of memory used by Valgrind. Decreasing the redzone size will reduce the
+           memory needed by Valgrind but also reduces the chances of detecting over/underruns, so is not
+           recommended.
+
+       ----xxttrreeee--mmeemmoorryy==nnoonnee||aallllooccss||ffuullll [[nnoonnee]]
+           Tools replacing Valgrind's mmaalllloocc,, rreeaalllloocc,, etc, can optionally produce an execution tree
+           detailing which piece of code is responsible for heap memory usage. See Execution Trees for a
+           detailed explanation about execution trees.
+
+           When set to _n_o_n_e, no memory execution tree is produced.
+
+           When set to _a_l_l_o_c_s, the memory execution tree gives the current number of allocated bytes and
+           the current number of allocated blocks.
+
+           When set to _f_u_l_l, the memory execution tree gives 6 different measurements : the current number
+           of allocated bytes and blocks (same values as for _a_l_l_o_c_s), the total number of allocated bytes
+           and blocks, the total number of freed bytes and blocks.
+
+           Note that the overhead in cpu and memory to produce an xtree depends on the tool. The overhead
+           in cpu is small for the value _a_l_l_o_c_s, as the information needed to produce this report is
+           maintained in any case by the tool. For massif and helgrind, specifying _f_u_l_l implies to capture
+           a stack trace for each free operation, while normally these tools only capture an allocation
+           stack trace. For Memcheck, the cpu overhead for the value _f_u_l_l is small, as this can only be
+           used in combination with ----kkeeeepp--ssttaacckkttrraacceess==aalllloocc--aanndd--ffrreeee or
+           ----kkeeeepp--ssttaacckkttrraacceess==aalllloocc--tthheenn--ffrreeee, which already records a stack trace for each free
+           operation. The memory overhead varies between 5 and 10 words per unique stacktrace in the
+           xtree, plus the memory needed to record the stack trace for the free operations, if needed
+           specifically for the xtree.
+
+       ----xxttrreeee--mmeemmoorryy--ffiillee==<<ffiilleennaammee>> [[ddeeffaauulltt:: xxttmmeemmoorryy..kkccgg..%%pp]]
+           Specifies that Valgrind should produce the xtree memory report in the specified file. Any %%pp or
+           %%qq sequences appearing in the filename are expanded in exactly the same way as they are for
+           ----lloogg--ffiillee. See the description of --log-file for details.
+
+           If the filename contains the extension ..mmss, then the produced file format will be a massif
+           output file format. If the filename contains the extension ..kkccgg or no extension is provided or
+           recognised, then the produced file format will be a callgrind output format.
+
+           See Execution Trees for a detailed explanation about execution trees formats.
+
+UUNNCCOOMMMMOONN OOPPTTIIOONNSS
+       These options apply to all tools, as they affect certain obscure workings of the Valgrind core.
+       Most people won't need to use them.
+
+       ----ssmmcc--cchheecckk==<<nnoonnee||ssttaacckk||aallll||aallll--nnoonn--ffiillee>> [[ddeeffaauulltt:: aallll--nnoonn--ffiillee ffoorr xx8866//aammdd6644//ss339900xx,, ssttaacckk ffoorr
+       ootthheerr aarrcchhss]]
+           This option controls Valgrind's detection of self-modifying code. If no checking is done, when
+           a program executes some code, then overwrites it with new code, and executes the new code,
+           Valgrind will continue to execute the translations it made for the old code. This will likely
+           lead to incorrect behaviour and/or crashes.
+
+           For "modern" architectures -- anything that's not x86, amd64 or s390x -- the default is _s_t_a_c_k.
+           This is because a correct program must take explicit action to reestablish D-I cache coherence
+           following code modification. Valgrind observes and honours such actions, with the result that
+           self-modifying code is transparently handled with zero extra cost.
+
+           For x86, amd64 and s390x, the program is not required to notify the hardware of required D-I
+           coherence syncing. Hence the default is _a_l_l_-_n_o_n_-_f_i_l_e, which covers the normal case of
+           generating code into an anonymous (non-file-backed) mmap'd area.
+
+           The meanings of the four available settings are as follows. No detection (_n_o_n_e), detect
+           self-modifying code on the stack (which is used by GCC to implement nested functions) (_s_t_a_c_k),
+           detect self-modifying code everywhere (_a_l_l), and detect self-modifying code everywhere except
+           in file-backed mappings (_a_l_l_-_n_o_n_-_f_i_l_e).
+
+           Running with _a_l_l will slow Valgrind down noticeably. Running with _n_o_n_e will rarely speed things
+           up, since very little code gets dynamically generated in most programs. The
+           VVAALLGGRRIINNDD__DDIISSCCAARRDD__TTRRAANNSSLLAATTIIOONNSS client request is an alternative to ----ssmmcc--cchheecckk==aallll and
+           ----ssmmcc--cchheecckk==aallll--nnoonn--ffiillee that requires more programmer effort but allows Valgrind to run your
+           program faster, by telling it precisely when translations need to be re-made.
+
+           ----ssmmcc--cchheecckk==aallll--nnoonn--ffiillee provides a cheaper but more limited version of ----ssmmcc--cchheecckk==aallll. It
+           adds checks to any translations that do not originate from file-backed memory mappings. Typical
+           applications that generate code, for example JITs in web browsers, generate code into anonymous
+           mmaped areas, whereas the "fixed" code of the browser always lives in file-backed mappings.
+           ----ssmmcc--cchheecckk==aallll--nnoonn--ffiillee takes advantage of this observation, limiting the overhead of checking
+           to code which is likely to be JIT generated.
+
+       ----rreeaadd--iinnlliinnee--iinnffoo==<<yyeess||nnoo>> [[ddeeffaauulltt:: sseeee bbeellooww]]
+           When enabled, Valgrind will read information about inlined function calls from DWARF3 debug
+           info. This slows Valgrind startup and makes it use more memory (typically for each inlined
+           piece of code, 6 words and space for the function name), but it results in more descriptive
+           stacktraces. Currently, this functionality is enabled by default only for Linux, Android and
+           Solaris targets and only for the tools Memcheck, Massif, Helgrind and DRD. Here is an example
+           of some stacktraces with ----rreeaadd--iinnlliinnee--iinnffoo==nnoo:
+
+               ==15380== Conditional jump or move depends on uninitialised value(s)
+               ==15380==    at 0x80484EA: main (inlinfo.c:6)
+               ==15380==
+               ==15380== Conditional jump or move depends on uninitialised value(s)
+               ==15380==    at 0x8048550: fun_noninline (inlinfo.c:6)
+               ==15380==    by 0x804850E: main (inlinfo.c:34)
+               ==15380==
+               ==15380== Conditional jump or move depends on uninitialised value(s)
+               ==15380==    at 0x8048520: main (inlinfo.c:6)
+
+           And here are the same errors with ----rreeaadd--iinnlliinnee--iinnffoo==yyeess:
+
+               ==15377== Conditional jump or move depends on uninitialised value(s)
+               ==15377==    at 0x80484EA: fun_d (inlinfo.c:6)
+               ==15377==    by 0x80484EA: fun_c (inlinfo.c:14)
+               ==15377==    by 0x80484EA: fun_b (inlinfo.c:20)
+               ==15377==    by 0x80484EA: fun_a (inlinfo.c:26)
+               ==15377==    by 0x80484EA: main (inlinfo.c:33)
+               ==15377==
+               ==15377== Conditional jump or move depends on uninitialised value(s)
+               ==15377==    at 0x8048550: fun_d (inlinfo.c:6)
+               ==15377==    by 0x8048550: fun_noninline (inlinfo.c:41)
+               ==15377==    by 0x804850E: main (inlinfo.c:34)
+               ==15377==
+               ==15377== Conditional jump or move depends on uninitialised value(s)
+               ==15377==    at 0x8048520: fun_d (inlinfo.c:6)
+               ==15377==    by 0x8048520: main (inlinfo.c:35)
+
+       ----rreeaadd--vvaarr--iinnffoo==<<yyeess||nnoo>> [[ddeeffaauulltt:: nnoo]]
+           When enabled, Valgrind will read information about variable types and locations from DWARF3
+           debug info. This slows Valgrind startup significantly and makes it use significantly more
+           memory, but for the tools that can take advantage of it (Memcheck, Helgrind, DRD) it can result
+           in more precise error messages. For example, here are some standard errors issued by Memcheck:
+
+               ==15363== Uninitialised byte(s) found during client check request
+               ==15363==    at 0x80484A9: croak (varinfo1.c:28)
+               ==15363==    by 0x8048544: main (varinfo1.c:55)
+               ==15363==  Address 0x80497f7 is 7 bytes inside data symbol "global_i2"
+               ==15363==
+               ==15363== Uninitialised byte(s) found during client check request
+               ==15363==    at 0x80484A9: croak (varinfo1.c:28)
+               ==15363==    by 0x8048550: main (varinfo1.c:56)
+               ==15363==  Address 0xbea0d0cc is on thread 1's stack
+               ==15363==  in frame #1, created by main (varinfo1.c:45)
+
+           And here are the same errors with ----rreeaadd--vvaarr--iinnffoo==yyeess:
+
+               ==15370== Uninitialised byte(s) found during client check request
+               ==15370==    at 0x80484A9: croak (varinfo1.c:28)
+               ==15370==    by 0x8048544: main (varinfo1.c:55)
+               ==15370==  Location 0x80497f7 is 0 bytes inside global_i2[7],
+               ==15370==  a global variable declared at varinfo1.c:41
+               ==15370==
+               ==15370== Uninitialised byte(s) found during client check request
+               ==15370==    at 0x80484A9: croak (varinfo1.c:28)
+               ==15370==    by 0x8048550: main (varinfo1.c:56)
+               ==15370==  Location 0xbeb4a0cc is 0 bytes inside local var "local"
+               ==15370==  declared at varinfo1.c:46, in frame #1 of thread 1
+
+       ----vvggddbb--ppoollll==<<nnuummbbeerr>> [[ddeeffaauulltt:: 55000000]]
+           As part of its main loop, the Valgrind scheduler will poll to check if some activity (such as
+           an external command or some input from a gdb) has to be handled by gdbserver. This activity
+           poll will be done after having run the given number of basic blocks (or slightly more than the
+           given number of basic blocks). This poll is quite cheap so the default value is set relatively
+           low. You might further decrease this value if vgdb cannot use ptrace system call to interrupt
+           Valgrind if all threads are (most of the time) blocked in a system call.
+
+       ----vvggddbb--sshhaaddooww--rreeggiisstteerrss==nnoo||yyeess [[ddeeffaauulltt:: nnoo]]
+           When activated, gdbserver will expose the Valgrind shadow registers to GDB. With this, the
+           value of the Valgrind shadow registers can be examined or changed using GDB. Exposing shadow
+           registers only works with GDB version 7.1 or later.
+
+       ----vvggddbb--pprreeffiixx==<<pprreeffiixx>> [[ddeeffaauulltt:: //ttmmpp//vvggddbb--ppiippee]]
+           To communicate with gdb/vgdb, the Valgrind gdbserver creates 3 files (2 named FIFOs and a mmap
+           shared memory file). The prefix option controls the directory and prefix for the creation of
+           these files.
+
+       ----rruunn--lliibbcc--ffrreeeerreess==<<yyeess||nnoo>> [[ddeeffaauulltt:: yyeess]]
+           This option is only relevant when running Valgrind on Linux.
+
+           The GNU C library (lliibbcc..ssoo), which is used by all programs, may allocate memory for its own
+           uses. Usually it doesn't bother to free that memory when the program ends—there would be no
+           point, since the Linux kernel reclaims all process resources when a process exits anyway, so it
+           would just slow things down.
+
+           The glibc authors realised that this behaviour causes leak checkers, such as Valgrind, to
+           falsely report leaks in glibc, when a leak check is done at exit. In order to avoid this, they
+           provided a routine called ____lliibbcc__ffrreeeerreess specifically to make glibc release all memory it has
+           allocated. Memcheck therefore tries to run ____lliibbcc__ffrreeeerreess at exit.
+
+           Unfortunately, in some very old versions of glibc, ____lliibbcc__ffrreeeerreess is sufficiently buggy to
+           cause segmentation faults. This was particularly noticeable on Red Hat 7.1. So this option is
+           provided in order to inhibit the run of ____lliibbcc__ffrreeeerreess. If your program seems to run fine on
+           Valgrind, but segfaults at exit, you may find that ----rruunn--lliibbcc--ffrreeeerreess==nnoo fixes that, although
+           at the cost of possibly falsely reporting space leaks in libc.so.
+
+       ----rruunn--ccxxxx--ffrreeeerreess==<<yyeess||nnoo>> [[ddeeffaauulltt:: yyeess]]
+           This option is only relevant when running Valgrind on Linux or Solaris C++ programs.
+
+           The GNU Standard C++ library (lliibbssttddcc++++..ssoo), which is used by all C++ programs compiled with
+           g++, may allocate memory for its own uses. Usually it doesn't bother to free that memory when
+           the program ends—there would be no point, since the kernel reclaims all process resources when
+           a process exits anyway, so it would just slow things down.
+
+           The gcc authors realised that this behaviour causes leak checkers, such as Valgrind, to falsely
+           report leaks in libstdc++, when a leak check is done at exit. In order to avoid this, they
+           provided a routine called ____ggnnuu__ccxxxx::::____ffrreeeerreess specifically to make libstdc++ release all
+           memory it has allocated. Memcheck therefore tries to run ____ggnnuu__ccxxxx::::____ffrreeeerreess at exit.
+
+           For the sake of flexibility and unforeseen problems with ____ggnnuu__ccxxxx::::____ffrreeeerreess, option
+           ----rruunn--ccxxxx--ffrreeeerreess==nnoo exists, although at the cost of possibly falsely reporting space leaks in
+           libstdc++.so.
+
+       ----ssiimm--hhiinnttss==hhiinntt11,,hhiinntt22,,......
+           Pass miscellaneous hints to Valgrind which slightly modify the simulated behaviour in
+           nonstandard or dangerous ways, possibly to help the simulation of strange features. By default
+           no hints are enabled. Use with caution! Currently known hints are:
+
+           •   llaaxx--iiooccttllss:: Be very lax about ioctl handling; the only assumption is that the size is
+               correct. Doesn't require the full buffer to be initialised when writing. Without this,
+               using some device drivers with a large number of strange ioctl commands becomes very
+               tiresome.
+
+           •   ffuussee--ccoommppaattiibbllee:: Enable special handling for certain system calls that may block in a FUSE
+               file-system. This may be necessary when running Valgrind on a multi-threaded program that
+               uses one thread to manage a FUSE file-system and another thread to access that file-system.
+
+           •   eennaabbllee--oouutteerr:: Enable some special magic needed when the program being run is itself
+               Valgrind.
+
+           •   nnoo--iinnnneerr--pprreeffiixx:: Disable printing a prefix >> in front of each stdout or stderr output line
+               in an inner Valgrind being run by an outer Valgrind. This is useful when running Valgrind
+               regression tests in an outer/inner setup. Note that the prefix >> will always be printed in
+               front of the inner debug logging lines.
+
+           •   nnoo--nnppttll--pptthhrreeaadd--ssttaacckkccaacchhee:: This hint is only relevant when running Valgrind on Linux; it
+               is ignored on Solaris and Mac OS X.
+
+               The GNU glibc pthread library (lliibbpptthhrreeaadd..ssoo), which is used by pthread programs, maintains
+               a cache of pthread stacks. When a pthread terminates, the memory used for the pthread stack
+               and some thread local storage related data structure are not always directly released. This
+               memory is kept in a cache (up to a certain size), and is re-used if a new thread is
+               started.
+
+               This cache causes the helgrind tool to report some false positive race condition errors on
+               this cached memory, as helgrind does not understand the internal glibc cache
+               synchronisation primitives. So, when using helgrind, disabling the cache helps to avoid
+               false positive race conditions, in particular when using thread local storage variables
+               (e.g. variables using the ____tthhrreeaadd qualifier).
+
+               When using the memcheck tool, disabling the cache ensures the memory used by glibc to
+               handle __thread variables is directly released when a thread terminates.
+
+               Note: Valgrind disables the cache using some internal knowledge of the glibc stack cache
+               implementation and by examining the debug information of the pthread library. This
+               technique is thus somewhat fragile and might not work for all glibc versions. This has been
+               successfully tested with various glibc versions (e.g. 2.11, 2.16, 2.18) on various
+               platforms.
+
+           •   llaaxx--ddoooorrss:: (Solaris only) Be very lax about door syscall handling over unrecognised door
+               file descriptors. Does not require that full buffer is initialised when writing. Without
+               this, programs using libdoor(3LIB) functionality with completely proprietary semantics may
+               report large number of false positives.
+
+           •   ffaallllbbaacckk--llllsscc:: (MIPS and ARM64 only): Enables an alternative implementation of Load-Linked
+               (LL) and Store-Conditional (SC) instructions. The standard implementation gives more
+               correct behaviour, but can cause indefinite looping on certain processor implementations
+               that are intolerant of extra memory references between LL and SC. So far this is known only
+               to happen on Cavium 3 cores. You should not need to use this flag, since the relevant cores
+               are detected at startup and the alternative implementation is automatically enabled if
+               necessary. There is no equivalent anti-flag: you cannot force-disable the alternative
+               implementation, if it is automatically enabled. The underlying problem exists because the
+               "standard" implementation of LL and SC is done by copying through LL and SC instructions
+               into the instrumented code. However, tools may insert extra instrumentation memory
+               references in between the LL and SC instructions. These memory references are not present
+               in the original uninstrumented code, and their presence in the instrumented code can cause
+               the SC instructions to persistently fail, leading to indefinite looping in LL-SC blocks.
+               The alternative implementation gives correct behaviour of LL and SC instructions between
+               threads in a process, up to and including the ABA scenario. It also gives correct behaviour
+               between a Valgrinded thread and a non-Valgrinded thread running in a different process,
+               that communicate via shared memory, but only up to and including correct CAS behaviour --
+               in this case the ABA scenario may not be correctly handled.
+
+       ----ffaaiirr--sscchheedd==<<nnoo||yyeess||ttrryy>> [[ddeeffaauulltt:: nnoo]]
+           The ----ffaaiirr--sscchheedd option controls the locking mechanism used by Valgrind to serialise thread
+           execution. The locking mechanism controls the way the threads are scheduled, and different
+           settings give different trade-offs between fairness and performance. For more details about the
+           Valgrind thread serialisation scheme and its impact on performance and thread scheduling, see
+           Scheduling and Multi-Thread Performance.
+
+           •   The value ----ffaaiirr--sscchheedd==yyeess activates a fair scheduler. In short, if multiple threads are
+               ready to run, the threads will be scheduled in a round robin fashion. This mechanism is not
+               available on all platforms or Linux versions. If not available, using ----ffaaiirr--sscchheedd==yyeess will
+               cause Valgrind to terminate with an error.
+
+               You may find this setting improves overall responsiveness if you are running an interactive
+               multithreaded program, for example a web browser, on Valgrind.
+
+           •   The value ----ffaaiirr--sscchheedd==ttrryy activates fair scheduling if available on the platform.
+               Otherwise, it will automatically fall back to ----ffaaiirr--sscchheedd==nnoo.
+
+           •   The value ----ffaaiirr--sscchheedd==nnoo activates a scheduler which does not guarantee fairness between
+               threads ready to run, but which in general gives the highest performance.
+
+       ----kkeerrnneell--vvaarriiaanntt==vvaarriiaanntt11,,vvaarriiaanntt22,,......
+           Handle system calls and ioctls arising from minor variants of the default kernel for this
+           platform. This is useful for running on hacked kernels or with kernel modules which support
+           nonstandard ioctls, for example. Use with caution. If you don't understand what this option
+           does then you almost certainly don't need it. Currently known variants are:
+
+           •   bbpprroocc: support the ssyyss__bbrroocc system call on x86. This is for running on BProc, which is a
+               minor variant of standard Linux which is sometimes used for building clusters.
+
+           •   aannddrrooiidd--nnoo--hhww--ttllss: some versions of the Android emulator for ARM do not provide a hardware
+               TLS (thread-local state) register, and Valgrind crashes at startup. Use this variant to
+               select software support for TLS.
+
+           •   aannddrrooiidd--ggppuu--ssggxx55xxxx: use this to support handling of proprietary ioctls for the PowerVR SGX
+               5XX series of GPUs on Android devices. Failure to select this does not cause s

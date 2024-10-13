@@ -5,20 +5,20 @@
 // #include "../includes/Lexing.h"
 #include "../includes/libft.h"
 
-static char  **copy_env(char **envp)
-{
-	static char **env;
-	env = envp;
-	return (env);
-}
+// static char  **copy_env(char **envp)
+// {
+// 	static char **env;
+// 	env = envp;
+// 	return (env);
+// }
 
-void display_env(char **envp)
+void display_env(char **envv)
 {
 	int i;
 	i = 0;
-	while (envp[i])
+	while (envv[i])
 	{
-		printf("%s\n", envp[i]);
+		printf("%s\n", envv[i]);
 		i++;
 
 	}

@@ -6,65 +6,108 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:28:32 by raphox            #+#    #+#             */
-/*   Updated: 2024/10/08 18:51:05 by raphox           ###   ########.fr       */
+/*   Updated: 2024/10/13 22:50:29 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "../includes/minishell.h"
 // #include "../includes/Lexing.h"
 #include "../includes/libft.h"
-//envp est une copie ! ! ! ! !! 
 
-void export(char *command, char **arguments, char **env)
+// envp est une copie ! ! ! ! !!
+
+
+char	**export(char *command, const char **arguments, char **env)
 {
-	char **new_env;
-	int i;
-	int j;
-	j = 0;
+	int		i;
+	char	**result;
+	char	**new_result;
+
 	i = 0;
-
-
+	result = env;
+	bubble_sort(result);
 	if (command != NULL && arguments == NULL)
+		display_x_variables(result);
+	else
 	{
-		while (env[i] != NULL)
+		while (arguments[i] != NULL)
 		{
-			printf("declare -x %s\n", env[i]);
-			i++;
+			new_result = cmd_export(command, arguments[i++], result);
+			if (new_result != result && result != env)
+				free_env(result);
+			result = new_result;
 		}
-		return ;
-	}
-	
-	else if (command != NULL && arguments != NULL)
-	{
-		while (env[i])
-			i++;
-		new_env = malloc(sizeof(char *) * (i + 2));
 		i = 0;
-	
-		while (env[i])
-		{
-			new_env[i] = env[i];
-			i++;
-		}
-		new_env[i] = ft_strdup(arguments[0]);
-		i++;
-		new_env[i] = 0;
-		return ;		
+		while (result[i] != NULL)
+			printf("declare -x %s\n", result[i++]);
 	}
-
-	// int l;
-	// l = 0;
-	// while (new_env[l])
-	// {
-	// 	printf("%s\n", new_env[l]);
-	// 	l++;
-	// }
+	if (result != env)
+		free_env(result);
+	return (env);
 }
 
-// int main(int argc, char **argv, char **envp)
-// {
-// 	char **str[0] = "var = ma teub";
-// 	export("export", str, envp);
-// }
+// Fonction cmd_export qui ajoute un nouvel argument à l'environnement
+char	**cmd_export(char *command, const char *argument, char **env)
+{
+	char	**new_env;
+	int		size;
+
+	if (command == NULL || argument == NULL)
+		return (env);
+	new_env = allocate_new_env(env);
+	if (!new_env)
+		exit(EXIT_FAILURE);
+	size = copy_env(env, new_env);
+	if (size == -1)
+		exit(EXIT_FAILURE);
+	new_env[size] = strdup(argument);
+	if (!new_env[size])
+	{
+		free_env(new_env);
+		exit(EXIT_FAILURE);
+	}
+	new_env[size + 1] = NULL;
+	return (new_env);
+}
+
+// Fonction pour allouer le nouvel environnement
+char	**allocate_new_env(char **env)
+{
+	int		size;
+	char	**new_env;
+
+	size = 0;
+	while (env[size])
+		size++;
+	new_env = malloc(sizeof(char *) * (size + 2));
+	if (!new_env)
+		return (NULL);
+	return (new_env);
+}
+
+// Fonction pour copier les anciennes variables d'environnement dans le nouvel environnement
+int		copy_env(char **env, char **new_env)
+{
+	int		j;
+
+	j = 0;
+	while (env[j] != NULL)
+	{
+		new_env[j] = strdup(env[j]);
+		if (!new_env[j])
+		{
+			free_env(new_env);
+			return (-1);
+		}
+		j++;
+	}
+	return (j);
+}
+
+
+
+
+
+
+
+//-------------------------------------------------------------------------
