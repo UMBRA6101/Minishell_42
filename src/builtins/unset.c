@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 17:47:30 by raphox            #+#    #+#             */
-/*   Updated: 2024/10/13 22:41:18 by raphox           ###   ########.fr       */
+/*   Updated: 2024/10/14 15:05:41 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ char	**cmd_unset(char **env, const char *var)
 				i++;
 			}
 			// free(env[i]); // supp la variable en faisant free
-			// display_env(env);
 			return (env);
 		}
 		i++;

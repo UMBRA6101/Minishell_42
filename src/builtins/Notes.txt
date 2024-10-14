@@ -10,9 +10,9 @@ TOUS TESTER EN BASH
 
 //echo good + free goodd
 
-//export
+//export good + free good
 
-// unset
+// unset good + free good
 
 tous les display env, et l affichage de l env
 ne sont pas  a faire car ce sera a pipex

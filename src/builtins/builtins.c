@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 16:29:11 by raphox            #+#    #+#             */
-/*   Updated: 2024/10/13 22:52:57 by raphox           ###   ########.fr       */
+/*   Updated: 2024/10/14 15:12:18 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void exec_builtins(t_data_rule struc, char **envp)
 	else if (ft_strncmp(struc.command, "unset", ft_strlen(struc.command)) == 0)
 	{
 			envp = unset(struc.command, struc.arguments, envp);
+			printf("RESULT ENV ----------------------------------------------------------------------------\n\n\n");
+			display_env(envp);
 	}
 }
 

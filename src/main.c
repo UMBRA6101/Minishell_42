@@ -14,22 +14,21 @@ int	main(int argc, char **argv, char **envp)
 //---------------------------------
 	t_data_rule first;
 
-	const char *tab[5];
-	tab[0] = "bonjou";
-	tab[1] = "var2";
-	tab[2] = "var3";
-	tab[3] = "var4";
-	tab[4] = NULL;
+	const char *tab[4];
+	tab[0] = "NULL";
+	tab[1] = "NULL";
+	tab[2] = "UNLL";
+	tab[3] = NULL;
 
 	// const char **tab;
 	// *tab = NULL;
 
-	first.command = "export";
+	first.command = "unset";
 	first.options = NULL;
 	first.arguments = NULL;
 // -----------------------------------------
-
-
+	printf("FIRST ENV ----------------------------------------------------------------------------\n");
+	display_env(envp);
 	exec_builtins(first, envp);
 	// display_env(envp);
 	return (0);
