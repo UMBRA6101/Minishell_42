@@ -44,7 +44,11 @@ LIBFTDIR = ./lib/libft/
 PIPEXDIR = pipex/
 
 all:$(NAME)
-	@echo "$(tput bold)$(GREEN)$@ is compile$(END)"
+	@if [ -f "$(NAME)" ]; then \
+		echo "nothing to compile"; \
+	else \
+		echo "$(tput bold)$(GREEN)$@ is compile$(END)"; \
+	fi;
 
 libft:
 	@if [ ! -f "libft.a" ]; then \

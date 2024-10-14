@@ -18,6 +18,8 @@
 # include "parsing_error.h"
 
 # define PROMPT "Minishell-> "
+#ifndef DEBUG
+# define DEBUG 0
 
 typedef struct 	s_data_rule
 {

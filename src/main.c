@@ -15,6 +15,7 @@ int	main(void)
 		if (!request)
 			print_parsing_error(err);
 		(void)request;
+		killer_request(request);
 	}
 	return (0);
 }
