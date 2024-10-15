@@ -110,6 +110,7 @@ t_data_rule		*parsing_tree(t_split *split, const int count_word)
 	int k = 0;
 
 	out = ft_calloc(sizeof(t_data_rule), nb_command(split, count_word));
+	out->nb_command = nb_command(split, count_word);
 	if (!out)
 		return (NULL);
 	if (fill_request(split, &out[k], count_word, 0) == -1)
@@ -121,7 +122,7 @@ t_data_rule		*parsing_tree(t_split *split, const int count_word)
 	{
 		i = 0;
 		printf("-----------------\n");
-		printf("k : %d\n", k);
+		printf("count_word : %d\n", count_word);
 		while (out[k].arguments[i])
 		{
 			printf("arg[%d] : %s\n", i, out[k].arguments[i]);

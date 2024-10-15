@@ -86,5 +86,6 @@ t_data_rule	*parsing(char *command, t_erreur *err)
 	if (syntax_check(split, word_count, err))
 		return (NULL);
 	request = parsing_tree(split, word_count);
+	free(split);
 	return (request);
 }
