@@ -6,6 +6,8 @@ void	killer_request(t_data_rule **request)
 	int k;
 
 	k = 0;
+	if (!(*request))
+		return ;
 	while (k < request[k]->nb_command)
 	{
 		i = 0;

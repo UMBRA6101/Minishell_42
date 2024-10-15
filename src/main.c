@@ -7,16 +7,18 @@ int	main(void)
 	t_data_rule *request;
 
 	err.error_code = -1;
-	rule = NULL;
-	rule = readline(PROMPT);
-	if (rule != NULL)
+	while (1)
 	{
-		request = parsing(rule, &err);
-		if (!request)
-			print_parsing_error(err);
-		(void)request;
-		killer_request(&request);
-		free(rule);
+		rule = NULL;
+		rule = readline(PROMPT);
+		if (rule != NULL) {
+			request = parsing(rule, &err);
+			if (!request)
+				print_parsing_error(err);
+			(void) request;
+			killer_request(&request);
+			free(rule);
+		}
 	}
-	return (0);
+	return 0;
 }

@@ -113,26 +113,27 @@ t_data_rule		*parsing_tree(t_split *split, const int count_word)
 	out->nb_command = nb_command(split, count_word);
 	if (!out)
 		return (NULL);
-	if (fill_request(split, &out[k], count_word, 0) == -1)
-	{
-		free (out);
+	if (fill_request(split, &out[k], count_word, 0) == -1) {
+		free(out);
 		return NULL;
 	}
-	while (k < nb_command(split, count_word))
+	if (DEBUG == 1)
 	{
-		i = 0;
-		printf("-----------------\n");
-		printf("count_word : %d\n", count_word);
-		while (out[k].arguments[i])
+		while (k < nb_command(split, count_word))
 		{
-			printf("arg[%d] : %s\n", i, out[k].arguments[i]);
-			i++;
+			i = 0;
+			printf("-----------------\n");
+			printf("count_word : %d\n", count_word);
+			while (out[k].arguments[i]) {
+				printf("arg[%d] : %s\n", i, out[k].arguments[i]);
+				i++;
+			}
+			printf("out : %s\n", out[k].out);
+			printf("oper : %c\n", out[k].oper);
+			printf("pipe : %B\n", out[k].pipe);
+			k++;
 		}
-		printf("out : %s\n", out[k].out);
-		printf("oper : %c\n", out[k].oper);
-		printf("pipe : %B\n", out[k].pipe);
-		k++;
+		printf("-----------------\n");
 	}
-	printf("-----------------\n");
 	return (out);
 }
