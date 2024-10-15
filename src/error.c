@@ -17,6 +17,11 @@ void	print_parsing_error(t_erreur err)
 	if (err.error_code == STX_QUOTE)
 		ft_putstr_fd("newline", ERROR_FD);
 	else if (err.error_code == SYNTAX)
-		ft_putchar_fd(err.c, 2);
-	ft_putstr_fd("'\n", 2);
+		ft_putchar_fd(err.c, ERROR_FD);
+	else if (err.error_code == D_SYNTAX)
+	{
+		ft_putchar_fd(err.c, ERROR_FD);
+		ft_putchar_fd(err.c, ERROR_FD);
+	}
+	ft_putstr_fd("'\n", ERROR_FD);
 }

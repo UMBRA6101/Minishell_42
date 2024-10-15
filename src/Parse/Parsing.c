@@ -24,6 +24,12 @@ static int	syntax_check(t_split *split, int word, t_erreur *err)
 		sep = split[i].word[0];
 		if (sep == '|' || sep == ';' || sep == '<' || sep == '>')
 		{
+			if ((split[i].word[1] == sep && i == 0) || (split[i].word[1] == sep && split[i].word[2] == sep))
+			{
+				err->error_code = D_SYNTAX;
+				err->c = sep;
+				return (-1);
+			}
 			if (sw || (i == 0 && (sep == '|' || sep == ';')))
 			{
 				err->c = sep;
@@ -52,15 +58,12 @@ static int	fill_info(char *command, int word, t_split *split)
 
 		split[k].len_word = len_of_word(command, i);
 		split[k].word = ft_calloc(sizeof(char), (split[k].len_word + 2));
+		if (!(split[k].word))
+			return (-1);
 		add_word(&split[k], command + i , split[k].len_word);
 		i = split[k].len_word + i;
 		k++;
-		printf("k : %d\n", k);
 	}
-/*	printf("word : %d\n", word);
-	printf("%s\n", split[k - 1].word);*/
-	if (check_rdir(split[k - 1].word, split[k - 1].len_word) == 1)
-		return (-1);
 	return (0);
 }
 
