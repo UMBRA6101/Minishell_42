@@ -22,6 +22,9 @@ SRCDIR = src/
 SRC =		main.c \
 			execute.c \
 			builtins/builtins.c \
+			pipex_bonus/pipex_bonus.c \
+			pipex_bonus/split.c \
+			pipex_bonus/tools.c \
 			builtins/error.c \
 			builtins/cd.c \
 			builtins/tools.c \
