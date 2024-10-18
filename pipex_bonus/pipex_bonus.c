@@ -6,14 +6,16 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:45:57 by raphox            #+#    #+#             */
-/*   Updated: 2024/10/14 18:06:36 by raphox           ###   ########.fr       */
+/*   Updated: 2024/10/18 10:25:42 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
-
+#include "../includes/minishell.h"
+#include "../includes/libft.h"
 
 //------------------------------------------------------------------------------
+
 
 
 int open_file(char *file, int in_or_out)

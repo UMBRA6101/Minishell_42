@@ -6,7 +6,7 @@
 #    By: raphox <raphox@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 15:01:28 by raphox            #+#    #+#              #
-#    Updated: 2024/10/14 17:43:28 by raphox           ###   ########.fr        #
+#    Updated: 2024/10/18 10:39:22 by raphox           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ CC			=	cc
 
 CFLAGS		=	-Wall -Werror -Wextra -g3
 
-LIBFT_DIR	=	libft
+LIBFT_DIR	=	../lib/libft
 
 LIBFT_LIB	=	$(LIBFT_DIR)
 

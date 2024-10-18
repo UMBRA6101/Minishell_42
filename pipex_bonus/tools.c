@@ -6,11 +6,13 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 15:38:34 by rafaria           #+#    #+#             */
-/*   Updated: 2024/10/14 17:45:36 by raphox           ###   ########.fr       */
+/*   Updated: 2024/10/18 10:23:44 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
+#include "../includes/minishell.h"
+#include "../includes/libft.h"
 
 void	ft_putchar(char *str)
 {
@@ -59,7 +61,7 @@ void	execute(char *string, char **envp)
 	cmd = ft_split(string, ' ');
 	if (!cmd || !cmd[0])
 		error(0, NULL);
-	path = ft_strjoin(chemin, cmd[0]);
+	path = ft_strjoin(chemin, cmd[0], 0);
 	if (!path || access(path, F_OK & X_OK) != 0)
 	{
 		i = 0;
