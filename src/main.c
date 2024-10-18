@@ -7,8 +7,6 @@ int	main(void)
 	t_data_rule *request;
 
 	err.error_code = -1;
-	while (1)
-	{
 		rule = NULL;
 		rule = readline(PROMPT);
 		if (rule != NULL) {
@@ -19,6 +17,5 @@ int	main(void)
 			killer_request(&request);
 			free(rule);
 		}
-	}
 	return 0;
 }

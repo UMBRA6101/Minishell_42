@@ -43,6 +43,6 @@ int	check_rdir(char *buff, int len);
 void	killer_request(struct s_data_rule **request);
 
 enum {RESET, SPACES, OPER, QUOTE, D_QUOTE};
-enum {VARIABLE, RDIR, D_RDIR, N_OPER, PIPE, OTHER};
+enum {VARIABLE, INPUT, RDIR, D_RDIR, N_OPER, PIPE, OTHER};
 
 #endif //MINISHELL_42_LEXING_H
