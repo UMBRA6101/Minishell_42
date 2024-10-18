@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:45:57 by raphox            #+#    #+#             */
-/*   Updated: 2024/10/18 10:25:42 by raphox           ###   ########.fr       */
+/*   Updated: 2024/10/18 11:28:49 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void do_pipe(char *cmd, char **env)
     }
 }
 
-int main(int ac, char **av, char **envp)
+int pipex(int ac, char **av, char **envp)
 {
     int index;
     int fd_in;

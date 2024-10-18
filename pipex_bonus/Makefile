@@ -6,7 +6,7 @@
 #    By: raphox <raphox@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 15:01:28 by raphox            #+#    #+#              #
-#    Updated: 2024/10/18 10:39:22 by raphox           ###   ########.fr        #
+#    Updated: 2024/10/18 11:23:28 by raphox           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,12 @@ all			:	${NAME}
 $(NAME): $(OBJS) $(LIBFT_LIB)
 	make -C ${LIBFT_DIR}
 	$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) -lft -o $(NAME)
+	@mkdir -p ../obj/pipex_bonus
+	cp pipex_bonus.o ../obj/pipex_bonus/
+	cp tools.o ../obj/pipex_bonus/
+	cp split.o ../obj/pipex_bonus/
+
+
 
 clean			:
 	rm -rf ${OBJS}

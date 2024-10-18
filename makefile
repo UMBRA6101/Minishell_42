@@ -66,6 +66,7 @@ libft:
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
 	@mkdir -p $(dir $@)
+	@mkdir -p bidule
 	@$(CC) $(CCFLAG) $(INCFLAG) -c $< -o $@
 	@echo "$(tput dim) $(MAJA)$<$(END)"
 
