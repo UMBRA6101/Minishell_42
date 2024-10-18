@@ -53,6 +53,7 @@ CC = gcc -no-pie
 CCFLAG = -g3
 INCFLAG = -I$(DIRINC)
 LIBFTDIR = ./lib/libft/
+PIPEXLIB = ./pipex_bonus/
 PIPEXDIR = pipex/
 
 all:$(NAME)
@@ -61,12 +62,11 @@ all:$(NAME)
 libft:
 	@if [ ! -f "libft.a" ]; then \
 		make -C $(LIBFTDIR) all ;\
-		cp $(LIBFTDIR)libft.a ./; \
+		cp $(LIBFTDIR)libft.a ./;\
 	fi;
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
 	@mkdir -p $(dir $@)
-	@mkdir -p bidule
 	@$(CC) $(CCFLAG) $(INCFLAG) -c $< -o $@
 	@echo "$(tput dim) $(MAJA)$<$(END)"
 
