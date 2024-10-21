@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 15:38:34 by rafaria           #+#    #+#             */
-/*   Updated: 2024/10/18 10:23:44 by raphox           ###   ########.fr       */
+/*   Updated: 2024/10/19 18:01:49 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,28 +26,6 @@ void	ft_putchar(char *str)
 	}
 }
 
-void	error(int i, char *str)
-{
-	if (i == 0)
-		exit(EXIT_FAILURE);
-	if (i == 1)
-		write(2, "Wrong arguments\n", 17);
-	if (i == 2)
-	{
-		write(2, "Command not found : ", 21);
-		ft_putchar(str);
-		write(2, "\n", 2);
-		return ;
-	}
-	if (i == 3)
-	{
-		write(2, "no such file or directory : ", 29);
-		ft_putchar(str);
-		write(2, "\n", 2);
-		return ;
-	}
-	exit(EXIT_FAILURE);
-}
 
 void	execute(char *string, char **envp)
 {
@@ -76,7 +54,7 @@ void	execute(char *string, char **envp)
 	return ;
 }
 
-void	final_execute(char *path, char **cmd, char **envp)
+void	 final_execute(char *path, char **cmd, char **envp)
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:45:57 by raphox            #+#    #+#             */
-/*   Updated: 2024/10/18 11:28:49 by raphox           ###   ########.fr       */
+/*   Updated: 2024/10/21 15:07:28 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,44 @@
 
 
 
-int open_file(char *file, int in_or_out)
+void close_pipes(int *pipes)
 {
-    int ret;
-
-    if (in_or_out == 0)
-        ret = open(file, O_RDONLY, 0777);
-    if (in_or_out == 1)
-        ret = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-    if (in_or_out == 2)
-        ret = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
-    if (ret == -1)
-        exit(0);
-    return (ret);
+    close(pipes[0]);
+    close(pipes[1]);
 }
 
-void do_pipe(char *cmd, char **env)
+void handle_child_process(char *cmd, char **env, int *input_fd, int *p_fd, int is_last_cmd)
+{
+    if (input_fd != NULL)
+    {
+        dup2(*input_fd, STDIN_FILENO);
+        close(*input_fd);
+    }
+    if (!is_last_cmd)
+    {
+        close(p_fd[0]);
+        dup2(p_fd[1], STDOUT_FILENO);
+    }
+    close(p_fd[1]);
+    execute(cmd, env);
+}
+
+void handle_parent_process(int *input_fd, int *p_fd, int is_last_cmd)
+{
+    if (input_fd != NULL)
+        close(*input_fd);
+    if (!is_last_cmd)
+    {
+        close(p_fd[1]);
+        *input_fd = p_fd[0];
+    }
+    else
+    {
+        close_pipes(p_fd);
+    }
+}
+
+void do_pipe(char *cmd, char **env, int *input_fd, int is_last_cmd)
 {
     pid_t pid;
     int p_fd[2];
@@ -45,55 +67,42 @@ void do_pipe(char *cmd, char **env)
         exit(0);
     if (pid == 0)
     {
-        close(p_fd[0]);
-        dup2(p_fd[1], STDOUT_FILENO);
-        execute(cmd, env);
+        handle_child_process(cmd, env, input_fd, p_fd, is_last_cmd);
     }
     else
     {
-        close(p_fd[1]);
-        dup2(p_fd[0], 0);
+        handle_parent_process(input_fd, p_fd, is_last_cmd);
     }
+}
+
+void wait_for_children(void)
+{
+    int status;
+
+    while (wait(&status) > 0)
+        ;
 }
 
 int pipex(int ac, char **av, char **envp)
 {
     int index;
-    int fd_in;
-    int fd_out;
-    pid_t pid;
-    int status;
+    int input_fd;
 
-    if (ac < 5)
+    input_fd = -1;
+    if (ac < 3)
     {
-        write(2, "Usage: ./pipex infile cmd1 cmd2 ... cmdn outfile\n", 49);
+        write(2, "Usage: ./pipex cmd1 cmd2 ... cmdn\n", 35);
         return (1);
     }
-
-    index = 2;
-    fd_in = open_file(av[1], 0);
-    fd_out = open_file(av[ac - 1], 1);
-    dup2(fd_in, STDIN_FILENO);
-
-    while (index < ac - 2)
+    index = 1;
+    while (index < ac - 1)
     {
-        do_pipe(av[index], envp);
+        do_pipe(av[index], envp, &input_fd, 0);
         index++;
     }
-    pid = fork();
-    if (pid == -1)
-        exit(0);
-    if (pid == 0)
-    {
-        dup2(fd_out, STDOUT_FILENO);
-        execute(av[ac - 2], envp);
-    }
-
-    close(fd_in);
-    close(fd_out);
-
-    // Wait for all child processes to finish
-    while (wait(&status) > 0);
-
+    do_pipe(av[ac - 1], envp, &input_fd, 1);
+    wait_for_children();
     return (0);
 }
+
+

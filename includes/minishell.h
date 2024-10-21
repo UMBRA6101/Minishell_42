@@ -34,9 +34,11 @@ typedef struct 	s_data_rule
 	bool 	pipe;
 }				t_data_rule;
 
+
 // MAIN.C ------------------------------------------------------------------------------------------
 char			*lexing(char *brut_rules); // transformation de commande en token
 t_data_rule		*parsing(char *command); // verification du token et decoupage dans la structure
+
 
 // BUILTINS.C --------------------------------------------------------------------------------------
 void exec_builtins(t_data_rule struc, char **genv);
@@ -71,6 +73,16 @@ int	find_in_envv(char **envv, char *var);
 void	bubble_sort(char **envp);
 void display_x_variables(char **result);
 int compare_strings(const char *str1, const char *str2);
+
+
+// PIPEX ------------------------------------------------------------------------------------------
+
+int pipex(int ac, char **av, char **envp);
+void do_pipe(char *cmd, char **env, int *input_fd, int is_last_cmd);
+void handle_parent_process(int *input_fd, int *p_fd, int is_last_cmd);
+void wait_for_children(void);
+void handle_child_process(char *cmd, char **env, int *input_fd, int *p_fd, int is_last_cmd);
+void close_pipes(int *pipes);
 
 //ERROR.C ------------------------------------------------------------------------------------------
 void free_env(char **env);
