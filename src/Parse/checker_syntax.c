@@ -18,7 +18,7 @@ static int	quote_check(char *word, t_erreur *err, int i, const int nb_word)
 		if ((i == 0) || (word[0] == word[1]))
 			err->error_code = SYNTAX;
 		if ((i + 1) == nb_word)
-			err->error_code = STX_QUOTE;
+			err->error_code = STX_NL;
 		return (-1);
 	}
 	else if (occ_quote(word) >= 2)
@@ -46,6 +46,7 @@ int	syntax_check(t_split *split, const int nb_word, t_erreur *err)
 			if (sw || ((sep == '|' || sep == ';') && i == 0))
 			{
 				err->c = sep;
+				err->error_code = SYNTAX;
 				return (-1);
 			}
 			else if (sep == '>' || sep == '<')

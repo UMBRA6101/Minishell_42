@@ -36,8 +36,9 @@ char	*delete_space(char *command)
 
 int	state_finish(t_token *token)
 {
-	if (token->state != OPER || token->sep == '=' || token->sep == ';')
+	return (token->nb_word);
+	/*if (token->state != OPER || token->sep == '=' || token->sep == ';')
 		return (token->nb_word);
-	return (-1);
+	return (-1);*/
 }
 

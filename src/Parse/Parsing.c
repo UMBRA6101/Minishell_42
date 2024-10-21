@@ -45,14 +45,14 @@ t_data_rule	*parsing(char *command, t_erreur *err)
 	if (ft_strlen(command) == 0)
 		return (NULL);
 	word_count = nb_words(command);
-	err->error_code = STX_QUOTE;
+	err->error_code = STX_NL;
 	if (word_count < 0)
 		return (NULL);
 	err->error_code = STX_ALLOC;
 	split = ft_calloc(sizeof(t_split), (word_count + 1));
 	if (!split || (fill_info(command, word_count, split) < 0))
 		return (NULL);
-	err->error_code = SYNTAX;
+	err->error_code = STX_NL;
 	if (syntax_check(split, word_count, err))
 		return (NULL);
 	request = parsing_tree(split, word_count);
