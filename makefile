@@ -27,12 +27,8 @@ SRC =		main.c \
 			Parse/parsing_tree.c \
 			Parse/parsing_tree_tool.c \
 			Parse/set_value.c \
-<<<<<<< HEAD
-			Parse/free.c
-=======
 			Parse/checker_syntax.c \
 			Parse/free.c \
->>>>>>> umbra
 
 SRCS = $(addprefix $(SRCDIR), $(SRC))
 

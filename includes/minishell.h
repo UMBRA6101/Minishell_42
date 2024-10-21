@@ -46,6 +46,5 @@ void display_env(char **envp); // Affiche l env fonction : env
 void export(char *command, char **arguments, char **env); // ajouter variable a l env 2 ou+ 
 void pwd(char *command, char **arguments, char **envp); // recopie pwd
 void	unset_var(char **env, const char *var);  // retirer variable de l env
-void	killer_request(t_data_rule *request);
 
 #endif
