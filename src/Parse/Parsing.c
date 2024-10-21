@@ -11,39 +11,6 @@ void add_word(t_split *word, char *command, int word_len)
 	word->word[word_len + 1] = '\0';
 }
 
-static int	syntax_check(t_split *split, int word, t_erreur *err)
-{
-	int i;
-	int sw;
-	char sep;
-
-	i = 0;
-	while (i < word)
-	{
-		
-		sep = split[i].word[0];
-		if (sep == '|' || sep == ';' || sep == '<' || sep == '>')
-		{
-			if ((split[i].word[1] == sep && i == 0) || (split[i].word[1] == sep && split[i].word[2] == sep))
-			{
-				err->error_code = D_SYNTAX;
-				err->c = sep;
-				return (-1);
-			}
-			if (sw || (i == 0 && (sep == '|' || sep == ';')))
-			{
-				err->c = sep;
-				return (-1);
-			}
-			sw = 1;
-		}
-		else
-			sw = 0;
-		i++;
-	}
-	return (0);
-}
-
 static int	fill_info(char *command, int word, t_split *split)
 {
 	int		k;
