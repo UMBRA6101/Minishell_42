@@ -20,9 +20,7 @@ DIRLIBFT = ./lib/libft
 ### SRC ###
 SRCDIR = src/
 SRC =		main.c \
-<<<<<<< HEAD
 			error.c \
-=======
 			execute.c \
 			builtins/builtins.c \
 			pipex_bonus/pipex_bonus.c \
@@ -36,18 +34,14 @@ SRC =		main.c \
 			builtins/export.c \
 			builtins/pwd.c \
 			builtins/unset.c \
->>>>>>> origin/raphaelmain
 			Parse/count.c \
 			Parse/find_name_later.c \
 			Parse/Parsing.c \
 			Parse/parsing_tree.c \
 			Parse/parsing_tree_tool.c \
 			Parse/set_value.c \
-<<<<<<< HEAD
 			Parse/checker_syntax.c \
 			Parse/free.c \
-=======
->>>>>>> origin/raphaelmain
 
 SRCS = $(addprefix $(SRCDIR), $(SRC))
 
@@ -58,7 +52,6 @@ OBJ = $(SRC:.c=.o)
 OBJS = $(addprefix $(OBJDIR), $(OBJ))
 
 ### COMPILE ###
-<<<<<<< HEAD
 CC = cc
 CCFLAG = -Wextra -Wall -g3
 INCFLAG = -I$(DIRINC)
@@ -67,26 +60,11 @@ PIPEXDIR = pipex/
 
 all:$(NAME)
 	@echo "$(tput bold)$(GREEN)$@ is compile$(END)";
-=======
-CC = gcc -no-pie
-CCFLAG = -g3
-INCFLAG = -I$(DIRINC)
-LIBFTDIR = ./lib/libft/
-PIPEXLIB = ./pipex_bonus/
-PIPEXDIR = pipex/
-
-all:$(NAME)
-	@echo "$(tput bold)$(GREEN)$ All is compiled$(END)"
->>>>>>> origin/raphaelmain
 
 libft:
 	@if [ ! -f "libft.a" ]; then \
 		make -C $(LIBFTDIR) all ;\
-<<<<<<< HEAD
 		cp $(LIBFTDIR)libft.a ./; \
-=======
-		cp $(LIBFTDIR)libft.a ./;\
->>>>>>> origin/raphaelmain
 	fi;
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
@@ -109,7 +87,4 @@ fclean: clean
 
 re: fclean all
 	@make -C $(LIBFTDIR) fclean
-<<<<<<< HEAD
-=======
 	@echo $(NAME) is recompiled
->>>>>>> origin/raphaelmain
