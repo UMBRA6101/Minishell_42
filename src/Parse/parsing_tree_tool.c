@@ -17,6 +17,8 @@ int	check_rdir(char *buff, int len)
 {
 	if (ft_strncmp(buff, ">", len) == 0)
 		return (RDIR);
+	if (ft_strncmp(buff, "<", len) == 0)
+		return (INPUT);
 	if (ft_strncmp(buff, ">>", len) == 0) // remplacer par une boucle comme ca si c4est plus de 2 error
 		return (D_RDIR);
 	if (ft_strncmp(buff, "|", len) == 0)
@@ -59,7 +61,7 @@ int r_node(t_split *split, int nb_node)
 	node_type = check_rdir(split->word, split->len_word);
 	nb_node++;
 	if (node_type == OTHER)
-		r_node(split, nb_node);
+		return (r_node(split, nb_node));
 	else if (node_type == RDIR)
 		return (r_node(split, nb_node));
 }

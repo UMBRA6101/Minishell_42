@@ -9,6 +9,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include "libft.h"
+# include "parsing_error.h"
 
 typedef struct	s_token
 {
@@ -40,8 +41,10 @@ int request_count(t_split *split, int count_word);
 struct s_data_rule	*parsing_tree(t_split *split, const int count_word);
 int r_node(t_split *split, int i);
 int	check_rdir(char *buff, int len);
+int	syntax_check(t_split *split, const int nb_word, struct s_erreur *err);
+void	killer_request(struct s_data_rule **request);
 
 enum {RESET, SPACES, OPER, QUOTE, D_QUOTE};
-enum {VARIABLE, RDIR, D_RDIR, N_OPER, PIPE, OTHER};
+enum {VARIABLE, INPUT, RDIR, D_RDIR, N_OPER, PIPE, OTHER};
 
 #endif //MINISHELL_42_LEXING_H

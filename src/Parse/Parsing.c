@@ -11,33 +11,6 @@ void add_word(t_split *word, char *command, int word_len)
 	word->word[word_len + 1] = '\0';
 }
 
-static int	syntax_check(t_split *split, int word, t_erreur *err)
-{
-	int i;
-	int sw;
-	char sep;
-
-	i = 0;
-	while (i < word)
-	{
-		
-		sep = split[i].word[0];
-		if (sep == '|' || sep == ';' || sep == '<' || sep == '>')
-		{
-			if (sw || (i == 0 && (sep == '|' || sep == ';')))
-			{
-				err->c = sep;
-				return (-1);
-			}
-			sw = 1;
-		}
-		else
-			sw = 0;
-		i++;
-	}
-	return (0);
-}
-
 static int	fill_info(char *command, int word, t_split *split)
 {
 	int		k;
@@ -52,15 +25,12 @@ static int	fill_info(char *command, int word, t_split *split)
 
 		split[k].len_word = len_of_word(command, i);
 		split[k].word = ft_calloc(sizeof(char), (split[k].len_word + 2));
+		if (!(split[k].word))
+			return (-1);
 		add_word(&split[k], command + i , split[k].len_word);
 		i = split[k].len_word + i;
 		k++;
-		printf("k : %d\n", k);
 	}
-/*	printf("word : %d\n", word);
-	printf("%s\n", split[k - 1].word);*/
-	if (check_rdir(split[k - 1].word, split[k - 1].len_word) == 1)
-		return (-1);
 	return (0);
 }
 
@@ -86,5 +56,6 @@ t_data_rule	*parsing(char *command, t_erreur *err)
 	if (syntax_check(split, word_count, err))
 		return (NULL);
 	request = parsing_tree(split, word_count);
+	free(split);
 	return (request);
 }

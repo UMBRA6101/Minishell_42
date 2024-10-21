@@ -21,7 +21,7 @@ static int	add_arg_request(t_data_rule *request, t_split  *split, int nb_node);
 
 static int add_pipe(t_data_rule *request, t_split *split, int count_word)
 {
-	if (count_word <= 0)
+	if (count_word <= 0 || !split)
 		return (0);
 	if (ft_strncmp(split->word, "|", split->len_word) == 0)
 	{
@@ -36,13 +36,14 @@ static int	converte_rdir(t_data_rule *request, t_split *split)
 	int rdir;
 
 	rdir = check_rdir(split->word, split->len_word);
-	printf("%d\n", rdir);
 	if (rdir != OTHER && rdir != PIPE)
 	{
 		if (rdir == D_RDIR)
 			request->oper = 'r';
 		if (rdir == RDIR)
 			request->oper = '>';
+		if (rdir == INPUT)
+			request->oper = '<';
 		return (1);
 	}
 	return (0);
@@ -83,22 +84,17 @@ static int fill_request(t_split *split, t_data_rule *request, int count_word, in
 		printf("surment une erreur mais la quel aucune idee\n");
 		return (-1);
 	}
-	printf("nb_node fill request : %d\n", nb_node);
 	request[k].arguments = ft_calloc(sizeof(char *), nb_node + 1);
 	add_arg_request(&request[k], split, nb_node);
 	request[k].pipe = false;
-	if (converte_rdir(request, &split[nb_node]))
+	if (converte_rdir(request, &split[nb_node]) && count_word > nb_node)
 	{
-		printf("yes\n");
 		nb_node++;
-		if (add_out_request(&request[k], split + nb_node)) {
-			printf("yes again\n");
+		if (add_out_request(&request[k], split + nb_node) && nb_node < count_word)
 			nb_node++;
-		}
 	}
-	if (add_pipe(&request[k], split + nb_node, count_word)) {
+	if (add_pipe(&request[k], split + nb_node, count_word) && nb_node < count_word)
 		nb_node++;
-	}
 	count_word -= nb_node;
 	return (fill_request(split + nb_node, request, count_word, k + 1));
 }
@@ -112,26 +108,28 @@ t_data_rule		*parsing_tree(t_split *split, const int count_word)
 	out = ft_calloc(sizeof(t_data_rule), nb_command(split, count_word));
 	if (!out)
 		return (NULL);
-	if (fill_request(split, &out[k], count_word, 0) == -1)
-	{
-		free (out);
+	out->nb_command = nb_command(split, count_word);
+	if (fill_request(split, &out[k], count_word, 0) == -1) {
+		free(out);
 		return NULL;
 	}
-	while (k < nb_command(split, count_word))
+	if (0)
 	{
-		i = 0;
-		printf("-----------------\n");
-		printf("k : %d\n", k);
-		while (out[k].arguments[i])
+		while (k < nb_command(split, count_word))
 		{
-			printf("arg[%d] : %s\n", i, out[k].arguments[i]);
-			i++;
+			i = 0;
+			printf("-----------------\n");
+			printf("count_word : %d\n", count_word);
+			while (out[k].arguments[i]) {
+				printf("arg[%d] : %s\n", i, out[k].arguments[i]);
+				i++;
+			}
+			printf("out : %s\n", out[k].out);
+			printf("oper : %c\n", out[k].oper);
+			printf("pipe : %B\n", out[k].pipe);
+			k++;
 		}
-		printf("out : %s\n", out[k].out);
-		printf("oper : %c\n", out[k].oper);
-		printf("pipe : %B\n", out[k].pipe);
-		k++;
+		printf("-----------------\n");
 	}
-	printf("-----------------\n");
 	return (out);
 }

@@ -27,7 +27,12 @@ SRC =		main.c \
 			Parse/parsing_tree.c \
 			Parse/parsing_tree_tool.c \
 			Parse/set_value.c \
+<<<<<<< HEAD
 			Parse/free.c
+=======
+			Parse/checker_syntax.c \
+			Parse/free.c \
+>>>>>>> umbra
 
 SRCS = $(addprefix $(SRCDIR), $(SRC))
 
@@ -45,11 +50,7 @@ LIBFTDIR = ./lib/libft/
 PIPEXDIR = pipex/
 
 all:$(NAME)
-	@if [ -f "$(NAME)" ]; then \
-		echo "nothing to compile"; \
-	else \
-		echo "$(tput bold)$(GREEN)$@ is compile$(END)"; \
-	fi;
+	@echo "$(tput bold)$(GREEN)$@ is compile$(END)";
 
 libft:
 	@if [ ! -f "libft.a" ]; then \
@@ -77,4 +78,3 @@ fclean: clean
 
 re: fclean all
 	@make -C $(LIBFTDIR) fclean
-	@echo $(NAME) is recompiled

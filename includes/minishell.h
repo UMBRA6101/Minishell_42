@@ -27,11 +27,12 @@ typedef struct 	s_data_rule
 	char	**env;
 	const char	*command;
 	const char *options;
-	const char 		**arguments; // il faut free
+	char 		**arguments; // il faut free
 	char	*dir_path;
 	char	*out; // il faut free
 	char 	oper; // r = >>
 	bool 	pipe;
+	int 	nb_command;
 }				t_data_rule;
 
 // Main.c
