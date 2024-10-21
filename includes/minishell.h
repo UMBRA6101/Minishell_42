@@ -22,12 +22,15 @@
 # define DEBUG 0
 #endif
 
+// extern int genvu;
+
 typedef struct 	s_data_rule
 {
-	char	**env;
-	const char	*command;
-	const char *options;
-	char 		**arguments; // il faut free
+	// char	**envv;
+	char	*command;
+	char *options;
+	const char 		**arguments;
+	int 	nbr_args;
 	char	*dir_path;
 	char	*out; // il faut free
 	char 	oper; // r = >>
@@ -37,14 +40,41 @@ typedef struct 	s_data_rule
 
 // Main.c
 t_data_rule		*parsing(char *command, t_erreur *err); // verification du token et decoupage dans la structure
+char			*lexing(char *brut_rules); // transformation de commande en token
+// BUILTINS.C ------------------------------------------------------------------------------
+void exec_builtins(t_data_rule struc, char **genv);
+//Echo
+void cd(char *command, const char **arguments, char **envp);
 
-// Builtins
-void cd(char *command, char **arguments, char **envp); // recopie cd // good
-void echo(char *command, char *option, char **arguments); // recopie echo 2 ou + arg // good
-void display_env(char **envp); // Affiche l env fonction : env
-//static char  **copy_env(char **envp); // copy l env
-void export(char *command, char **arguments, char **env); // ajouter variable a l env 2 ou+ 
-void pwd(char *command, char **arguments, char **envp); // recopie pwd
-void	unset_var(char **env, const char *var);  // retirer variable de l env
+//Echo
+void echo(char *command, char *option, const char **arguments);
+void display_echo(char *command, char *option, const char **arguments, char *result);
+
+//Env
+void display_env(char **envp); // env
+
+//Export
+char **export(char *command, const char **arguments, char **env);
+char **cmd_export(char *command, const char *arguments, char **env); // ajouter variable a l env 2 ou+ 
+char	**allocate_new_env(char **env);
+int		copy_env(char **env, char **new_env);
+
+//Pwd
+void pwd(char *command, char **envv); // recopie pwd
+
+//Unset
+char **unset(char *command, const char **arguments, char **envp);
+char **cmd_unset(char **env, const char *var);  // retirer variable de l env
+
+//TOOLS.C ------------------------------------------------------------------------------------------
+
+void swap(char **a, char **b);
+int	find_in_envv(char **envv, char *var);
+void	bubble_sort(char **envp);
+void display_x_variables(char **result);
+int compare_strings(const char *str1, const char *str2);
+
+//ERROR.C ------------------------------------------------------------------------------------------
+void free_env(char **env);
 
 #endif

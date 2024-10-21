@@ -6,58 +6,57 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 17:47:30 by raphox            #+#    #+#             */
-/*   Updated: 2024/09/24 16:18:15 by raphox           ###   ########.fr       */
+/*   Updated: 2024/10/14 15:05:41 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // envp deja copier auparavant !!!!!! sinon ne marche pas !!!!!!!
 
 #include "../includes/minishell.h"
-#include "../includes/Lexing.h"
+// #include "../includes/Lexing.h"
 #include "../includes/libft.h"
 
-
-void display_env(char **envp)
+char **unset(char *command, const char **arguments, char **envp)
 {
 	int i;
 	i = 0;
-	while (envp[i])
+
+	if (arguments == NULL)
 	{
-		printf("%s\n", envp[i]);
-		i++;
+		return (envp);
 	}
+	
+	else
+		while (arguments[i])
+		{
+			cmd_unset(envp, arguments[i++]);
+		}
+	return (envp);
+		
 }
 
-void	unset_var(char **env, const char *var)
+char	**cmd_unset(char **env, const char *var)
 {
 	int i;
 	i = 0;
-	
+
 	if (var == NULL)
-		return ;
+		return (NULL);
+	
 	while (env[i] != NULL)
 	{
-		if (strncmp(env[i], var, strlen(var)) == 0 && env[i][strlen(var)] == '=')
+		if (ft_strncmp(env[i], var, strlen(var)) == 0 && env[i][ft_strlen(var)] == '=')
 		{
-			// free(env[i]); // supp la variable en faisant free
 			while (env[i] != NULL) 			// ca decale les autres variables
 			{
 				env[i] = env[i + 1];
 				i++;
 			}
-			display_env(env);
-			// printf("\n\n\nbine jouer mon gars \n\n\n");
-			return ;
+			// free(env[i]); // supp la variable en faisant free
+			return (env);
 		}
 		i++;
 	}
-	return ;
-}
-
-static char  **copy_env(char **envp)
-{
-	static char **env;
-	env = envp;
 	return (env);
 }
 
