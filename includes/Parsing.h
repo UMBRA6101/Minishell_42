@@ -19,6 +19,12 @@ typedef struct	s_token
 	int 	len_word;
 }				t_token;
 
+typedef struct	s_variable
+{
+	char	*name;
+	char	*value;
+}				t_variable;
+
 typedef struct	s_split
 {
 	char 	sep;
@@ -42,6 +48,8 @@ struct s_data_rule	*parsing_tree(t_split *split, const int count_word);
 int r_node(t_split *split, int i);
 int	check_rdir(char *buff, int len);
 int	syntax_check(t_split *split, const int nb_word, struct s_erreur *err);
+int find_var(char *command);
+int add_var(t_variable *var, char *command, int len);
 void	killer_request(struct s_data_rule **request);
 
 enum {RESET, SPACES, OPER, QUOTE, D_QUOTE};
