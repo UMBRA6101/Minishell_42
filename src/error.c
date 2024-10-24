@@ -6,7 +6,6 @@
 
 void	print_parsing_error(t_erreur err)
 {
-	printf("error\n");
 	if (err.error_code == -1)
 		return ;
 	if (err.error_code == STX_ALLOC)
@@ -15,7 +14,7 @@ void	print_parsing_error(t_erreur err)
 		return ;
 	}
 	ft_putstr_fd("bash: syntax error near\nunexpected token `", ERROR_FD);
-	if (err.error_code == STX_QUOTE)
+	if (err.error_code == STX_NL)
 		ft_putstr_fd("newline", ERROR_FD);
 	else if (err.error_code == SYNTAX)
 		ft_putchar_fd(err.c, ERROR_FD);

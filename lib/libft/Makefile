@@ -65,6 +65,8 @@ SRC =	ft_atoi.c \
            ft_toupper.c \
            get_next_line.c \
            get_next_line_utils.c \
+           ft_strtok.c \
+           ft_strcspn.c \
 
 SRCS = $(addprefix $(SRCDIR), $(SRC))
 # Tout les .c qu'on souhaite compiler en .o

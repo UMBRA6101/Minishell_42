@@ -41,6 +41,7 @@ SRC =		main.c \
 			Parse/parsing_tree_tool.c \
 			Parse/set_value.c \
 			Parse/checker_syntax.c \
+			Parse/variable.c \
 			Parse/free.c \
 
 SRCS = $(addprefix $(SRCDIR), $(SRC))
