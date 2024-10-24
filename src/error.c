@@ -6,7 +6,6 @@
 
 void	print_parsing_error(t_erreur err)
 {
-	printf("error\n");
 	if (err.error_code == -1)
 		return ;
 	if (err.error_code == STX_ALLOC)

@@ -113,7 +113,7 @@ t_data_rule		*parsing_tree(t_split *split, const int count_word)
 		free(out);
 		return NULL;
 	}
-	if (1)
+	if (0)
 	{
 		while (k < nb_command(split, count_word))
 		{

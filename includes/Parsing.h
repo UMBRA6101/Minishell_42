@@ -50,6 +50,7 @@ int	check_rdir(char *buff, int len);
 int	syntax_check(t_split *split, const int nb_word, struct s_erreur *err);
 int find_var(char *command);
 int add_var(t_variable *var, char *command, int len);
+int fill_var(t_split *split, char *command, t_variable *var);
 void	killer_request(struct s_data_rule **request);
 
 enum {RESET, SPACES, OPER, QUOTE, D_QUOTE};
