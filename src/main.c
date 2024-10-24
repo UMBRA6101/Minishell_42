@@ -2,7 +2,6 @@
 
 int main(int argc, char **argv, char **envp)
 {
-<<<<<<< HEAD
 	char	*rule;
 	t_erreur	err;
 	t_data_rule *request;
@@ -23,7 +22,7 @@ int main(int argc, char **argv, char **envp)
 	}
 	return 0;
 }
-=======
+/*=======
     t_data_rule first;
     const char *tab1[4] = {"NULL", "NULL", "NULL", NULL};
     first.command = "ls";
@@ -57,7 +56,7 @@ int main(int argc, char **argv, char **envp)
     t_data_rule data[3] = {first, second, third};
 	pipex
 
-}
+}*/
 
 
 
@@ -124,4 +123,3 @@ int main(int argc, char **argv, char **envp)
 	// }
 	// return (0);
 // }
->>>>>>> origin/raphaelmain
