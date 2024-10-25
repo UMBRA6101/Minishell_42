@@ -23,7 +23,6 @@ int add_var(t_variable *var, char *command, int len)
 
 	i = 0;
 	k = 0;
-	printf("add_var\n");
 	while(i < len && command[i] != '=')
 		i++;
 	if (!command[i])
@@ -34,7 +33,7 @@ int add_var(t_variable *var, char *command, int len)
 	k = i;
 	while (i <= len && command[i] != ' ')
 		i++;
-	var->value = ft_calloc(sizeof(char), i - k + 1);
+	var->value = ft_calloc(sizeof(char), i - k + 2);
 	ft_strlcpy(var->value, command + k, (i - k) + 2);
 	return (1);
 }
@@ -57,6 +56,6 @@ int fill_var(t_split *split, char *command, t_variable *var)
 	split->word = ft_calloc(sizeof(char), ft_strlen(var->value));
 	if (!split->word)
 		return (-1);
-	ft_strlcpy(split->word, var->value, ft_strlen(var->value) + 1);
+	ft_strlcpy(split->word, var->value, ft_strlen(var->value));
 	return (0);
 }

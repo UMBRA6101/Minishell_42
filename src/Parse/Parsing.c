@@ -23,11 +23,14 @@ int	ft_strnchr(char *str, char to_find, const int len)
 
 void add_word(t_split *word, char *command, const int word_len)
 {
-	word->word = ft_calloc(sizeof(char), word_len);
+	/*printf("------------\n");
+	printf("%d\n", word_len);
+	printf("%s\n", command);
+	printf("------------\n");*/
+	word->word = ft_calloc(sizeof(char), word_len + 1);
 	if (!word->word)
 		return ;
 	ft_strlcpy(word->word, command, word_len + 1);
-	word->word[word_len + 1] = '\0';
 }
 
 static int	fill_info(char *command, int word, t_split *split, t_erreur *err)
@@ -65,12 +68,12 @@ static int	fill_info(char *command, int word, t_split *split, t_erreur *err)
 		}
 		itr_word++;
 	}
-	i = 0;
+/*	i = 0;
 	while (i < word - itr_var)
 	{
 		printf("word : %s\n",split[i].word);
 		i++;
-	}
+	}*/
 	return (0);
 }
 
@@ -97,6 +100,7 @@ t_data_rule	*parsing(char *command, t_erreur *err)
 	err->error_code = STX_NL;
 	if (syntax_check(split, word_count - nb_var, err))
 		return (NULL);
+	printf("go tree\n");
 	request = parsing_tree(split, word_count - nb_var);
 	free(split);
 	return (request);

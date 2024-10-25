@@ -19,6 +19,13 @@
 
 static int	add_arg_request(t_data_rule *request, t_split  *split, int nb_node);
 
+static int add_command(t_data_rule *request, t_split *split)
+{
+	if (!split)
+		return (-1);
+	request->command = split[0].word;
+}
+
 static int add_pipe(t_data_rule *request, t_split *split, int count_word)
 {
 	if (count_word <= 0 || !split)
@@ -80,12 +87,14 @@ static int fill_request(t_split *split, t_data_rule *request, int count_word, in
 	if (count_word <= 0)
 		return (0);
 	nb_node = r_node(split, 0);
-	if (nb_node == -1) {
-		printf("surment une erreur mais la quel aucune idee\n");
+	if (nb_node == -1)
 		return (-1);
+	add_command(&request[k], split);
+	if (nb_node > 1)
+	{
+		request[k].arguments = ft_calloc(sizeof(char *), nb_node + 1);
+		add_arg_request(&request[k], split + 1, nb_node);
 	}
-	request[k].arguments = ft_calloc(sizeof(char *), nb_node + 1);
-	add_arg_request(&request[k], split, nb_node);
 	request[k].pipe = false;
 	if (converte_rdir(request, &split[nb_node]) && count_word > nb_node)
 	{
@@ -120,7 +129,9 @@ t_data_rule		*parsing_tree(t_split *split, const int count_word)
 			i = 0;
 			printf("-----------------\n");
 			printf("count_word : %d\n", count_word);
-			while (out[k].arguments[i]) {
+			printf("command : %s\n", out[k].command);
+			while (out[k].arguments[i])
+			{
 				printf("arg[%d] : %s\n", i, out[k].arguments[i]);
 				i++;
 			}

@@ -9,7 +9,7 @@ void	killer_request(t_data_rule **request)
 	k = 0;
 	if (!(*request))
 		return ;
-	while (k < request[k]->nb_command)
+	/*while (k < request[k]->nb_command)
 	{
 		i = 0;
 		while (request[k]->arguments[i] != NULL)
@@ -19,6 +19,6 @@ void	killer_request(t_data_rule **request)
 		}
 		free(request[k]->arguments);
 		k++;
-	}
+	}*/
 	free(*request);
 }
