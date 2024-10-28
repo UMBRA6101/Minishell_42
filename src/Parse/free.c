@@ -7,18 +7,21 @@ void	killer_request(t_data_rule **request)
 	int k;
 
 	k = 0;
-	if (!(*request))
+	printf("nb_word : %d\n", request[k]->nbr_args);
+	if (!(request[k]))
 		return ;
-	/*while (k < request[k]->nb_command)
+	if (request[k]->arguments)
 	{
-		i = 0;
-		while (request[k]->arguments[i] != NULL)
-		{
-			free(request[k]->arguments[i]);
-			i++;
+		while (k < request[k]->nb_command) {
+			i = 0;
+			free(request[k]->command);
+			while (i < request[k]->nbr_args) {
+				free(request[k]->arguments[i]);
+				i++;
+			}
+			free(request[k]->arguments);
+			k++;
 		}
-		free(request[k]->arguments);
-		k++;
-	}*/
+	}
 	free(*request);
 }

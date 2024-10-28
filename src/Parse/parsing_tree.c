@@ -24,6 +24,7 @@ static int add_command(t_data_rule *request, t_split *split)
 	if (!split)
 		return (-1);
 	request->command = split[0].word;
+	return (0);
 }
 
 static int add_pipe(t_data_rule *request, t_split *split, int count_word)
@@ -79,9 +80,18 @@ static int add_arg_request(t_data_rule *request, t_split  *split, int nb_node)
 	return (1);
 }
 
+static int add_input_request(t_data_rule *request, t_split *split)
+{
+	if (!split)
+		return (0);
+	request->input = split->word;
+	return (1);
+}
+
 static int fill_request(t_split *split, t_data_rule *request, int count_word, int k)
 {
 	int nb_node;
+
 
 	nb_node = 0;
 	if (count_word <= 0)
@@ -96,11 +106,15 @@ static int fill_request(t_split *split, t_data_rule *request, int count_word, in
 		add_arg_request(&request[k], split + 1, nb_node);
 	}
 	request[k].pipe = false;
-	if (converte_rdir(request, &split[nb_node]) && count_word > nb_node)
+	request->oper = converte_rdir(&request[k], &split[nb_node]);
+	if (count_word > nb_node)
 	{
 		nb_node++;
-		if (add_out_request(&request[k], split + nb_node) && nb_node < count_word)
-			nb_node++;
+		if (request->oper == INPUT && nb_node < count_word)
+			add_input_request(&request[k], split + nb_node);
+		if ((request->oper == RDIR || request->oper == D_RDIR) && nb_node < count_word)
+			add_out_request(&request[k], split + nb_node);
+		nb_node++;
 	}
 	if (add_pipe(&request[k], split + nb_node, count_word) && nb_node < count_word)
 		nb_node++;
@@ -118,24 +132,27 @@ t_data_rule		*parsing_tree(t_split *split, const int count_word)
 	if (!out)
 		return (NULL);
 	out->nb_command = nb_command(split, count_word);
+	out->nbr_args = count_word - 1;
 	if (fill_request(split, &out[k], count_word, 0) == -1) {
 		free(out);
 		return NULL;
 	}
 	if (0)
 	{
-		while (k < nb_command(split, count_word))
-		{
+		while (k < nb_command(split, count_word)) {
 			i = 0;
 			printf("-----------------\n");
 			printf("count_word : %d\n", count_word);
 			printf("command : %s\n", out[k].command);
-			while (out[k].arguments[i])
+			if (out[k].arguments)
 			{
-				printf("arg[%d] : %s\n", i, out[k].arguments[i]);
-				i++;
+				while (out[k].arguments[i]) {
+					printf("arg[%d] : %s\n", i, out[k].arguments[i]);
+					i++;
+				}
 			}
 			printf("out : %s\n", out[k].out);
+			printf("input : %s\n", out[k].input);
 			printf("oper : %c\n", out[k].oper);
 			printf("pipe : %B\n", out[k].pipe);
 			k++;

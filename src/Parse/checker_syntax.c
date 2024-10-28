@@ -13,7 +13,7 @@ static int	occ_quote(char *buff)
 
 static int	quote_check(char *word, t_erreur *err, int i, const int nb_word)
 {
-	if ((ft_strlen(word) <= 2) || (((i + 1) == nb_word) && i != 0))
+	if ((ft_strlen(word) <= 2) && (((i + 1) == nb_word) || i == 0))
 	{
 		if ((i == 0) || (word[0] == word[1]))
 			err->error_code = SYNTAX;
@@ -27,6 +27,47 @@ static int	quote_check(char *word, t_erreur *err, int i, const int nb_word)
 		err->error_code = D_SYNTAX;
 		return (-1);
 	}
+	printf("yes\n");
+	return (0);
+}
+
+int	empty_braquet(char *str)
+{
+	int i;
+
+	i = 1;
+	if (str[0] != '(')
+		return (0);
+	while(str[i] && ft_isspace(str[i]))
+		i++;
+	if (str[i] == ')')
+		return (1);
+	return (0);
+}
+
+int braquet_check(char *str, t_erreur *err)
+{
+	int b_left;
+	int b_right;
+	int i;
+
+	b_left = 0;
+	b_right = 0;
+	i = 0;
+	err->error_code = SYNTAX;
+	err->c = ')';
+	while (str[i])
+	{
+		if (str[i] == '(' && empty_braquet(str + i))
+			return (-1);
+		if (str[i] == '(')
+			b_left++;
+		if (str[i] == ')')
+			b_right++;
+		i++;
+	}
+	if (b_left != b_right)
+		return (-1);
 	return (0);
 }
 
@@ -43,11 +84,14 @@ int	syntax_check(t_split *split, const int nb_word, t_erreur *err)
 		sep = split[i].word[0];
 		if (sep == '|' || sep == ';' || sep == '<' || sep == '>')
 		{
-			if (sw || ((sep == '|' || sep == ';') && i == 0))
+			if (sw || ((sep == '|' || sep == ';')))
 			{
 				err->c = sep;
 				err->error_code = SYNTAX;
-				return (-1);
+				if (occurence(split[i].word) >= 2)
+					err->error_code = D_SYNTAX;
+				if (i == 0 || (nb_word - 1) == i)
+					return (-1);
 			}
 			else if (sep == '>' || sep == '<')
 			{

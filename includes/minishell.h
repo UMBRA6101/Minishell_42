@@ -29,10 +29,11 @@ typedef struct 	s_data_rule
 	// char	**envv;
 	char	*command;
 	char *options;
-	const char 		**arguments;
+	char 		**arguments;
 	int 	nbr_args;
 	char	*dir_path;
 	char	*out; // il faut free
+	char	*input;
 	char 	oper; // r = >>
 	bool 	pipe;
 	int 	nb_command;

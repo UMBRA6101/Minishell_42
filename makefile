@@ -35,12 +35,13 @@ SRC =		main.c \
 			builtins/pwd.c \
 			builtins/unset.c \
 			Parse/count.c \
+			Parse/checker_syntax.c \
+            Parse/checker_syntax_tool.c \
 			Parse/find_name_later.c \
 			Parse/Parsing.c \
 			Parse/parsing_tree.c \
 			Parse/parsing_tree_tool.c \
 			Parse/set_value.c \
-			Parse/checker_syntax.c \
 			Parse/variable.c \
 			Parse/free.c \
 

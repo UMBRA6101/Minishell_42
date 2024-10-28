@@ -33,7 +33,7 @@ void add_word(t_split *word, char *command, const int word_len)
 	ft_strlcpy(word->word, command, word_len + 1);
 }
 
-static int	fill_info(char *command, int word, t_split *split, t_erreur *err)
+static int	fill_info(char *command, int word, t_split *split)
 {
 	int		k;
 	int 	i;
@@ -91,16 +91,15 @@ t_data_rule	*parsing(char *command, t_erreur *err)
 	word_count = nb_words(command);
 	nb_var = find_var(command);
 	err->error_code = STX_NL;
-	if (word_count < 0)
+	if (word_count < 0 || braquet_check(command, err) == -1)
 		return (NULL);
 	err->error_code = STX_ALLOC;
 	split = ft_calloc(sizeof(t_split), ((word_count - nb_var) + 1));
-	if (!split || (fill_info(command, word_count, split, err) < 0))
+	if (!split || (fill_info(command, word_count, split) < 0))
 		return (NULL);
 	err->error_code = STX_NL;
 	if (syntax_check(split, word_count - nb_var, err))
 		return (NULL);
-	printf("go tree\n");
 	request = parsing_tree(split, word_count - nb_var);
 	free(split);
 	return (request);
