@@ -5,6 +5,8 @@ int main(int argc, char **argv, char **envp)
 	char	*rule;
 	t_erreur	err;
 	t_data_rule *request;
+	(void)argc;
+	(void)argv;
 
 	while (1)
 	{
@@ -12,6 +14,7 @@ int main(int argc, char **argv, char **envp)
 		rule = NULL;
 		rule = readline(PROMPT);
 		if (rule != NULL) {
+			add_history(rule);
 			request = parsing(rule, &err);
 			if (!request)
 				print_parsing_error(err);
@@ -20,6 +23,7 @@ int main(int argc, char **argv, char **envp)
 			free(rule);
 		}
 	}
+	rl_clear_history();
 	return 0;
 }
 /*=======

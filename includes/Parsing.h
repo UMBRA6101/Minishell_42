@@ -40,7 +40,7 @@ char	*delete_space(char *command);
 int evidence(char *command, t_erreur *err);
 int	ft_isspace(char c);
 int	ft_isend(const char c);
-int fill_var(t_split *split, char *command, t_variable *var);
+int fill_var(t_split *split, char *command, t_variable **var, int nb_var);
 int find_var(char *command);
 int	is_oper(char c);
 int	nb_words(char *command);

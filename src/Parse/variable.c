@@ -38,7 +38,7 @@ int add_var(t_variable *var, char *command, int len)
 	return (1);
 }
 
-int fill_var(t_split *split, char *command, t_variable *var)
+int fill_var(t_split *split, char *command, t_variable **var, int nb_var)
 {
 	int	i;
 	int k;
@@ -49,13 +49,20 @@ int fill_var(t_split *split, char *command, t_variable *var)
 		i++;
 	if (command[i] == '$')
 		i++;
-	while (ft_strncmp(command + i, var[k].name, ft_strlen(var[k].name)) != 0)
+	while (k < nb_var)
+	{
+		if (ft_strncmp(command + i, var[k]->name, ft_strlen(var[k]->name)) == 0)
+			break;
 		k++;
-	if (ft_strncmp(command + i, var[k].name, ft_strlen(var[k].name)) != 0)
+	}
+	if (k == nb_var)
+		return (0);
+	if (ft_strncmp(command + i, var[k]->name, ft_strlen(var[k]->name)) != 0)
 		return (-1);
-	split->word = ft_calloc(sizeof(char), ft_strlen(var->value));
+	split->word = ft_calloc(sizeof(char), ft_strlen(var[k]->value));
 	if (!split->word)
 		return (-1);
-	ft_strlcpy(split->word, var->value, ft_strlen(var->value));
+	ft_strlcpy(split->word, var[k]->value, ft_strlen(var[k]->value));
+	end:
 	return (0);
 }

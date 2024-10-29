@@ -7,7 +7,6 @@ void	killer_request(t_data_rule **request)
 	int k;
 
 	k = 0;
-	printf("nb_word : %d\n", request[k]->nbr_args);
 	if (!(request[k]))
 		return ;
 	if (request[k]->arguments)

@@ -27,7 +27,6 @@ static int	quote_check(char *word, t_erreur *err, int i, const int nb_word)
 		err->error_code = D_SYNTAX;
 		return (-1);
 	}
-	printf("yes\n");
 	return (0);
 }
 

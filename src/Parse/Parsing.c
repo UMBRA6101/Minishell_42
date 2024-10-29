@@ -60,7 +60,7 @@ static int	fill_info(char *command, int word, t_split *split)
 		else
 		{
 			if (ft_strnchr(command + i, '$', split[k].len_word) >= 0)
-				fill_var(&split[k], command + i, var);
+				fill_var(&split[k], command + i, &var, itr_var);
 			else
 				add_word(&split[k], command + i, split[k].len_word);
 			i = split[k].len_word + i;
@@ -68,12 +68,12 @@ static int	fill_info(char *command, int word, t_split *split)
 		}
 		itr_word++;
 	}
-/*	i = 0;
-	while (i < word - itr_var)
+	i = 0;
+	while (i < word - itr_var * 2)
 	{
 		printf("word : %s\n",split[i].word);
 		i++;
-	}*/
+	}
 	return (0);
 }
 
