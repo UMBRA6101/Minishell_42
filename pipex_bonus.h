@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:10:50 by raphox            #+#    #+#             */
-/*   Updated: 2024/10/29 15:00:20 by raphox           ###   ########.fr       */
+/*   Updated: 2024/10/29 15:30:25 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ typedef struct s_data_rule
 
 int pipex(t_data_rule *data, int num_commands, char **envp);
 
-void handle_redirections(t_data_rule data);
 
 void wait_for_children(void);
 void execute(t_data_rule data, char **envp);
@@ -71,6 +70,9 @@ int    copy_arguments_to_cmd(char **cmd, const char **arguments, int *i, int nbr
 void error(int i, char *str);
 void    free_command(char **cmd);
 void wait_for_children(void);
+void handle_heredoc(const char *delimiter);
+void handle_redirection(t_data_rule data);
+
 
 // SPLIT . C ---------------------------------------------------------------------------------------------
 

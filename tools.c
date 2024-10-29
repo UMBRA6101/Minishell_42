@@ -6,12 +6,87 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 15:38:34 by rafaria           #+#    #+#             */
-/*   Updated: 2024/10/25 18:29:54 by raphox           ###   ########.fr       */
+/*   Updated: 2024/10/29 15:30:07 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
+void handle_heredoc(const char *delimiter)
+{
+    char *line;
+    int   pipe_fds[2];
+
+    if (pipe(pipe_fds) == -1)
+    {
+        perror("Erreur lors de la création du pipe");
+        exit(EXIT_FAILURE);
+    }
+    while (1)
+    {
+        line = readline("> ");
+        if (!line)
+        {
+            printf("CTRL D PRESSED \n");
+			exit(1);
+        }
+        if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
+        {
+            free(line);
+            break;
+        }
+        write(pipe_fds[1], line, ft_strlen(line));
+        write(pipe_fds[1], "\n", 1);
+        free(line);
+    }
+    close(pipe_fds[1]);
+    dup2(pipe_fds[0], STDIN_FILENO);
+    close(pipe_fds[0]);
+}
+
+
+void handle_redirection(t_data_rule data)
+{
+    int fd;
+
+    if (ft_strncmp(data.oper, "<", 2) == 0)
+    {
+        fd = open(data.targetfile, O_RDONLY);
+        if (fd == -1)
+        {
+            perror("Erreur entree ");
+            exit(EXIT_FAILURE);
+        }
+        dup2(fd, STDIN_FILENO);
+        close(fd);
+    }
+    else if (ft_strncmp(data.oper, "<<", 3) == 0)
+    {
+        handle_heredoc(data.targetfile);
+    }
+    else if (ft_strncmp(data.oper, ">", 2) == 0)
+    {
+        fd = open(data.targetfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        if (fd == -1)
+        {
+            perror("Erreur entree");
+            exit(EXIT_FAILURE);
+        }
+        dup2(fd, STDOUT_FILENO);
+        close(fd);
+    }
+    else if (ft_strncmp(data.oper, ">>", 3) == 0)
+    {
+        fd = open(data.targetfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+        if (fd == -1)
+        {
+            perror("Erreur ouverture sortie");
+            exit(EXIT_FAILURE);
+        }
+        dup2(fd, STDOUT_FILENO);
+        close(fd);
+    }
+}
 
 void wait_for_children(void)
 {
