@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 15:38:34 by rafaria           #+#    #+#             */
-/*   Updated: 2024/10/24 15:14:01 by raphox           ###   ########.fr       */
+/*   Updated: 2024/10/25 18:29:54 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void wait_for_children(void)
 
     while (wait(&status) > 0)
     {
-        // Waiting for all child processes
+        // attends
     }
 }
 

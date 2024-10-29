@@ -6,7 +6,7 @@
 #    By: raphox <raphox@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 15:01:28 by raphox            #+#    #+#              #
-#    Updated: 2024/10/24 15:12:40 by raphox           ###   ########.fr        #
+#    Updated: 2024/10/29 14:58:24 by raphox           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ OBJS			=	${SRCS:.c=.o}
 
 CC			=	cc
 
-# CFLAGS		=	-Wall -Werror -Wextra -g3
+CFLAGS		=  -g3 -lreadline
 
 LIBFT_DIR	=	libft
 
@@ -28,7 +28,7 @@ all			:	${NAME}
 
 $(NAME): $(OBJS) $(LIBFT_LIB)
 	make -C ${LIBFT_DIR}
-	$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) -lft -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) -lft -lreadline -o $(NAME)
 
 clean			:
 	rm -rf ${OBJS}

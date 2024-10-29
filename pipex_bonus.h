@@ -6,41 +6,37 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:10:50 by raphox            #+#    #+#             */
-/*   Updated: 2024/10/24 15:26:04 by raphox           ###   ########.fr       */
+/*   Updated: 2024/10/29 15:00:20 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_BONUS_H
 # define PIPEX_BONUS_H
 
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
 # include "libft/libft.h"
-# include <fcntl.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <sys/wait.h>
-# include <unistd.h>
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <unistd.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <sys/errno.h>
-# include <sys/wait.h>
+# include <fcntl.h>
+# include <string.h>
 # include "stdbool.h"
+# include <sys/wait.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <sys/errno.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 
 typedef struct s_data_rule
 {
     char *command;
     char *options;
     const char **arguments;
+	char *targetfile;
     int nbr_args;
     char *dir_path;
-    char *out;
+	char *oper;
     bool pipe;
 
 } t_data_rule;
@@ -48,13 +44,16 @@ typedef struct s_data_rule
 
 // PIPEX BONUS . C ---------------------------------------------------------------------------------------------
 
+int pipex(t_data_rule *data, int num_commands, char **envp);
+
+void handle_redirections(t_data_rule data);
+
 void wait_for_children(void);
 void execute(t_data_rule data, char **envp);
 void free_command(char **cmd);
 void first_process(t_data_rule data, char **env, int *input_fd, int *p_fd, int is_last_cmd);
 void second_process(int *input_fd, int *p_fd, int is_last_cmd);
 void do_pipe(t_data_rule data, char **env, int *input_fd, int is_last_cmd);
-int pipex(t_data_rule *data, int num_commands, char **envp);
 void exit_with_error(const char *msg);
 
 
