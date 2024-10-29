@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: umbra <umbra@student.1337.ma>              +#+  +:+       +#+        */
+/*   By: thodos-s <thodos-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:04:30 by umbra             #+#    #+#             */
-/*   Updated: 2024/10/07 15:05:34 by umbra            ###   ########.fr       */
+/*   Updated: 2024/10/29 15:50:04 by thodos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ static int add_input_request(t_data_rule *request, t_split *split)
 	if (!split)
 		return (0);
 	request->input = split->word;
+	printf("add_ : %s\n", split->word);
 	return (1);
 }
 
@@ -100,6 +101,7 @@ static int fill_request(t_split *split, t_data_rule *request, int count_word, in
 	if (nb_node == -1)
 		return (-1);
 	add_command(&request[k], split);
+	request[k].nbr_args = nb_node;
 	if (nb_node > 1)
 	{
 		request[k].arguments = ft_calloc(sizeof(char *), nb_node + 1);
@@ -107,11 +109,12 @@ static int fill_request(t_split *split, t_data_rule *request, int count_word, in
 	}
 	request[k].pipe = false;
 	request->oper = converte_rdir(&request[k], &split[nb_node]);
+	printf("oper : %c\n", request->oper);
 	if (count_word > nb_node)
 	{
 		nb_node++;
 		if (request->oper == INPUT && nb_node < count_word)
-			add_input_request(&request[k], split + nb_node);
+			add_input_request(&request[k], split + (nb_node - 2));
 		if ((request->oper == RDIR || request->oper == D_RDIR) && nb_node < count_word)
 			add_out_request(&request[k], split + nb_node);
 		nb_node++;
@@ -132,7 +135,6 @@ t_data_rule		*parsing_tree(t_split *split, const int count_word)
 	if (!out)
 		return (NULL);
 	out->nb_command = nb_command(split, count_word);
-	out->nbr_args = count_word - 1;
 	if (fill_request(split, &out[k], count_word, 0) == -1) {
 		free(out);
 		return NULL;

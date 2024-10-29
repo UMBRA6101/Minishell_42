@@ -19,7 +19,7 @@ int main(int argc, char **argv, char **envp)
 			if (!request)
 				print_parsing_error(err);
 			(void) request;
-			killer_request(&request);
+			//killer_request(&request);
 			free(rule);
 		}
 	}

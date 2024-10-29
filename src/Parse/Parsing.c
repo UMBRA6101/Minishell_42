@@ -33,7 +33,7 @@ void add_word(t_split *word, char *command, const int word_len)
 	ft_strlcpy(word->word, command, word_len + 1);
 }
 
-static int	fill_info(char *command, int word, t_split *split)
+static int	fill_info(char *command, int *word, t_split *split)
 {
 	int		k;
 	int 	i;
@@ -45,10 +45,9 @@ static int	fill_info(char *command, int word, t_split *split)
 	i = 0;
 	itr_var = 0;
 	itr_word = 0;
-	var = NULL;
 	if (find_var(command))
 		var = ft_calloc(sizeof(t_variable), find_var(command) + 1);
-	while (itr_word < word)
+	while (itr_word < *word)
 	{
 		while (ft_isspace(command[i]))
 			i++;
@@ -60,19 +59,13 @@ static int	fill_info(char *command, int word, t_split *split)
 		else
 		{
 			if (ft_strnchr(command + i, '$', split[k].len_word) >= 0)
-				fill_var(&split[k], command + i, &var, itr_var);
+				*word += fill_var(&split[k], command + i, &var, itr_var);
 			else
 				add_word(&split[k], command + i, split[k].len_word);
 			i = split[k].len_word + i;
 			k++;
 		}
 		itr_word++;
-	}
-	i = 0;
-	while (i < word - itr_var * 2)
-	{
-		printf("word : %s\n",split[i].word);
-		i++;
 	}
 	return (0);
 }
@@ -95,7 +88,7 @@ t_data_rule	*parsing(char *command, t_erreur *err)
 		return (NULL);
 	err->error_code = STX_ALLOC;
 	split = ft_calloc(sizeof(t_split), ((word_count - nb_var) + 1));
-	if (!split || (fill_info(command, word_count, split) < 0))
+	if (!split || (fill_info(command, &word_count, split) < 0))
 		return (NULL);
 	err->error_code = STX_NL;
 	if (syntax_check(split, word_count - nb_var, err))

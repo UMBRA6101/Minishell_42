@@ -56,13 +56,12 @@ int fill_var(t_split *split, char *command, t_variable **var, int nb_var)
 		k++;
 	}
 	if (k == nb_var)
-		return (0);
+		return (-1);
 	if (ft_strncmp(command + i, var[k]->name, ft_strlen(var[k]->name)) != 0)
 		return (-1);
 	split->word = ft_calloc(sizeof(char), ft_strlen(var[k]->value));
 	if (!split->word)
 		return (-1);
 	ft_strlcpy(split->word, var[k]->value, ft_strlen(var[k]->value));
-	end:
 	return (0);
 }
