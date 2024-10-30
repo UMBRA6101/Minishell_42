@@ -1,41 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/10 14:50:09 by marvin            #+#    #+#             */
-/*   Updated: 2024/10/29 17:01:59 by raphox           ###   ########.fr       */
+/*   Created: 2024/09/22 18:35:49 by raphox            #+#    #+#             */
+/*   Updated: 2024/10/29 16:57:29 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdlib.h>
+#include "pipex_bonus.h"
+#include "libft/libft.h"
 
-
-char	*ft_strdup(const char *src)
+void pwd(char *command, char **envv)
 {
-	int		i;
-	int		countstr;
-	char	*dest;
+	int index;
+	index = find_in_envv(envv, "PWD");
+	
+	if (command[0] == 'p' && command[1] == 'w' && command[2] == 'd')
+		printf("%s\n", (envv[index] + 4));
+	return ;
 
-	i = 0;
-	countstr = ft_strlen(src);
-	dest = malloc((sizeof(char)) * (countstr + 1));
-	if (dest == NULL)
-		return (NULL);
-	while (src[i])
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
 }
 
-// #include<stdio.h>
-// int main(int argc, char **argv)
+// int main(int agrc, char **argv, char **envp)
 // {
-// 	printf("%s", ft_strdup(argv[1]));
+// 	pwd("pwd", "", envp);
+	
 // }

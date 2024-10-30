@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:10:50 by raphox            #+#    #+#             */
-/*   Updated: 2024/10/29 15:30:25 by raphox           ###   ########.fr       */
+/*   Updated: 2024/10/30 16:11:36 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,47 @@ void handle_redirection(t_data_rule data);
 // SPLIT . C ---------------------------------------------------------------------------------------------
 
 char	**ft_split(char *s, char c);
+
+
+
+// BUILTINS . C ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+int exec_builtins(t_data_rule struc, char **envp);
+
+//Echo
+void cd(char *command, const char **arguments, char **envp);
+
+//Echo
+void echo(char *command, char *option, const char **arguments);
+void display_echo(char *command, char *option, const char **arguments, char *result);
+
+//Env
+void display_env(char **envp); // env
+
+//Export
+char **export(char *command, const char **arguments, char **env);
+char **cmd_export(char *command, const char *arguments, char **env); // ajouter variable a l env 2 ou+ 
+char	**allocate_new_env(char **env);
+int		copy_env(char **env, char **new_env);
+
+//Pwd
+void pwd(char *command, char **envv); // recopie pwd
+
+//Unset
+char **unset(char *command, const char **arguments, char **envp);
+char **cmd_unset(char **env, const char *var);  // retirer variable de l env
+
+
+// ERROR . C
+void	free_env(char **env);
+
+//TOOLS BUILT. C ------------------------------------------------------------------------------------------
+
+void swap(char **a, char **b);
+int	find_in_envv(char **envv, char *var);
+void	bubble_sort(char **envp);
+void display_x_variables(char **result);
+int compare_strings(const char *str1, const char *str2);
 
 
 #endif

@@ -1,41 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/10 14:50:09 by marvin            #+#    #+#             */
-/*   Updated: 2024/10/29 17:01:59 by raphox           ###   ########.fr       */
+/*   Created: 2024/10/13 22:45:55 by raphox            #+#    #+#             */
+/*   Updated: 2024/10/29 16:57:42 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdlib.h>
+#include "pipex_bonus.h"
+#include "libft/libft.h"
 
-
-char	*ft_strdup(const char *src)
+void	free_env(char **env)
 {
-	int		i;
-	int		countstr;
-	char	*dest;
+	int	i;
 
 	i = 0;
-	countstr = ft_strlen(src);
-	dest = malloc((sizeof(char)) * (countstr + 1));
-	if (dest == NULL)
-		return (NULL);
-	while (src[i])
+	if (env == NULL)
+		return ;
+	while (env[i])
 	{
-		dest[i] = src[i];
+		free(env[i]);
 		i++;
 	}
-	dest[i] = '\0';
-	return (dest);
+	free(env);
 }
-
-// #include<stdio.h>
-// int main(int argc, char **argv)
-// {
-// 	printf("%s", ft_strdup(argv[1]));
-// }

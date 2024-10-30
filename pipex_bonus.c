@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:22:44 by raphox            #+#    #+#             */
-/*   Updated: 2024/10/29 15:30:02 by raphox           ###   ########.fr       */
+/*   Updated: 2024/10/30 17:03:06 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,16 @@ void execute(t_data_rule data, char **envp)
     {
         handle_redirection(data);
     }
-    if (execvp(cmd[0], cmd) == -1)
-    {
-        perror("execvp");
-        free_command(cmd);
-        exit(EXIT_FAILURE);
-    }
+
+	if (exec_builtins(data, envp) == 0)
+	{
+		if (execvp(cmd[0], cmd) == -1)
+    	{
+        	perror("execvp");
+        	free_command(cmd);
+        	exit(EXIT_FAILURE);
+    	}
+	}
 }
 
 void first_process(t_data_rule data, char **env, int *input_fd, int *p_fd, int is_last_cmd)
@@ -110,42 +114,44 @@ int pipex(t_data_rule *data, int num_commands, char **envp)
     return (0);
 }
 
-int main(int argc, char **argv, char **envp)
-{
-    t_data_rule first;
-    const char *tab1[3] = {"coucou", "oui et toi", NULL};
-    first.command = "cat";
-    first.options = NULL;
-    first.arguments = NULL;
-    first.nbr_args = 0;
-    first.dir_path = NULL;
-    first.oper = "<<";
-    first.targetfile = "coucou";
-    first.pipe = false;
 
-    t_data_rule second;
-    const char *tab2[3] = {"Double monstre mon coeur\n", "Triple Monstre", NULL};
-    second.command = "echo";
-    second.options = NULL;
-    second.arguments = tab2;
-    second.nbr_args = 2;
-    second.dir_path = NULL;
-    second.oper = ">>";
-    second.targetfile = "z.txt";
-    second.pipe = true;
 
-    t_data_rule third;
-    const char *tab3[2] = {"z.txt", NULL};
-    third.command = "wc";
-    third.options = "-l";
-    third.arguments = tab3;
-    third.nbr_args = 1;
-    third.dir_path = NULL;
-    third.oper = NULL;
-    third.targetfile = NULL;
-    third.pipe = true;
+// int main(int argc, char **argv, char **envp)
+// {
+//     t_data_rule first;
+//     const char *tab1[3] = {"coucou", "oui et toi", NULL};
+//     first.command = "cat";
+//     first.options = NULL;
+//     first.arguments = NULL;
+//     first.nbr_args = 0;
+//     first.dir_path = NULL;
+//     first.oper = "<<";
+//     first.targetfile = "coucou";
+//     first.pipe = false;
 
-    t_data_rule data[1] = {first};
+//     t_data_rule second;
+//     const char *tab2[3] = {"Double monstre mon coeur\n", "Triple Monstre", NULL};
+//     second.command = "echo";
+//     second.options = NULL;
+//     second.arguments = tab2;
+//     second.nbr_args = 2;
+//     second.dir_path = NULL;
+//     second.oper = ">>";
+//     second.targetfile = "z.txt";
+//     second.pipe = true;
 
-    return pipex(data, 1, envp);
-}
+//     t_data_rule third;
+//     const char *tab3[2] = {"z.txt", NULL};
+//     third.command = "wc";
+//     third.options = "-l";
+//     third.arguments = tab3;
+//     third.nbr_args = 1;
+//     third.dir_path = NULL;
+//     third.oper = NULL;
+//     third.targetfile = NULL;
+//     third.pipe = true;
+
+//     t_data_rule data[1] = {first};
+
+//     return pipex(data, 1, envp);
+// }
