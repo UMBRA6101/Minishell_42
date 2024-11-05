@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 15:38:34 by rafaria           #+#    #+#             */
-/*   Updated: 2024/10/29 18:28:38 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/02 15:20:56 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void handle_redirection(t_data_rule data)
     }
     else if (ft_strncmp(data.oper, ">>", 3) == 0)
     {
-        fd = open(data.targetfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+        fd = open(data.targetfile, O_WRONLY | O_CREAT | O_APPEND, 0777);
         if (fd == -1)
         {
             perror("Erreur ouverture sortie");

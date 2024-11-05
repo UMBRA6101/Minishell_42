@@ -2,7 +2,7 @@ ENV A COPIER DES LE DEBUT
 
 TOUS TESTER EN BASH
 
-//cd good + free good 
+//cd good + free good + redircetions valide
 
 //env good + free good + reedirection valide
 
@@ -10,10 +10,13 @@ TOUS TESTER EN BASH
 
 //echo good + free goodd + redirections valide
 
-//export good + free good 
+//export good + free good good + redirection valide
 
 // unset good + free good
 
 tous les display env, et l affichage de l env
 ne sont pas  a faire car ce sera a pipex
 de le faire
+
+-> NE PAS OUBLIER
+Toujours free l env

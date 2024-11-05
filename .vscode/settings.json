@@ -57,7 +57,9 @@
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.associations": {
-    "pipex_bonus.h": "c",
-    "libft.h": "c"
-  }
+	"pipex_bonus.h": "c",
+	"libft.h": "c",
+	"cstdlib": "c",
+	"functional": "c"
+}
 }

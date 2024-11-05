@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:10:50 by raphox            #+#    #+#             */
-/*   Updated: 2024/10/30 16:11:36 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/05 20:02:50 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 
 typedef struct s_data_rule
 {
+	char **environ;
+	
     char *command;
     char *options;
     const char **arguments;
@@ -44,7 +46,7 @@ typedef struct s_data_rule
 
 // PIPEX BONUS . C ---------------------------------------------------------------------------------------------
 
-int pipex(t_data_rule *data, int num_commands, char **envp);
+char **pipex(t_data_rule *data, int num_commands, char **envv);
 
 
 void wait_for_children(void);
@@ -82,10 +84,11 @@ char	**ft_split(char *s, char c);
 
 // BUILTINS . C ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-int exec_builtins(t_data_rule struc, char **envp);
+char **exec_builtins(t_data_rule struc, char **envp);
+int check_if_in_builtins(t_data_rule struc, char **envp);
 
 //Echo
-void cd(char *command, const char **arguments, char **envp);
+char **cd(char *command, const char **arguments, char **envp);
 
 //Echo
 void echo(char *command, char *option, const char **arguments);
@@ -95,10 +98,11 @@ void display_echo(char *command, char *option, const char **arguments, char *res
 void display_env(char **envp); // env
 
 //Export
-char **export(char *command, const char **arguments, char **env);
+char **export(char *command, const char **arguments, char **envv);
 char **cmd_export(char *command, const char *arguments, char **env); // ajouter variable a l env 2 ou+ 
-char	**allocate_new_env(char **env);
-int		copy_env(char **env, char **new_env);
+char	**allocate_new_env_to_add_variable(char **env, const char *arguments);
+int		size_env(char **env, char **new_env);
+
 
 //Pwd
 void pwd(char *command, char **envv); // recopie pwd
@@ -119,5 +123,9 @@ void	bubble_sort(char **envp);
 void display_x_variables(char **result);
 int compare_strings(const char *str1, const char *str2);
 
+
+
+char **ft_strdup_env(char **envp);
+char **copy_the_env(char **envp);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:28:32 by raphox            #+#    #+#             */
-/*   Updated: 2024/10/29 16:57:40 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/05 20:33:15 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,91 +16,80 @@
 // envp est une copie ! ! ! ! !!
 
 
-char	**export(char *command, const char **arguments, char **env)
+char	**export(char *command, const char **arguments, char **envv)
 {
 	int		i;
 	char	**result;
 	char	**new_result;
 
 	i = 0;
-	result = env;
-	bubble_sort(result);
+	result = envv;
 	if (command != NULL && arguments == NULL)
+	{
+		bubble_sort(result);
 		display_x_variables(result);
+	}
 	else
 	{
 		while (arguments[i] != NULL)
 		{
+			
 			new_result = cmd_export(command, arguments[i++], result);
-			if (new_result != result && result != env)
-				free_env(result);
 			result = new_result;
 		}
-		i = 0;
-		while (result[i] != NULL)
-			printf("declare -x %s\n", result[i++]);
 	}
-	if (result != env)
-		free_env(result);
-	return (env);
+	return (result);
 }
 
+
+
+	
 // Fonction cmd_export qui ajoute un nouvel argument à l'environnement
 char	**cmd_export(char *command, const char *argument, char **env)
 {
-	char	**new_env;
-	int		size;
+	
+	int check;
+	char **new_env;
 
-	if (command == NULL || argument == NULL)
-		return (env);
-	new_env = allocate_new_env(env);
-	if (!new_env)
-		exit(EXIT_FAILURE);
-	size = copy_env(env, new_env);
-	if (size == -1)
-		exit(EXIT_FAILURE);
-	new_env[size] = strdup(argument);
-	if (!new_env[size])
+	check = 0;
+	while (env[check] != NULL)
 	{
-		free_env(new_env);
-		exit(EXIT_FAILURE);
+		if (ft_strncmp(env[check], argument, ft_strlen(env[check])) == 0)
+			return (env);
+		check++;
 	}
-	new_env[size + 1] = NULL;
+
+	new_env = allocate_new_env_to_add_variable(env, argument);
+	free_env(env);
+
 	return (new_env);
+
+	
 }
 
-// Fonction pour allouer le nouvel environnement
-char	**allocate_new_env(char **env)
+// allouer nouvel environnement
+char	**allocate_new_env_to_add_variable(char **env, const char *arguments)
 {
+	int i;
 	int		size;
 	char	**new_env;
 
+	i = 0;
 	size = 0;
-	while (env[size])
+	
+	while (env[size] != NULL)
 		size++;
-	new_env = malloc(sizeof(char *) * (size + 2));
-	if (!new_env)
-		return (NULL);
-	return (new_env);
-}
-
-// Fonction pour copier les anciennes variables d'environnement dans le nouvel environnement
-int		copy_env(char **env, char **new_env)
-{
-	int		j;
-
-	j = 0;
-	while (env[j] != NULL)
+		
+	new_env = (char **)malloc(sizeof(char *) * (size + 2));
+	
+	while (env[i] != NULL)
 	{
-		new_env[j] = strdup(env[j]);
-		if (!new_env[j])
-		{
-			free_env(new_env);
-			return (-1);
-		}
-		j++;
+		new_env[i] = ft_strdup(env[i]);
+		i++;
 	}
-	return (j);
+	new_env[i] = ft_strdup(arguments);
+	new_env[++i] = NULL;
+	return (new_env);
 }
 
 

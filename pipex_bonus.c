@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:22:44 by raphox            #+#    #+#             */
-/*   Updated: 2024/10/30 17:03:06 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/05 21:28:02 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,27 @@ void execute(t_data_rule data, char **envp)
         handle_redirection(data);
     }
 
-	if (exec_builtins(data, envp) == 0)
+	if (check_if_in_builtins(data, envp) == 1)
 	{
-		if (execvp(cmd[0], cmd) == -1)
-    	{
-        	perror("execvp");
-        	free_command(cmd);
-        	exit(EXIT_FAILURE);
-    	}
+		write(1, "ERREURURURio", 12);
+		exec_builtins(data, envp);
+		exit(EXIT_SUCCESS);
 	}
+	else if (check_if_in_builtins(data, envp) == -1)
+	{
+		exit(EXIT_SUCCESS);
+	}
+	else if (execve(cmd[0], cmd, envp) == -1)
+	{
+		perror("execve");
+		free_command(cmd);
+		exit(EXIT_FAILURE);
+    }
+	exit(EXIT_SUCCESS);
 }
+		// exec_builtins ici
+		// et mettre le execve dans le else en com en dessous
+		// modifier ensuite check if builtins pour qu il fasse exec builtins uniquement si ca modifie pas l env
 
 void first_process(t_data_rule data, char **env, int *input_fd, int *p_fd, int is_last_cmd)
 {
@@ -63,7 +74,7 @@ void second_process(int *input_fd, int *p_fd, int is_last_cmd)
         close(*input_fd);
     }
 
-    if (!is_last_cmd)
+    if (!is_last_cmd) // pas la derniere commande
     {
         close(p_fd[1]);
         *input_fd = p_fd[0];
@@ -84,74 +95,49 @@ void do_pipe(t_data_rule data, char **env, int *input_fd, int is_last_cmd)
     {
         exit(1);
     }
+	
 
-    pid = fork();
+    pid = fork(); // dedoublement du code
     if (pid == -1)
     {
         exit(1);
     }
     if (pid == 0)
     {
-        first_process(data, env, input_fd, p_fd, is_last_cmd);
+        first_process(data, env, input_fd, p_fd, is_last_cmd); // enfant
     }
     else
     {
-        second_process(input_fd, p_fd, is_last_cmd);
+        second_process(input_fd, p_fd, is_last_cmd); // parents
     }
 }
 
-int pipex(t_data_rule *data, int num_commands, char **envp)
+char **pipex(t_data_rule *data, int num_commands, char **envv)
 {
     int input_fd = -1;
     int i = 0;
 
     while (i < num_commands)
     {
-        do_pipe(data[i], envp, &input_fd, (i == num_commands - 1));
+        int is_last_command;
+
+        if (i == num_commands - 1)
+            is_last_command = 1;
+        else
+            is_last_command = 0;
+		
+		if (check_if_in_builtins(data[i], envv) == -1)
+		{
+			envv = exec_builtins(data[i], envv);
+		}
+        do_pipe(data[i], envv, &input_fd, is_last_command);
         i++;
     }
     wait_for_children();
-    return (0);
+    return (envv);
 }
 
 
 
-// int main(int argc, char **argv, char **envp)
-// {
-//     t_data_rule first;
-//     const char *tab1[3] = {"coucou", "oui et toi", NULL};
-//     first.command = "cat";
-//     first.options = NULL;
-//     first.arguments = NULL;
-//     first.nbr_args = 0;
-//     first.dir_path = NULL;
-//     first.oper = "<<";
-//     first.targetfile = "coucou";
-//     first.pipe = false;
 
-//     t_data_rule second;
-//     const char *tab2[3] = {"Double monstre mon coeur\n", "Triple Monstre", NULL};
-//     second.command = "echo";
-//     second.options = NULL;
-//     second.arguments = tab2;
-//     second.nbr_args = 2;
-//     second.dir_path = NULL;
-//     second.oper = ">>";
-//     second.targetfile = "z.txt";
-//     second.pipe = true;
 
-//     t_data_rule third;
-//     const char *tab3[2] = {"z.txt", NULL};
-//     third.command = "wc";
-//     third.options = "-l";
-//     third.arguments = tab3;
-//     third.nbr_args = 1;
-//     third.dir_path = NULL;
-//     third.oper = NULL;
-//     third.targetfile = NULL;
-//     third.pipe = true;
-
-//     t_data_rule data[1] = {first};
-
-//     return pipex(data, 1, envp);
-// }

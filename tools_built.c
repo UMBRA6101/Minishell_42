@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 22:49:10 by raphox            #+#    #+#             */
-/*   Updated: 2024/10/29 16:57:18 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/02 16:28:48 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,27 @@
 
 void display_x_variables(char **result)
 {
+
+	int fd[2];
+	pipe(fd);
+
+	char buffer[100000];
+	size_t	bytes_read;
+	
 	int i;
 	i = 0;
 	
 	while (result[i] != NULL)
-			printf("declare -x %s\n", result[i++]);
+	{
+		write(fd[1], "declare -x ", 11);
+		write(fd[1], result[i], ft_strlen(result[i]));
+		write(fd[1], "\n", 1);
+		i++;
+	}
+	bytes_read = read(fd[0], buffer, sizeof(buffer));
+	write(1, buffer, bytes_read);
+	close(fd[0]);
+	close(fd[1]);	
 }
 int	find_in_envv(char **envv, char *var)
 {

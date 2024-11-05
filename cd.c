@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:30:17 by raphox            #+#    #+#             */
-/*   Updated: 2024/10/29 16:57:51 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/04 21:07:57 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,23 @@
 #include "libft/libft.h"
 
 
-void cd(char *command, const char **arguments, char **envp)
+char **cd(char *command, const char **arguments, char **envp)
 {
-	
-	if (command != 0 && arguments == 0) // > cd (fait mais inutile, car pas demander)
+	char *oldpwd;
+	oldpwd = getenv("PWD");
+
+	if (command != 0 && arguments == 0) // > cd (fait mais inutile, car pas demander)		
 		chdir(getenv("HOME"));
 			
 		// printf("%s",getenv("PWD"));
-	
 	else if (command != 0 && arguments != 0 && (arguments[0][0] == '/')) // > cd "arguments"
 	{
-			chdir(arguments[0]);
-			return ;
+		ft_strlcat(envp[find_in_envv(envp, "PWD")], arguments[0], ft_strlen(arguments[0] - 6));
+		display_env(envp);
+		return (NULL);
+		
+		chdir(arguments[0]);
+		return (NULL);
 	}
 
 	else if ((command != 0 && arguments != 0 && arguments[0][0] != '/'))
@@ -46,8 +51,10 @@ void cd(char *command, const char **arguments, char **envp)
 		free(short_path);
 		free(result_path);
 	}
-	return ;
+	return (NULL);
 }
+
+
 
 // int main(int argc, char **argv, char **envp)
 // {
