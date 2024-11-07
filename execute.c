@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 18:08:38 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/05 21:22:57 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/07 18:22:53 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ int main(int argc, char **argv, char **envp)
 	char **envv;
 	envv = ft_strdup_env(envp);
 	
-	t_data_rule first;
+	t_data_rule env;
     const char *tab1[3] = {"Double MONSTRE mon coeur", "Triple Monstre", NULL};
-    first.command = "env";
-    first.options = NULL;
-    first.arguments = NULL;
-    first.nbr_args = 0;
-    first.dir_path = NULL;
-    first.oper = NULL;
-    first.targetfile = NULL;
-    first.pipe = true;
+    env.command = "env";
+    env.options = NULL;
+    env.arguments = NULL;
+    env.nbr_args = 0;
+    env.dir_path = NULL;
+    env.oper = NULL;
+    env.targetfile = NULL;
+    env.pipe = true;
 
     t_data_rule second;
     const char *tab2[2] = {"MON ANCIEN CHEMINNNNNN", NULL};
@@ -51,10 +51,9 @@ int main(int argc, char **argv, char **envp)
     third.arguments = NULL;
     third.nbr_args = 0;
     third.dir_path = NULL;
-    third.oper = ">>";
-    third.targetfile = "z.txt";
+    third.oper = NULL;
+    third.targetfile = NULL;
     third.pipe = true;
-
 
 	t_data_rule forth;
     const char *tab4[4] = {"COUCOUCOUCOU", "BONJOURRRRRR", "yupp", NULL};
@@ -67,6 +66,72 @@ int main(int argc, char **argv, char **envp)
     forth.targetfile = NULL;
     forth.pipe = true;
 
+	t_data_rule five;
+    const char *tab5[4] = {"COUCOUCOUCOU", "BONJOURRRRRR", "yupp", NULL};
+    five.command = "export";
+    five.options = NULL;
+    five.arguments = tab5;
+    five.nbr_args = 3;
+    five.dir_path = NULL;
+    five.oper = NULL;
+    five.targetfile = NULL;
+    five.pipe = false;
+
+	t_data_rule export;
+    const char *tab6[3] = {"babygirl", "et ta mama la gnetille", NULL};
+    export.command = "export";
+    export.options = NULL;
+    export.arguments = tab6;
+    export.nbr_args = 2;
+    export.dir_path = NULL;
+    export.oper = "<";
+    export.targetfile = "z.txt";
+    export.pipe = false;
+
+	t_data_rule ls;
+    const char *tab_ls	[0];
+    ls.command = "ls";
+    ls.options = "-l";
+    ls.arguments = NULL;
+    ls.nbr_args = 0;
+    ls.dir_path = NULL;
+    ls.oper = ">>";
+    ls.targetfile = "z.txt";
+    ls.pipe = true;
+
+	t_data_rule grep;
+    const char *tab_grep[2] = {"oct", NULL};
+    grep.command = "grep";
+    grep.options = NULL;
+    grep.arguments = tab_grep;
+    grep.nbr_args = 1;
+    grep.dir_path = NULL;
+    grep.oper = "<";
+    grep.targetfile = "z.txt";
+    grep.pipe = true;
+
+	t_data_rule pwd;
+    // const char *tab_grep[2] = {"oct", NULL};
+    pwd.command = "pwd";
+    pwd.options = NULL;
+    pwd.arguments = NULL;
+    pwd.nbr_args = 0;
+    pwd.dir_path = NULL;
+    pwd.oper = NULL;
+    pwd.targetfile = NULL;
+    pwd.pipe = false;
+
+	t_data_rule cd;
+    // const char *tab_grep[2] = {"oct", NULL};
+    pwd.command = "pwd";
+    pwd.options = NULL;
+    pwd.arguments = NULL;
+    pwd.nbr_args = 0;
+    pwd.dir_path = NULL;
+    pwd.oper = NULL;
+    pwd.targetfile = NULL;
+    pwd.pipe = false;
+
 	// envv = export("export", tab4, envv);
 	// allocate_new_env_to_add_variable(envv);
 	// display_env(envv);
@@ -75,29 +140,50 @@ int main(int argc, char **argv, char **envp)
     // t_data_rule data2[1] = {second};
     // // t_data_rule data3[1] = {third};
     // t_data_rule data4[1] = {forth};
-	
-	
-    // t_data_rule data1[1] = {forth};
     // t_data_rule data2[2] = {first, second};
     // t_data_rule data3[3] = {first, second, third};
-    t_data_rule data4[4] = {first, second, third, forth};
-    
+    // t_data_rule data4[4] = {first, second, forth, third};    
+    // t_data_rule data1[4] = {first, second, third, forth};
 
-	// t_data_rule data6[1] = {forth};
+	// t_data_rule cmd_env[1] = {env};
+
+	// t_data_rule cmd_pwd[1] = {pwd};
+	
+	// t_data_rule cmd_grep[1] = {grep};
+	
+    // t_data_rule cmd_ls[1] = {ls};
+
+    // t_data_rule cmd_export[1] = {export};
 
 	
-
+    // t_data_rule pwd_export[2] = {pwd, export};
+    // // t_data_rule data3[1] = {five};
 	
+    const char *tab_cd[2] = {"../home/raphox/Desktop/Test", NULL};
+
+	display_env(envv);
+
 	while (1)
 	{
 		rule = NULL;
 		rule = readline("minishell->");
-		if (rule != NULL) 
+		if (rule != NULL)
 		{
-			envv = pipex(data4, 4, envv);
+			// envv = cd("cd", NULL, envv);
+			envv = pipex(cmd_cd, 1, envv);
+			display_env(envv);
+
+			// envv = pipex(cmd_env, 1, envv);
+			// envv = pipex(cmd_grep, 1, envv);
+			// envv = pipex(cmd_ls, 1, envv);
+			// envv = pipex(pwd_export, 2, envv);
+			// envv = pipex(data2, 1, envv);
+			// envv = pipex(data11, 1, envv);
+			// envv = pipex(data4, 1, envv);
+			// printf("\n\n\n\n");
+			// envv = pipex(data1, 3, envv);
+			// envv = pipex(data3, 1, envv);
 			// display_env(envv);
-			
-			// envv = pipex(data1, 1, envv);
 			// display_env(envv);
 			// envv = pipex(data2, 1, envv);
 			// envv = pipex(data4, 1, envv);

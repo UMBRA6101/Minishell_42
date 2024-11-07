@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:28:32 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/05 20:33:15 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/06 19:20:56 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ char	**export(char *command, const char **arguments, char **envv)
 	{
 		while (arguments[i] != NULL)
 		{
-			
 			new_result = cmd_export(command, arguments[i++], result);
 			result = new_result;
 		}

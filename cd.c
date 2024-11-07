@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:30:17 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/04 21:07:57 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/07 18:21:25 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,63 @@
 #include "pipex_bonus.h"
 #include "libft/libft.h"
 
-
 char **cd(char *command, const char **arguments, char **envp)
 {
-	char *oldpwd;
-	oldpwd = getenv("PWD");
+	char *buffer;
 
-	if (command != 0 && arguments == 0) // > cd (fait mais inutile, car pas demander)		
-		chdir(getenv("HOME"));
-			
+	int index;
+	index = 0;
+
+	int pin;
+	pin = 0;
+
+	
+	char *oldpwd;
+	oldpwd = getenv("OLDPWD");
+
+	char *pwd;
+	pwd = getenv("PWD");
+	
+
+	if (command != 0 && arguments == NULL) // > cd (fait mais inutile, car pas demander)
+	{
+		//OLD PWD
+		pin = find_in_envv(envp, "PWD");
+		index = find_in_envv(envp, "OLDPWD");
+		buffer = ft_strjoin("OLDPWD=", envp[pin] + 4, 0);
+		free(envp[index]);
+		envp[index] = ft_strdup(buffer);
+		free(buffer);
+		
+		//PWD
+		pin = find_in_envv(envp, "PWD");
+		index = find_in_envv(envp, "USER");
+		buffer = ft_strjoin("PWD=/home/", envp[index] + 5, 0);
+		free(envp[pin]);
+		envp[pin] = ft_strdup(buffer);
+		chdir(buffer);
+		free(buffer);
+		return (envp);
+	}		
+	
 		// printf("%s",getenv("PWD"));
 	else if (command != 0 && arguments != 0 && (arguments[0][0] == '/')) // > cd "arguments"
 	{
-		ft_strlcat(envp[find_in_envv(envp, "PWD")], arguments[0], ft_strlen(arguments[0] - 6));
-		display_env(envp);
-		return (NULL);
-		
-		chdir(arguments[0]);
-		return (NULL);
+		//OLD PWD
+		pin = find_in_envv(envp, "PWD");
+		index = find_in_envv(envp, "OLDPWD");
+		buffer = ft_strjoin("OLDPWD=", envp[pin] + 4, 0);
+		free(envp[index]);
+		envp[index] = ft_strdup(buffer);
+		free(buffer);
+		//PWD
+		index = find_in_envv(envp, "PWD");
+		buffer = ft_strjoin("PWD=", arguments[0], 0);
+		free(envp[index]);
+		envp[index] = ft_strdup(buffer);
+		chdir(buffer);
+		free(buffer);
+		return (envp);
 	}
 
 	else if ((command != 0 && arguments != 0 && arguments[0][0] != '/'))
@@ -40,16 +79,32 @@ char **cd(char *command, const char **arguments, char **envp)
 		char *short_path;
 		char *result_path;
 		
+
 		char slash[] = "/";
 		pwd = getenv("PWD");
 		
 		short_path = ft_strjoin(pwd, slash, 0);
 		result_path = ft_strjoin(short_path, arguments[0], 0);
+
+
+		//OLD PWD
+		pin = find_in_envv(envp, "PWD");
+		index = find_in_envv(envp, "OLDPWD");
+		buffer = ft_strjoin("OLDPWD=", envp[pin] + 4, 0);
+		free(envp[index]);
+		envp[index] = ft_strdup(buffer);
+		free(buffer);
 		
+		//PWD
+		index = find_in_envv(envp, "PWD");
+		buffer = ft_strjoin("PWD=", result_path, 0);
+		free(envp[index]);
+		envp[index] = ft_strdup(buffer);
+		free(buffer);
 		chdir(result_path);
-		
 		free(short_path);
 		free(result_path);
+		return (envp);
 	}
 	return (NULL);
 }

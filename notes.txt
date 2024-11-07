@@ -2,7 +2,7 @@ ENV A COPIER DES LE DEBUT
 
 TOUS TESTER EN BASH
 
-//cd good + free good + redircetions valide
+//cd good + free good + redircetions valide | REVOIR CD notamment les mixages de relatifs et repertoire courant
 
 //env good + free good + reedirection valide
 
@@ -12,7 +12,7 @@ TOUS TESTER EN BASH
 
 //export good + free good good + redirection valide
 
-// unset good + free good
+// unset good + free good + redirection valide
 
 tous les display env, et l affichage de l env
 ne sont pas  a faire car ce sera a pipex

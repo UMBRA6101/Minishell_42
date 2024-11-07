@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:02:21 by raphox            #+#    #+#             */
-/*   Updated: 2024/10/24 15:17:01 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/06 17:28:21 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # include "libft/libft.h"
 
 #include "pipex_bonus.h"
-
 
 char    **build_command(t_data_rule data)
 {

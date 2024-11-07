@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:22:44 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/05 21:28:02 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/06 17:43:57 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,12 @@
 
 void execute(t_data_rule data, char **envp)
 {
+	char *chemin;
+	char *pathname;
     char **cmd = build_command(data);
 
+	chemin = "/usr/bin/";
+	pathname = ft_strjoin(chemin, cmd[0], 0);
     if (!cmd[0])
     {
         error(1, NULL);
@@ -29,7 +33,6 @@ void execute(t_data_rule data, char **envp)
 
 	if (check_if_in_builtins(data, envp) == 1)
 	{
-		write(1, "ERREURURURio", 12);
 		exec_builtins(data, envp);
 		exit(EXIT_SUCCESS);
 	}
@@ -37,7 +40,7 @@ void execute(t_data_rule data, char **envp)
 	{
 		exit(EXIT_SUCCESS);
 	}
-	else if (execve(cmd[0], cmd, envp) == -1)
+	else if (execve(pathname, cmd, envp) == -1)
 	{
 		perror("execve");
 		free_command(cmd);
@@ -95,7 +98,6 @@ void do_pipe(t_data_rule data, char **env, int *input_fd, int is_last_cmd)
     {
         exit(1);
     }
-	
 
     pid = fork(); // dedoublement du code
     if (pid == -1)
@@ -126,7 +128,7 @@ char **pipex(t_data_rule *data, int num_commands, char **envv)
         else
             is_last_command = 0;
 		
-		if (check_if_in_builtins(data[i], envv) == -1)
+		if (check_if_in_builtins(data[i], envv) == -1 && data[i].pipe == false)
 		{
 			envv = exec_builtins(data[i], envv);
 		}

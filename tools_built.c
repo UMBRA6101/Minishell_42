@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 22:49:10 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/02 16:28:48 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/07 15:00:29 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	find_in_envv(char **envv, char *var)
 		return (-1);
 	while (envv[i] != NULL)
 	{
-		if (strncmp(envv[i], var, strlen(var)) == 0 && envv[i][strlen(var)] == '=')
+		if (strncmp(envv[i], var, strlen(var)) == 0)
 		{
 			return (i);
 		}
