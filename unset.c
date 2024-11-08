@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 17:47:30 by raphox            #+#    #+#             */
-/*   Updated: 2024/10/29 16:57:24 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/08 14:37:21 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ char **unset(char *command, const char **arguments, char **envp)
 	else
 		while (arguments[i])
 		{
-			cmd_unset(envp, arguments[i++]);
+			envp = cmd_unset(envp, arguments[i++]);
 		}
+		
 	return (envp);
 		
 }
@@ -40,13 +41,14 @@ char	**cmd_unset(char **env, const char *var)
 	i = 0;
 
 	if (var == NULL)
-		return (NULL);
+		return (env);
 	
 	while (env[i] != NULL)
 	{
-		if (ft_strncmp(env[i], var, strlen(var)) == 0 && env[i][ft_strlen(var)] == '=')
+		if (ft_strncmp(env[i], var, ft_strlen(var)) == 0 && check_var(var, i, env) == 1)
 		{
-			while (env[i] != NULL) 			// ca decale les autres variables
+			free(env[i]);
+			while (env[i] != NULL) // ca decale les autres variables
 			{
 				env[i] = env[i + 1];
 				i++;
@@ -59,6 +61,24 @@ char	**cmd_unset(char **env, const char *var)
 	return (env);
 }
 
+
+int check_var(const char *str, int i, char **envv)
+{
+	int size;
+	size = 0;
+	
+	int size_var;
+	size_var = ft_strlen(str);
+
+	while (str[size])
+	{
+		if (str[size] == '=')
+			return (0);
+		size++;
+	}
+	return (1);
+	
+}
 
 // int main(int argc, char **argv, char **envp)
 // {

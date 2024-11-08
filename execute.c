@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 18:08:38 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/07 18:22:53 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/08 14:47:11 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,16 +77,6 @@ int main(int argc, char **argv, char **envp)
     five.targetfile = NULL;
     five.pipe = false;
 
-	t_data_rule export;
-    const char *tab6[3] = {"babygirl", "et ta mama la gnetille", NULL};
-    export.command = "export";
-    export.options = NULL;
-    export.arguments = tab6;
-    export.nbr_args = 2;
-    export.dir_path = NULL;
-    export.oper = "<";
-    export.targetfile = "z.txt";
-    export.pipe = false;
 
 	t_data_rule ls;
     const char *tab_ls	[0];
@@ -122,23 +112,48 @@ int main(int argc, char **argv, char **envp)
     pwd.pipe = false;
 
 	t_data_rule cd;
-    // const char *tab_grep[2] = {"oct", NULL};
-    pwd.command = "pwd";
-    pwd.options = NULL;
-    pwd.arguments = NULL;
-    pwd.nbr_args = 0;
-    pwd.dir_path = NULL;
-    pwd.oper = NULL;
-    pwd.targetfile = NULL;
-    pwd.pipe = false;
+    const char *tab_cd[2] = {"/home/raphox/Desktop/Test", NULL};
+    cd.command = "cd";
+    cd.options = NULL;
+    cd.arguments = tab_cd;
+    cd.nbr_args = 1;
+    cd.dir_path = NULL;
+    cd.oper = NULL;
+    cd.targetfile = NULL;
+    cd.pipe = false;
 
-	// envv = export("export", tab4, envv);
+
+
+	t_data_rule unset;
+    const char *tab_unset[5] = {"LS_COLORS", "PATH", "DBUS_SESSION_BUS_ADDRESS", "VAR1=", NULL};
+    unset.command = "unset";
+    unset.options = NULL;
+    unset.arguments = tab_unset;
+    unset.nbr_args = 4;
+    unset.dir_path = NULL;
+    unset.oper = NULL;
+    unset.targetfile = NULL;
+    unset.pipe = false;
+
+	t_data_rule export;
+    const char *tab6[3] = {"babygirl=", "et ta mama la gnetille=", NULL};
+    export.command = "export";
+    export.options = NULL;
+    export.arguments = tab6;
+    export.nbr_args = 2;
+    export.dir_path = NULL;
+    export.oper = NULL;
+    export.targetfile = NULL;
+    export.pipe = false;
+	// // envv = export("export", tab4, envv);
 	// allocate_new_env_to_add_variable(envv);
 	// display_env(envv);
 	// free(envv);
     // t_data_rule data[2] = {second, forth};
     // t_data_rule data2[1] = {second};
     // // t_data_rule data3[1] = {third};
+    // // t_data_rule data3[1] = {five};
+    // t_data_rule pwd_export[2] = {pwd, export};
     // t_data_rule data4[1] = {forth};
     // t_data_rule data2[2] = {first, second};
     // t_data_rule data3[3] = {first, second, third};
@@ -149,19 +164,21 @@ int main(int argc, char **argv, char **envp)
 
 	// t_data_rule cmd_pwd[1] = {pwd};
 	
-	// t_data_rule cmd_grep[1] = {grep};
+	// t_data_ru	le cmd_grep[1] = {grep};
 	
     // t_data_rule cmd_ls[1] = {ls};
 
     // t_data_rule cmd_export[1] = {export};
 
-	
-    // t_data_rule pwd_export[2] = {pwd, export};
-    // // t_data_rule data3[1] = {five};
-	
-    const char *tab_cd[2] = {"../home/raphox/Desktop/Test", NULL};
+    // t_data_rule cmd_cd[1] = {cd};
 
-	display_env(envv);
+    // t_data_rule cmd_unset[1] = {unset};
+
+	
+	
+
+	// envv = unset("unset", tab_unset, envv);
+	// display_env(envv);
 
 	while (1)
 	{
@@ -169,10 +186,17 @@ int main(int argc, char **argv, char **envp)
 		rule = readline("minishell->");
 		if (rule != NULL)
 		{
-			// envv = cd("cd", NULL, envv);
-			envv = pipex(cmd_cd, 1, envv);
-			display_env(envv);
+			// envv = pipex(cmd_export, 1, envv);
+			
+			// display_env(envv);
 
+			// envv = pipex(cmd_unset, 1, envv);
+			// envv = cd("cd", NULL, envv);
+			// envv = pipex(cmd_cd, 1, envv);
+			// display_env(envv);
+			// write(2, "\n\n\n", 3);
+			// display_env(envv);
+			// envv = pipex(cmd_cd, 1, envv);
 			// envv = pipex(cmd_env, 1, envv);
 			// envv = pipex(cmd_grep, 1, envv);
 			// envv = pipex(cmd_ls, 1, envv);

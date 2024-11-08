@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:10:50 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/05 20:02:50 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/07 20:50:26 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ void pwd(char *command, char **envv); // recopie pwd
 //Unset
 char **unset(char *command, const char **arguments, char **envp);
 char **cmd_unset(char **env, const char *var);  // retirer variable de l env
+int check_var(const char *str, int i, char **envv);
 
 
 // ERROR . C

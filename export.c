@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:28:32 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/06 19:20:56 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/08 14:46:31 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,12 @@ char	**cmd_export(char *command, const char *argument, char **env)
 	check = 0;
 	while (env[check] != NULL)
 	{
-		if (ft_strncmp(env[check], argument, ft_strlen(env[check])) == 0)
+		if ((ft_strncmp(env[check], argument, ft_strlen(env[check])) == 0))
 			return (env);
 		check++;
 	}
+	if (check_var(argument, 0, env) == 1)
+		return (env);
 
 	new_env = allocate_new_env_to_add_variable(env, argument);
 	free_env(env);
