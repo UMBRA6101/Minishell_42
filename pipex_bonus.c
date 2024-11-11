@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:22:44 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/11 12:37:38 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/11 17:04:23 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ char **pipex(t_data_rule *data, int num_commands, char **envv)
     int input_fd = -1;
     int i = 0;
 
+	
     while (i < num_commands)
     {
         int is_last_command;

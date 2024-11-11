@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:10:50 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/08 16:50:55 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/11 12:56:57 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ typedef struct s_data_rule
     char **arguments;
 
 	char	*input;
-	char	*out;
-	char 	*oper;
+	char	**out;
+	char 	**oper;
 
     int nbr_args;
     char *dir_path;
@@ -77,6 +77,7 @@ void    free_command(char **cmd);
 void wait_for_children(void);
 void handle_heredoc(char *delimiter);
 void handle_redirection(t_data_rule data);
+void handle_exit_redirections(char *oper, char *output);
 
 
 // SPLIT . C ---------------------------------------------------------------------------------------------

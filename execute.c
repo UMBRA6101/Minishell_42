@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 18:08:38 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/11 11:48:20 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/11 17:29:20 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,50 +23,58 @@ int main(int argc, char **argv, char **envp)
 	char **envv;
 	envv = ft_strdup_env(envp);
 	
-	t_data_rule export;
-     char *tab6[3] = {"babygirl=", "et ta mama la gnetille=", NULL};
-    export.command = "export";
-    export.options = NULL;
-    export.arguments = tab6;
-    export.nbr_args = 2;
-    export.dir_path = NULL;
-    export.oper = NULL;
-    export.out = NULL;
-    export.pipe = false;
+
+	
+	t_data_rule grep;
+	char *tab_grep[2] = {"split", NULL};
+	char *tab_oper_grep[3] = {"<", ">", NULL};
+	char *tab_out_grep[3] = {"z.txt", "x.txt", NULL}; 
+    grep.command = "grep";
+    grep.options = NULL;
+    grep.arguments = tab_grep;
+	grep.input = "z.txt"; // input sert aussi mot terminant le heredoc
+    grep.out = tab_out_grep;
+    grep.oper = tab_oper_grep;
+	grep.nbr_args = 1; // ne compte pas le nul
+    grep.dir_path = NULL;
+    grep.pipe = true;
 
 	t_data_rule ls;
 	char *tab_ls[0];
+	char *tab_oper[4] = {">", ">>", ">", NULL};
+	char *tab_out[4] = {"x.txt", "y.txt", "z.txt", NULL}; 
     ls.command = "ls";
     ls.options = NULL;
     ls.arguments = NULL;
-	ls.input = NULL; // mot bloquand le heredoc
-    ls.out = "../try1/outfile.txt";
-    ls.oper = ">";
+	ls.input = NULL;
+    ls.out = tab_out;
+    ls.oper = tab_oper;
 	ls.nbr_args = 0;
     ls.dir_path = NULL;
     ls.pipe = false;
+    
+    t_data_rule cmd_ls[2] = {ls, grep};
+
+	// t_data_rule cmd_ls[1] = {grep};
+	envv = pipex(cmd_ls, 2, envv);
 	
-    t_data_rule cmd_export[1] = {export};
+	// while (1)
+	// {
+	// 	rule = NULL;
+	// 	rule = readline("minishell->");
+	// 	if (rule != NULL)
+	// 	{
+	// 		// envv = pipex(cmd_export, 1, envv);
 
-    t_data_rule cmd_ls[1] = {ls};
-
-	// display_env(envv);
-
-	while (1)
-	{
-		rule = NULL;
-		rule = readline("minishell->");
-		if (rule != NULL)
-		{
-			envv = pipex(cmd_ls, 1, envv);
-			// envv = pipex(cmd_export, 1, envv);
-
-		}
-	}
+	// 	}
+	// }
 	free_env(envv);
 	return 0;
-
 }
+
+
+
+
 
 char **ft_strdup_env(char **envp)
 {
@@ -97,6 +105,53 @@ char **ft_strdup_env(char **envp)
 	new_env[i] = NULL;
     return new_env;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	// t_data_rule export;
+    //  char *tab6[3] = {"babygirl=", "et ta mama la gnetille=", NULL};
+    // export.command = "export";
+    // export.options = NULL;
+    // export.arguments = tab6;
+    // export.nbr_args = 2;
+    // export.dir_path = NULL;
+    // export.oper = NULL;
+    // export.out = NULL;
+    // export.pipe = false;
+    // t_data_rule cmd_export[1] = {export};
 	// t_data_rule env;
     // char *tab1[3] = {"Double MONSTRE mon coeur", "Triple Monstre", NULL};
     // env.command = "env";
