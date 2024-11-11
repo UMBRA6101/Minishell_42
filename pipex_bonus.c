@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:22:44 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/07 18:56:31 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/11 12:37:38 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ void execute(t_data_rule data, char **envp)
 	char *chemin;
 	char *pathname;
     char **cmd = build_command(data);
-
+	
 	chemin = "/usr/bin/";
 	pathname = ft_strjoin(chemin, cmd[0], 0);
+   
     if (!cmd[0])
     {
         error(1, NULL);
@@ -48,9 +49,8 @@ void execute(t_data_rule data, char **envp)
     }
 	exit(EXIT_SUCCESS);
 }
-		// exec_builtins ici
-		// et mettre le execve dans le else en com en dessous
-		// modifier ensuite check if builtins pour qu il fasse exec builtins uniquement si ca modifie pas l env
+
+
 
 void first_process(t_data_rule data, char **env, int *input_fd, int *p_fd, int is_last_cmd)
 {
@@ -66,7 +66,6 @@ void first_process(t_data_rule data, char **env, int *input_fd, int *p_fd, int i
         dup2(p_fd[1], STDOUT_FILENO);
         close(p_fd[1]);
     }
-
     execute(data, env);
 }
 
@@ -131,9 +130,7 @@ char **pipex(t_data_rule *data, int num_commands, char **envv)
 
 		if (check_if_in_builtins(data[i], envv) == -1 && data[i].pipe == false)
 		{
-			// write(2, "CHJKDCHJC\n", 10);
 			envv = exec_builtins(data[i], envv);
-
 		}
         do_pipe(data[i], envv, &input_fd, is_last_command);
         i++;

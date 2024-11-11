@@ -6,13 +6,13 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 15:38:34 by rafaria           #+#    #+#             */
-/*   Updated: 2024/11/06 15:25:32 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/11 12:41:18 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void handle_heredoc(const char *delimiter)
+void handle_heredoc(char *delimiter)
 {
     char *line;
     int   pipe_fds[2];
@@ -51,7 +51,7 @@ void handle_redirection(t_data_rule data)
 
     if (ft_strncmp(data.oper, "<", 2) == 0)
     {
-        fd = open(data.targetfile, O_RDONLY);
+        fd = open(data.input, O_RDONLY);
         if (fd == -1)
         {
             perror("Erreur entree ");
@@ -62,14 +62,16 @@ void handle_redirection(t_data_rule data)
     }
     else if (ft_strncmp(data.oper, "<<", 3) == 0)
     {
-        handle_heredoc(data.targetfile);
+        handle_heredoc(data.input);
     }
+
+	
     else if (ft_strncmp(data.oper, ">", 2) == 0)
     {
-        fd = open(data.targetfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        fd = open(data.out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
         if (fd == -1)
         {
-            perror("Erreur entree");
+            perror("Erreur sortie");
             exit(EXIT_FAILURE);
         }
         dup2(fd, STDOUT_FILENO);
@@ -77,7 +79,7 @@ void handle_redirection(t_data_rule data)
     }
     else if (ft_strncmp(data.oper, ">>", 3) == 0)
     {
-        fd = open(data.targetfile, O_WRONLY | O_CREAT | O_APPEND, 0777);
+        fd = open(data.out, O_WRONLY | O_CREAT | O_APPEND, 0777);
         if (fd == -1)
         {
             perror("Erreur ouverture sortie");
@@ -88,6 +90,10 @@ void handle_redirection(t_data_rule data)
     }
 	
 }
+
+
+
+
 
 void wait_for_children(void)
 {

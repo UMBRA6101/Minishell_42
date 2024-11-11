@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:10:56 by raphox            #+#    #+#             */
-/*   Updated: 2024/10/30 16:15:23 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/08 15:42:25 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft/libft.h"
 
 
-void echo(char *command, char *option, const char **arguments)
+void echo(char *command, char *option, char **arguments)
 {
     int i;
     char *result;
@@ -40,7 +40,7 @@ void echo(char *command, char *option, const char **arguments)
 }
 
 
-void display_echo(char *command, char *option, const char **arguments, char *result)
+void display_echo(char *command, char *option, char **arguments, char *result)
 {
 	if (command != NULL && option == NULL && arguments == 0)
 	{

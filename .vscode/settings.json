@@ -60,6 +60,7 @@
     "pipex_bonus.h": "c",
     "libft.h": "c",
     "cstdlib": "c",
-    "functional": "c"
+    "functional": "c",
+    "stat.h": "c"
   }
 }

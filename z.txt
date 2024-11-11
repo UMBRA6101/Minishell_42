@@ -1,8 +1,7 @@
-total 2516
--rw-rw-r-- 1 raphox raphox   2765 nov.   6 17:28 build_command.c
--rw-rw-r-- 1 raphox raphox 163928 nov.   6 17:44 build_command.o
--rw-rw-r-- 1 raphox raphox   2755 nov.   6 15:42 builtins.c
--rw-rw-r-- 1 raphox raphox 163632 nov.   6 15:46 builtins.o
--rw-rw-r-- 1 raphox raphox   2030 nov.   4 21:07 cd.c
--rw-rw-r-- 1 raphox raphox 162088 nov.   6 15:41 cd.o
--rw-rw-r-- 1 raphox raphox   2133 oct.  30 16:15 echo.c
+fsdfsdlfg;s
+sdggdsgs
+
+
+
+
+

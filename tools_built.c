@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 22:49:10 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/07 15:00:29 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/08 15:45:05 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	swap(char **a, char **b)
 }
 
 
-int	compare_strings(const char *str1, const char *str2)
+int	compare_strings(char *str1, char *str2)
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:28:32 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/08 14:46:31 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/08 15:43:21 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 // envp est une copie ! ! ! ! !!
 
 
-char	**export(char *command, const char **arguments, char **envv)
+char	**export(char *command, char **arguments, char **envv)
 {
 	int		i;
 	char	**result;
@@ -44,7 +44,7 @@ char	**export(char *command, const char **arguments, char **envv)
 
 	
 // Fonction cmd_export qui ajoute un nouvel argument à l'environnement
-char	**cmd_export(char *command, const char *argument, char **env)
+char	**cmd_export(char *command, char *argument, char **env)
 {
 	
 	int check;
@@ -69,7 +69,7 @@ char	**cmd_export(char *command, const char *argument, char **env)
 }
 
 // allouer nouvel environnement
-char	**allocate_new_env_to_add_variable(char **env, const char *arguments)
+char	**allocate_new_env_to_add_variable(char **env, char *arguments)
 {
 	int i;
 	int		size;

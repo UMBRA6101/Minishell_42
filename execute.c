@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 18:08:38 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/08 14:47:11 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/11 11:48:20 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,161 +23,33 @@ int main(int argc, char **argv, char **envp)
 	char **envv;
 	envv = ft_strdup_env(envp);
 	
-	t_data_rule env;
-    const char *tab1[3] = {"Double MONSTRE mon coeur", "Triple Monstre", NULL};
-    env.command = "env";
-    env.options = NULL;
-    env.arguments = NULL;
-    env.nbr_args = 0;
-    env.dir_path = NULL;
-    env.oper = NULL;
-    env.targetfile = NULL;
-    env.pipe = true;
-
-    t_data_rule second;
-    const char *tab2[2] = {"MON ANCIEN CHEMINNNNNN", NULL};
-    second.command = "export";
-    second.options = NULL;
-    second.arguments = tab2;
-    second.nbr_args = 2;
-    second.dir_path = NULL;
-    second.oper = NULL;
-    second.targetfile = NULL;
-    second.pipe = true;
-
-    t_data_rule third;
-    third.command = "env";
-    third.options = NULL;
-    third.arguments = NULL;
-    third.nbr_args = 0;
-    third.dir_path = NULL;
-    third.oper = NULL;
-    third.targetfile = NULL;
-    third.pipe = true;
-
-	t_data_rule forth;
-    const char *tab4[4] = {"COUCOUCOUCOU", "BONJOURRRRRR", "yupp", NULL};
-    forth.command = "export";
-    forth.options = NULL;
-    forth.arguments = tab4;
-    forth.nbr_args = 3;
-    forth.dir_path = NULL;
-    forth.oper = NULL;
-    forth.targetfile = NULL;
-    forth.pipe = true;
-
-	t_data_rule five;
-    const char *tab5[4] = {"COUCOUCOUCOU", "BONJOURRRRRR", "yupp", NULL};
-    five.command = "export";
-    five.options = NULL;
-    five.arguments = tab5;
-    five.nbr_args = 3;
-    five.dir_path = NULL;
-    five.oper = NULL;
-    five.targetfile = NULL;
-    five.pipe = false;
-
-
-	t_data_rule ls;
-    const char *tab_ls	[0];
-    ls.command = "ls";
-    ls.options = "-l";
-    ls.arguments = NULL;
-    ls.nbr_args = 0;
-    ls.dir_path = NULL;
-    ls.oper = ">>";
-    ls.targetfile = "z.txt";
-    ls.pipe = true;
-
-	t_data_rule grep;
-    const char *tab_grep[2] = {"oct", NULL};
-    grep.command = "grep";
-    grep.options = NULL;
-    grep.arguments = tab_grep;
-    grep.nbr_args = 1;
-    grep.dir_path = NULL;
-    grep.oper = "<";
-    grep.targetfile = "z.txt";
-    grep.pipe = true;
-
-	t_data_rule pwd;
-    // const char *tab_grep[2] = {"oct", NULL};
-    pwd.command = "pwd";
-    pwd.options = NULL;
-    pwd.arguments = NULL;
-    pwd.nbr_args = 0;
-    pwd.dir_path = NULL;
-    pwd.oper = NULL;
-    pwd.targetfile = NULL;
-    pwd.pipe = false;
-
-	t_data_rule cd;
-    const char *tab_cd[2] = {"/home/raphox/Desktop/Test", NULL};
-    cd.command = "cd";
-    cd.options = NULL;
-    cd.arguments = tab_cd;
-    cd.nbr_args = 1;
-    cd.dir_path = NULL;
-    cd.oper = NULL;
-    cd.targetfile = NULL;
-    cd.pipe = false;
-
-
-
-	t_data_rule unset;
-    const char *tab_unset[5] = {"LS_COLORS", "PATH", "DBUS_SESSION_BUS_ADDRESS", "VAR1=", NULL};
-    unset.command = "unset";
-    unset.options = NULL;
-    unset.arguments = tab_unset;
-    unset.nbr_args = 4;
-    unset.dir_path = NULL;
-    unset.oper = NULL;
-    unset.targetfile = NULL;
-    unset.pipe = false;
-
 	t_data_rule export;
-    const char *tab6[3] = {"babygirl=", "et ta mama la gnetille=", NULL};
+     char *tab6[3] = {"babygirl=", "et ta mama la gnetille=", NULL};
     export.command = "export";
     export.options = NULL;
     export.arguments = tab6;
     export.nbr_args = 2;
     export.dir_path = NULL;
     export.oper = NULL;
-    export.targetfile = NULL;
+    export.out = NULL;
     export.pipe = false;
-	// // envv = export("export", tab4, envv);
-	// allocate_new_env_to_add_variable(envv);
-	// display_env(envv);
-	// free(envv);
-    // t_data_rule data[2] = {second, forth};
-    // t_data_rule data2[1] = {second};
-    // // t_data_rule data3[1] = {third};
-    // // t_data_rule data3[1] = {five};
-    // t_data_rule pwd_export[2] = {pwd, export};
-    // t_data_rule data4[1] = {forth};
-    // t_data_rule data2[2] = {first, second};
-    // t_data_rule data3[3] = {first, second, third};
-    // t_data_rule data4[4] = {first, second, forth, third};    
-    // t_data_rule data1[4] = {first, second, third, forth};
 
-	// t_data_rule cmd_env[1] = {env};
-
-	// t_data_rule cmd_pwd[1] = {pwd};
+	t_data_rule ls;
+	char *tab_ls[0];
+    ls.command = "ls";
+    ls.options = NULL;
+    ls.arguments = NULL;
+	ls.input = NULL; // mot bloquand le heredoc
+    ls.out = "../try1/outfile.txt";
+    ls.oper = ">";
+	ls.nbr_args = 0;
+    ls.dir_path = NULL;
+    ls.pipe = false;
 	
-	// t_data_ru	le cmd_grep[1] = {grep};
-	
-    // t_data_rule cmd_ls[1] = {ls};
+    t_data_rule cmd_export[1] = {export};
 
-    // t_data_rule cmd_export[1] = {export};
+    t_data_rule cmd_ls[1] = {ls};
 
-    // t_data_rule cmd_cd[1] = {cd};
-
-    // t_data_rule cmd_unset[1] = {unset};
-
-	
-	
-
-	// envv = unset("unset", tab_unset, envv);
 	// display_env(envv);
 
 	while (1)
@@ -186,41 +58,15 @@ int main(int argc, char **argv, char **envp)
 		rule = readline("minishell->");
 		if (rule != NULL)
 		{
+			envv = pipex(cmd_ls, 1, envv);
 			// envv = pipex(cmd_export, 1, envv);
-			
-			// display_env(envv);
 
-			// envv = pipex(cmd_unset, 1, envv);
-			// envv = cd("cd", NULL, envv);
-			// envv = pipex(cmd_cd, 1, envv);
-			// display_env(envv);
-			// write(2, "\n\n\n", 3);
-			// display_env(envv);
-			// envv = pipex(cmd_cd, 1, envv);
-			// envv = pipex(cmd_env, 1, envv);
-			// envv = pipex(cmd_grep, 1, envv);
-			// envv = pipex(cmd_ls, 1, envv);
-			// envv = pipex(pwd_export, 2, envv);
-			// envv = pipex(data2, 1, envv);
-			// envv = pipex(data11, 1, envv);
-			// envv = pipex(data4, 1, envv);
-			// printf("\n\n\n\n");
-			// envv = pipex(data1, 3, envv);
-			// envv = pipex(data3, 1, envv);
-			// display_env(envv);
-			// display_env(envv);
-			// envv = pipex(data2, 1, envv);
-			// envv = pipex(data4, 1, envv);
-			// envv = pipex(data2, 1, envv);
-			// pipex(data3, 1, envv);
-			// pipex(data, 2, envp);
-			// pipex(data, 3, envv);
 		}
 	}
 	free_env(envv);
 	return 0;
-}
 
+}
 
 char **ft_strdup_env(char **envp)
 {
@@ -251,6 +97,156 @@ char **ft_strdup_env(char **envp)
 	new_env[i] = NULL;
     return new_env;
 }
+	// t_data_rule env;
+    // char *tab1[3] = {"Double MONSTRE mon coeur", "Triple Monstre", NULL};
+    // env.command = "env";
+    // env.options = NULL;
+    // env.arguments = NULL;
+    // env.nbr_args = 0;
+    // env.dir_path = NULL;
+    // env.oper = NULL;
+    // env.out = NULL;
+    // env.pipe = true;
+
+	// t_data_rule grep;
+    //  char *tab_grep[2] = {"oct", NULL};
+    // grep.command = "grep";
+    // grep.options = NULL;
+    // grep.arguments = tab_grep;
+    // grep.nbr_args = 1;
+    // grep.dir_path = NULL;
+    // grep.oper = "<";
+    // grep.out = "z.txt";
+    // grep.pipe = true;
+
+	// t_data_rule pwd;
+    // //  char *tab_grep[2] = {"oct", NULL};
+    // pwd.command = "pwd";
+    // pwd.options = NULL;
+    // pwd.arguments = NULL;
+    // pwd.nbr_args = 0;
+    // pwd.dir_path = NULL;
+    // pwd.oper = NULL;
+    // pwd.out = NULL;
+    // pwd.pipe = false;
+
+	// t_data_rule cd;
+    //  char *tab_cd[2] = {"/home/raphox/Desktop/Test", NULL};
+    // cd.command = "cd";
+    // cd.options = NULL;
+    // cd.arguments = tab_cd;
+    // cd.nbr_args = 1;
+    // cd.dir_path = NULL;
+    // cd.oper = NULL;
+    // cd.out = NULL;
+    // cd.pipe = false;
+
+
+
+	// t_data_rule unset;
+    //  char *tab_unset[5] = {"LS_COLORS", "PATH", "DBUS_SESSION_BUS_ADDRESS", "VAR1=", NULL};
+    // unset.command = "unset";
+    // unset.options = NULL;
+    // unset.arguments = tab_unset;
+    // unset.nbr_args = 4;
+    // unset.dir_path = NULL;
+    // unset.oper = NULL;
+    // unset.out = NULL;
+    // unset.pipe = false;
+
+	
+	// // envv = export("export", tab4, envv);
+	// allocate_new_env_to_add_variable(envv);
+	// display_env(envv);
+	// free(envv);
+    // t_data_rule data[2] = {second, forth};
+    // t_data_rule data2[1] = {second};
+    // // t_data_rule data3[1] = {third};
+    // // t_data_rule data3[1] = {five};
+    // t_data_rule pwd_export[2] = {pwd, export};
+    // t_data_rule data4[1] = {forth};
+    // t_data_rule data2[2] = {first, second};
+    // t_data_rule data3[3] = {first, second, third};
+    // t_data_rule data4[4] = {first, second, forth, third};    
+    // t_data_rule data1[4] = {first, second, third, forth};
+
+	// t_data_rule cmd_env[1] = {env};
+	// t_data_rule cmd_pwd[1] = {pwd};
+	// t_data_ru	le cmd_grep[1] = {grep};
+    // t_data_rule cmd_cd[1] = {cd};
+    // t_data_rule cmd_unset[1] = {unset};
+	// envv = unset("unset", tab_unset, envv);
+
+	
+// typedef struct 	s_data_rule
+// {
+// 	char	*command;
+// 	char *options;
+// 	char 		**arguments;
+// 	int 	nbr_args;
+// 	char	*dir_path;
+// 	char	*out; // il faut free
+// 	char	*input;
+// 	char 	oper; // r = >>
+// 	bool 	pipe;
+// 	int 	nb_command;
+// }				t_data_rule;	
+
+
+// typedef struct s_data_rule
+// {	
+//     char *command;
+//     char *options;
+//     char **arguments;
+	
+	
+// 	char *targetfile;
+//     int nbr_args;
+//     char *dir_path;
+// 	char *oper;
+//     bool pipe;
+
+// } t_data_rule;
+	// -----------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+			
+			// display_env(envv);
+
+			// envv = pipex(cmd_unset, 1, envv);
+			// envv = cd("cd", NULL, envv);
+			// envv = pipex(cmd_cd, 1, envv);
+			// display_env(envv);
+			// write(2, "\n\n\n", 3);
+			// display_env(envv);
+			// envv = pipex(cmd_cd, 1, envv);
+			// envv = pipex(cmd_env, 1, envv);
+			// envv = pipex(cmd_grep, 1, envv);
+			// envv = pipex(cmd_ls, 1, envv);
+			// envv = pipex(pwd_export, 2, envv);
+			// envv = pipex(data2, 1, envv);
+			// envv = pipex(data11, 1, envv);
+			// envv = pipex(data4, 1, envv);
+			// printf("\n\n\n\n");
+			// envv = pipex(data1, 3, envv);
+			// envv = pipex(data3, 1, envv);
+			// display_env(envv);
+			// display_env(envv);
+			// envv = pipex(data2, 1, envv);
+			// envv = pipex(data4, 1, envv);
+			// envv = pipex(data2, 1, envv);
+			// pipex(data3, 1, envv);
+			// pipex(data, 2, envp);
+			// pipex(data, 3, envv);
 
 
 

@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:30:17 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/07 18:57:34 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/08 15:42:15 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "pipex_bonus.h"
 #include "libft/libft.h"
 
-char **cd(char *command, const char **arguments, char **envp)
+char **cd(char *command, char **arguments, char **envp)
 {
 	char *buffer;
 

@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 17:47:30 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/08 14:37:21 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/08 15:45:50 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "pipex_bonus.h"
 #include "libft/libft.h"
 
-char **unset(char *command, const char **arguments, char **envp)
+char **unset(char *command, char **arguments, char **envp)
 {
 	int i;
 	i = 0;
@@ -35,7 +35,7 @@ char **unset(char *command, const char **arguments, char **envp)
 		
 }
 
-char	**cmd_unset(char **env, const char *var)
+char	**cmd_unset(char **env, char *var)
 {
 	int i;
 	i = 0;
@@ -62,7 +62,7 @@ char	**cmd_unset(char **env, const char *var)
 }
 
 
-int check_var(const char *str, int i, char **envv)
+int check_var(char *str, int i, char **envv)
 {
 	int size;
 	size = 0;

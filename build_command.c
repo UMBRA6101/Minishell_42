@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:02:21 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/06 17:28:21 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/08 16:20:35 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char    **build_command(t_data_rule data)
         return (NULL);
     }
     if (!copy_options_to_cmd(cmd, split_command, &i, j) ||
-        !copy_arguments_to_cmd(cmd, data.arguments, &i, data.nbr_args))
+        !copy_arguments_to_cmd(cmd, (const char **)data.arguments, &i, data.nbr_args))
     {
         free_command(cmd);
         return (NULL);
