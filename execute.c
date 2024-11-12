@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 18:08:38 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/11 17:29:20 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/12 19:11:18 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int main(int argc, char **argv, char **envp)
 	
 	t_data_rule grep;
 	char *tab_grep[2] = {"split", NULL};
-	char *tab_oper_grep[3] = {"<", ">", NULL};
-	char *tab_out_grep[3] = {"z.txt", "x.txt", NULL}; 
+	char tab_oper_grep[3] = {'<', 'r', 0};
+	char *tab_out_grep[3] = {"z.txt", "x.txt", NULL};
     grep.command = "grep";
     grep.options = NULL;
     grep.arguments = tab_grep;
@@ -41,8 +41,8 @@ int main(int argc, char **argv, char **envp)
 
 	t_data_rule ls;
 	char *tab_ls[0];
-	char *tab_oper[4] = {">", ">>", ">", NULL};
-	char *tab_out[4] = {"x.txt", "y.txt", "z.txt", NULL}; 
+	char tab_oper[4] = {'r', '>', 'r', 0};
+	char *tab_out[4] = {"x.txt", "y.txt", "z.txt", NULL};
     ls.command = "ls";
     ls.options = NULL;
     ls.arguments = NULL;
@@ -52,25 +52,46 @@ int main(int argc, char **argv, char **envp)
 	ls.nbr_args = 0;
     ls.dir_path = NULL;
     ls.pipe = false;
-    
-    t_data_rule cmd_ls[2] = {ls, grep};
+
+	t_data_rule cat;
+	// char *tab_cat[2] = {"split", NULL};
+	char tab_oper_cat[5] = {'h', 'r', '>', 'r', 0};
+	char *tab_out_cat[5] = {"pipi", "x.txt", "y.txt", "z.txt", 0}; //  le input doit etre au debut
+    cat.command = "cat";
+    cat.options = NULL;
+    cat.arguments = NULL;
+	cat.input = "bonjour"; // input sert aussi mot terminant le heredoc
+    cat.out = tab_out_cat;
+    cat.oper = tab_oper_cat;
+	cat.nbr_args = 0; // ne compte pas le nul
+    cat.dir_path = NULL;
+    cat.pipe = true;
+
+
+
+	t_data_rule cmd_cat[1] = {cat};
+
+    // t_data_rule cmd_ls[2] = {ls, grep};
 
 	// t_data_rule cmd_ls[1] = {grep};
-	envv = pipex(cmd_ls, 2, envv);
+	// envv = pipex(cmd_ls, 2, envv);
 	
-	// while (1)
-	// {
-	// 	rule = NULL;
-	// 	rule = readline("minishell->");
-	// 	if (rule != NULL)
-	// 	{
-	// 		// envv = pipex(cmd_export, 1, envv);
+	while (1)
+	{
+		rule = NULL;
+		rule = readline("minishell->");
+		if (rule != NULL)
+		{
+			envv = pipex(cmd_cat, 1, envv);
 
-	// 	}
-	// }
+		}
+	}
 	free_env(envv);
 	return 0;
 }
+
+
+
 
 
 

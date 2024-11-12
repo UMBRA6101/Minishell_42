@@ -6,100 +6,131 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:02:21 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/08 16:20:35 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/12 18:34:52 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 # include "libft/libft.h"
 
-#include "pipex_bonus.h"
-
-char    **build_command(t_data_rule data)
+char	**split_options(char *options, int *option_count)
 {
-    char    **cmd;
-    char    **split_command;
-    int     i;
-    int     j;
+	char	**split_command;
+	int		j;
 
-    j = count_options(data.options, &split_command);
-    cmd = allocate_command(j, data.nbr_args);
-    if (!cmd)
-    {
-        free_command(split_command);
-        return (NULL);
-    }
-    i = copy_command_to_cmd(cmd, data.command);
-    if (i == -1)
-    {
-        free_command(split_command);
-        return (NULL);
-    }
-    if (!copy_options_to_cmd(cmd, split_command, &i, j) ||
-        !copy_arguments_to_cmd(cmd, (const char **)data.arguments, &i, data.nbr_args))
-    {
-        free_command(cmd);
-        return (NULL);
-    }
-    cmd[i] = NULL;
-    return (cmd);
+	split_command = NULL;
+	j = 0;
+	if (options)
+	{
+		split_command = ft_split(options, ' ');
+		if (!split_command)
+			return (NULL);
+		while (split_command[j])
+			j++;
+	}
+	*option_count = j;
+	return (split_command);
 }
 
-int    count_options(char *options, char ***split_command)
+char	**allocate_command(int option_count, int nbr_args)
 {
-    int j;
+	char	**cmd;
 
-    j = 0;
-    *split_command = NULL;
-    if (options)
-    {
-        *split_command = ft_split(options, ' ');
-        while (*split_command && (*split_command)[j])
-            j++;
-    }
-    return (j);
+	cmd = malloc((option_count + nbr_args + 2) * sizeof(char *));
+	if (!cmd)
+		return (NULL);
+	return (cmd);
 }
 
-char    **allocate_command(int options_count, int nbr_args)
+int	copy_command(char **cmd, char *command)
 {
-    return malloc((options_count + nbr_args + 2) * sizeof(char *));
+	cmd[0] = ft_strdup(command);
+	if (!cmd[0])
+		return (0);
+	return (1);
 }
 
-int    copy_command_to_cmd(char **cmd, char *command)
+int	copy_options(char **cmd, char **split_command, int i, int option_count)
 {
-    cmd[0] = strdup(command);
-    if (!cmd[0])
-        return (-1);
-    return (1);
+	int k;
+
+	k = 0;
+	while (k < option_count)
+	{
+		cmd[i] = ft_strdup(split_command[k]);
+		if (!cmd[i])
+			return (0);
+		i++;
+		k++;
+	}
+	free_command(split_command);
+	return (1);
 }
 
-int    copy_options_to_cmd(char **cmd, char **split_command, int *i, int j)
+int	copy_arguments(char **cmd, char **arguments, int i, int nbr_args)
 {
-    int k;
+	int k;
 
-    k = 0;
-    while (k < j)
-    {
-        cmd[*i] = strdup(split_command[k++]);
-        if (!cmd[*i])
-            return (0);
-        (*i)++;
-    }
-    free_command(split_command);
-    return (1);
+	k = 0;
+	while (k < nbr_args)
+	{
+		cmd[i] = ft_strdup(arguments[k]);
+		if (!cmd[i])
+			return (0);
+		i++;
+		k++;
+	}
+	return (1);
 }
 
-int    copy_arguments_to_cmd(char **cmd, const char **arguments, int *i, int nbr_args)
-{
-    int k;
 
-    k = 0;
-    while (k < nbr_args)
-    {
-        cmd[*i] = strdup(arguments[k++]);
-        if (!cmd[*i])
-            return (0);
-        (*i)++;
-    }
-    return (1);
+char	**initialize_command(char *command, char **split_command, int option_count, int nbr_args)
+{
+	char	**cmd;
+
+	cmd = allocate_command(option_count, nbr_args);
+	if (!cmd)
+	{
+		if (split_command)
+			free_command(split_command);
+		return (NULL);
+	}
+	if (!copy_command(cmd, command))
+	{
+		free_command(split_command);
+		free_command(cmd);
+		return (NULL);
+	}
+	return (cmd);
+}
+
+
+char	**build_command(t_data_rule data)
+{
+	char	**cmd;
+	char	**split_command;
+	int		option_count;
+	int		i;
+
+	split_command = split_options(data.options, &option_count);
+	if (data.options && !split_command)
+		return (NULL);
+	cmd = initialize_command(data.command, split_command, option_count, data.nbr_args);
+	if (!cmd)
+		return (NULL);
+	i = 1;
+	if (split_command && !copy_options(cmd, split_command, i, option_count))
+	{
+		free_command(cmd);
+		return (NULL);
+	}
+	if (data.options != NULL)
+		i = option_count + 1;
+	if (!copy_arguments(cmd, data.arguments, i, data.nbr_args))
+	{
+		free_command(cmd);
+		return (NULL);
+	}
+	cmd[i + data.nbr_args] = NULL;
+	return (cmd);
 }

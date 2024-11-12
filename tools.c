@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 15:38:34 by rafaria           #+#    #+#             */
-/*   Updated: 2024/11/11 17:49:01 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/12 18:46:22 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void handle_redirection(t_data_rule data)
 
 	while (data.out[i] != NULL)
 	{
-		if (ft_strncmp(data.oper[i], "<", 2) == 0)
+		if (data.oper[i] ==  '<')
     	{
         	fd = open(data.input, O_RDONLY);
         	if (fd == -1)
@@ -65,7 +65,7 @@ void handle_redirection(t_data_rule data)
         	dup2(fd, STDIN_FILENO);
         	close(fd);
     	}
-    	else if (ft_strncmp(data.oper[i], "<<", 3) == 0)
+    	else if (data.oper[i] == 'h')
     	{
         	handle_heredoc(data.input);
     	}
@@ -77,12 +77,12 @@ void handle_redirection(t_data_rule data)
 }
 
 	
-void handle_exit_redirections(char *oper, char *output)
+void handle_exit_redirections(char oper, char *output)
 {
     int fd;
 	
 	
-    if (ft_strncmp(oper, ">", 2) == 0)
+    if (oper ==  '>')
     {
         fd = open(output, O_WRONLY | O_CREAT | O_TRUNC, 0644);
         if (fd == -1)
@@ -93,7 +93,7 @@ void handle_exit_redirections(char *oper, char *output)
         dup2(fd, STDOUT_FILENO);
         close(fd);
     }
-    else if (ft_strncmp(oper, ">>", 3) == 0)
+    else if (oper ==  'r')
     {
         fd = open(output, O_WRONLY | O_CREAT | O_APPEND, 0777);
         if (fd == -1)

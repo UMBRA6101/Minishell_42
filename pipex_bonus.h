@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:10:50 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/11 12:56:57 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/12 18:04:37 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_data_rule
 
 	char	*input;
 	char	**out;
-	char 	**oper;
+	char 	*oper;
 
     int nbr_args;
     char *dir_path;
@@ -63,12 +63,28 @@ void exit_with_error(char *msg);
 
 // BUILD COMMAND . C ---------------------------------------------------------------------------------------------
 
+// char    **build_command(t_data_rule data);
+// int    count_options(char *options, char ***split_command);
+// char    **allocate_command(int options_count, int nbr_args);
+// int    copy_command_to_cmd(char **cmd, char *command);
+// int    copy_options_to_cmd(char **cmd, char **split_command, int *i, int j);
+// int    copy_arguments_to_cmd(char **cmd, const char **arguments, int *i, int nbr_args);
+
+// char    **split_options(char *options, int *option_count);
+// char    **allocate_command(int option_count, int nbr_args);
+// int     copy_command(char **cmd, char *command);
+// int     copy_options(char **cmd, char **split_command, int *i, int option_count);
+// int     copy_arguments(char **cmd, char **arguments, int *i, int nbr_args);
+// char    **build_command(t_data_rule data);
+
+char    **split_options(char *options, int *option_count);
+char    **allocate_command(int option_count, int nbr_args);
+int     copy_command(char **cmd, char *command);
+int     copy_options(char **cmd, char **split_command, int i, int option_count);
+int     copy_arguments(char **cmd, char **arguments, int i, int nbr_args);
+char    **initialize_command(char *command, char **split_command, int option_count, int nbr_args);
 char    **build_command(t_data_rule data);
-int    count_options(char *options, char ***split_command);
-char    **allocate_command(int options_count, int nbr_args);
-int    copy_command_to_cmd(char **cmd, char *command);
-int    copy_options_to_cmd(char **cmd, char **split_command, int *i, int j);
-int    copy_arguments_to_cmd(char **cmd, const char **arguments, int *i, int nbr_args);
+
 
 // TOOLS . C ---------------------------------------------------------------------------------------------
 
@@ -77,7 +93,7 @@ void    free_command(char **cmd);
 void wait_for_children(void);
 void handle_heredoc(char *delimiter);
 void handle_redirection(t_data_rule data);
-void handle_exit_redirections(char *oper, char *output);
+void handle_exit_redirections(char oper, char *output);
 
 
 // SPLIT . C ---------------------------------------------------------------------------------------------

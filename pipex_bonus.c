@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:22:44 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/11 17:04:23 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/12 19:24:53 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void second_process(int *input_fd, int *p_fd, int is_last_cmd)
         close(*input_fd);
     }
 
-    if (!is_last_cmd) // pas la derniere commande
+    if (!is_last_cmd) // pas la derniere commande // est different de 0 je crois
     {
         close(p_fd[1]);
         *input_fd = p_fd[0];
