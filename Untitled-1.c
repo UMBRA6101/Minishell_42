@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:22:44 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/08 15:58:48 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/13 15:27:00 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ void execute(t_data_rule data, char **envp)
 	}
 }
 
-void first_process(t_data_rule data, char **env, int *input_fd, int *p_fd, int is_last_cmd)
+void execution_process(t_data_rule data, char **env, int *input_fd, int *p_fd, int is_last_cmd)
 {
-    if (input_fd != NULL && *input_fd != -1)
+    if (input_fd != NULL && *input_fd != -1) // si input valid et different = flux d entree dispo
     {
-        dup2(*input_fd, STDIN_FILENO);
+        dup2(*input_fd, STDIN_FILENO); // ancienne entree
         close(*input_fd);
     }
 
@@ -63,7 +63,7 @@ void second_process(int *input_fd, int *p_fd, int is_last_cmd)
         close(*input_fd);
     }
 
-    if (!is_last_cmd) // pas la derniere commande
+    if (is_last_cmd == 0) // pas la derniere commande
     {
         close(p_fd[1]);
         *input_fd = p_fd[0];
@@ -92,7 +92,7 @@ void do_pipe(t_data_rule data, char **env, int *input_fd, int is_last_cmd)
     }
     if (pid == 0)
     {
-        first_process(data, env, input_fd, p_fd, is_last_cmd);
+        execution_process(data, env, input_fd, p_fd, is_last_cmd);
     }
     else
     {

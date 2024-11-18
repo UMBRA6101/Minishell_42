@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:10:50 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/12 18:04:37 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/13 18:03:20 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ char **pipex(t_data_rule *data, int num_commands, char **envv);
 
 
 void wait_for_children(void);
-void execute(t_data_rule data, char **envp);
 void free_command(char **cmd);
-void first_process(t_data_rule data, char **env, int *input_fd, int *p_fd, int is_last_cmd);
+void execute(t_data_rule data, char **envp, int *p_fd);
+void execution_process(t_data_rule data, char **env, int *input_fd, int *p_fd, int is_last_cmd);
 void second_process(int *input_fd, int *p_fd, int is_last_cmd);
 void do_pipe(t_data_rule data, char **env, int *input_fd, int is_last_cmd);
 void exit_with_error(char *msg);
@@ -135,6 +135,7 @@ int check_var(char *str, int i, char **envv);
 
 // ERROR . C
 void	free_env(char **env);
+void	handle_free(char **envp);
 
 //TOOLS BUILT. C ------------------------------------------------------------------------------------------
 

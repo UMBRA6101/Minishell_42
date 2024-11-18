@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 18:08:38 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/12 19:11:18 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/18 15:31:19 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,36 +23,6 @@ int main(int argc, char **argv, char **envp)
 	char **envv;
 	envv = ft_strdup_env(envp);
 	
-
-	
-	t_data_rule grep;
-	char *tab_grep[2] = {"split", NULL};
-	char tab_oper_grep[3] = {'<', 'r', 0};
-	char *tab_out_grep[3] = {"z.txt", "x.txt", NULL};
-    grep.command = "grep";
-    grep.options = NULL;
-    grep.arguments = tab_grep;
-	grep.input = "z.txt"; // input sert aussi mot terminant le heredoc
-    grep.out = tab_out_grep;
-    grep.oper = tab_oper_grep;
-	grep.nbr_args = 1; // ne compte pas le nul
-    grep.dir_path = NULL;
-    grep.pipe = true;
-
-	t_data_rule ls;
-	char *tab_ls[0];
-	char tab_oper[4] = {'r', '>', 'r', 0};
-	char *tab_out[4] = {"x.txt", "y.txt", "z.txt", NULL};
-    ls.command = "ls";
-    ls.options = NULL;
-    ls.arguments = NULL;
-	ls.input = NULL;
-    ls.out = tab_out;
-    ls.oper = tab_oper;
-	ls.nbr_args = 0;
-    ls.dir_path = NULL;
-    ls.pipe = false;
-
 	t_data_rule cat;
 	// char *tab_cat[2] = {"split", NULL};
 	char tab_oper_cat[5] = {'h', 'r', '>', 'r', 0};
@@ -69,31 +39,122 @@ int main(int argc, char **argv, char **envp)
 
 
 
-	t_data_rule cmd_cat[1] = {cat};
 
-    // t_data_rule cmd_ls[2] = {ls, grep};
+	t_data_rule grep;
+	char *tab_grep[2] = {"VAR1=BONNNNNNJOUUUUUUUUUUUURRRRRRRRRRRRRRRRr", NULL};
+	char tab_oper_grep[3] = {'<', 0};
+	char *tab_out_grep[3] = {"x.txt", NULL};
+    grep.command = "grep";
+    grep.options = NULL;
+    grep.arguments = tab_grep;
+	grep.input = "x.txt"; // input sert aussi mot terminant le heredoc
+    grep.out = tab_out_grep;
+    grep.oper = tab_oper_grep;
+	grep.nbr_args = 1; // ne compte pas le nul
+    grep.dir_path = NULL;
+    grep.pipe = false;
+    t_data_rule cmd_grep[1] = {grep};
 
+	t_data_rule ls;
+	char *tab_ls[0];
+	char tab_oper_ls[4] = {'r', '>', 'r', 0};
+	char *tab_out_ls[4] = {"x.txt", "y.txt", "z.txt", NULL};
+    ls.command = "ls";
+    ls.options = NULL;
+    ls.arguments = NULL;
+	ls.input = NULL;
+	ls.out = NULL ;
+	// ls.out = tab_out_ls;
+	ls.oper = NULL;
+	// ls.oper = tab_oper_ls;
+	ls.nbr_args = 0;
+    ls.dir_path = NULL;
+    ls.pipe = true;
+    t_data_rule cmd_ls[1] = {ls};
+
+
+	t_data_rule env;
+	// char *tab_env[0];
+	char tab_oper[2] = {'r', 0};
+	char *tab_out[2] = {"x.txt", NULL};
+    env.command = "env";
+    env.options = NULL;
+    env.arguments = NULL;
+	env.input = NULL;
+	env.out = NULL ;
+	env.out = tab_out;
+	// env.oper = NULL;
+	env.oper = tab_oper;
+	env.nbr_args = 0;
+    env.dir_path = NULL;
+    env.pipe = true;
+    t_data_rule cmd_env[1] = {env};
+
+
+	t_data_rule env_second;
+	// char *tab_env_second[0];
+	// char tab_oper[4] = {'r', '>', 'r', 0};
+	// char *tab_out[4] = {"x.txt", "y.txt", "z.txt", NULL};
+    env_second.command = "env";
+    env_second.options = NULL;
+    env_second.arguments = NULL;
+	env_second.input = NULL;
+	env_second.out = NULL ;
+	env_second.out = tab_out;
+	// env_second.oper = NULL;
+	env_second.oper = tab_oper;
+	env_second.nbr_args = 0;
+    env_second.dir_path = NULL;
+    env_second.pipe = false;
+    t_data_rule cmd_env_second[1] = {env_second};
+
+
+
+
+    // t_data_rule cmd_env_x2[2] = {env, env_second};
+
+
+    // // t_data_rule cmd_ls_grep[2] = {ls, grep};
+	// // envv = pipex(cmd_ls_grep, 2, envv);
+
+	// envv = pipex(cmd_env_x2, 2, envv);
+
+	// 	display_env(envv);
+
+	char *tab_unset[2] = {NULL, NULL};
+
+	// // envv = export("export", tab_grep, envv);
+	envv = unset("unset", NULL, envv);
+
+	display_env(envv);
+	
+	free_env(envv);
+	return 0;
+
+
+
+
+
+			
 	// t_data_rule cmd_ls[1] = {grep};
 	// envv = pipex(cmd_ls, 2, envv);
 	
-	while (1)
-	{
-		rule = NULL;
-		rule = readline("minishell->");
-		if (rule != NULL)
-		{
-			envv = pipex(cmd_cat, 1, envv);
+	// while (1)
+	// {
+	// 	rule = NULL;
+	// 	rule = readline("minishell->");
+	// 	if (rule != NULL)
+	// 	{
 
-		}
-	}
-	free_env(envv);
-	return 0;
+	// 	}
+	// }
 }
 
 
 
 
 
+// valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes --track-fds=yes ./pipex
 
 
 
@@ -126,39 +187,6 @@ char **ft_strdup_env(char **envp)
 	new_env[i] = NULL;
     return new_env;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

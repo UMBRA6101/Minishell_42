@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 16:29:11 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/07 20:08:13 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/14 15:51:28 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,14 @@ char **exec_builtins(t_data_rule struc, char **envp)
 	else if (ft_strncmp(struc.command, "echo", ft_strlen(struc.command)) == 0)
 	{
 		echo(struc.command, struc.options, struc.arguments);
-		exit(EXIT_SUCCESS);
+		// valgrind valid
+		return (envp);
 	}
 	else if (ft_strncmp(struc.command, "env", ft_strlen(struc.command)) == 0)
 	{
 		display_env(envp);
-		exit(EXIT_SUCCESS);
+		// valgrind valid
+		return (envp);
 	}
 	else if (ft_strncmp(struc.command, "export", ft_strlen(struc.command)) == 0) // modidfy env
 	{	
@@ -39,14 +41,12 @@ char **exec_builtins(t_data_rule struc, char **envp)
 	else if (ft_strncmp(struc.command, "pwd", ft_strlen(struc.command)) == 0)
 	{
 		pwd(struc.command, envp);
-		exit(EXIT_SUCCESS);
+		return (envp);
 	}
 	else if (ft_strncmp(struc.command, "unset", ft_strlen(struc.command)) == 0) // modidfy env
 	{
 			envp = unset(struc.command, struc.arguments, envp);
 			return (envp);
-			
-
 	}
 	return (envp);
 }

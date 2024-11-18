@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:22:44 by raphox            #+#    #+#             */
-/*   Updated: 2024/11/12 19:24:53 by raphox           ###   ########.fr       */
+/*   Updated: 2024/11/18 15:39:13 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft/libft.h"
 
 
-void execute(t_data_rule data, char **envp)
+void execute(t_data_rule data, char **envp, int *p_fd)
 {
 	char *chemin;
 	char *pathname;
@@ -22,11 +22,18 @@ void execute(t_data_rule data, char **envp)
 	
 	chemin = "/usr/bin/";
 	pathname = ft_strjoin(chemin, cmd[0], 0);
-   
+	
+	close(p_fd[0]);
+    close(p_fd[1]);
+
     if (!cmd[0])
     {
-        error(1, NULL);
+		free_env(cmd);
+		free(pathname);
+		free_env(envp);
+		envp = NULL;
     }
+	
     if (data.oper != NULL)
     {
         handle_redirection(data);
@@ -35,24 +42,36 @@ void execute(t_data_rule data, char **envp)
 	if (check_if_in_builtins(data, envp) == 1)
 	{
 		exec_builtins(data, envp);
+		free_env(cmd);
+		free(pathname);
+		free_env(envp);
+		envp = NULL;
+		
 		exit(EXIT_SUCCESS);
 	}
 	else if (check_if_in_builtins(data, envp) == -1)
 	{
+		free_env(cmd);
+		free(pathname);
+		free_env(envp);
+		envp = NULL;
 		exit(EXIT_SUCCESS);
 	}
 	else if (execve(pathname, cmd, envp) == -1)
 	{
+		free_env(cmd);
+		free(pathname);
+
+		free_env(envp);
+		envp = NULL;
+
 		perror("execve");
-		free_command(cmd);
 		exit(EXIT_FAILURE);
     }
 	exit(EXIT_SUCCESS);
 }
 
-
-
-void first_process(t_data_rule data, char **env, int *input_fd, int *p_fd, int is_last_cmd)
+void execution_process(t_data_rule data, char **env, int *input_fd, int *p_fd, int is_last_cmd)
 {
     if (input_fd != NULL && *input_fd != -1)
     {
@@ -60,13 +79,13 @@ void first_process(t_data_rule data, char **env, int *input_fd, int *p_fd, int i
         close(*input_fd);
     }
 
-    if (!is_last_cmd)
+    if (!is_last_cmd) // pas la derniere commande // est different de 0 je crois
     {
         close(p_fd[0]);
         dup2(p_fd[1], STDOUT_FILENO);
         close(p_fd[1]);
-    }
-    execute(data, env);
+	}
+    execute(data, env, p_fd);
 }
 
 void second_process(int *input_fd, int *p_fd, int is_last_cmd)
@@ -75,7 +94,6 @@ void second_process(int *input_fd, int *p_fd, int is_last_cmd)
     {
         close(*input_fd);
     }
-
     if (!is_last_cmd) // pas la derniere commande // est different de 0 je crois
     {
         close(p_fd[1]);
@@ -105,12 +123,13 @@ void do_pipe(t_data_rule data, char **env, int *input_fd, int is_last_cmd)
     }
     if (pid == 0)
     {
-        first_process(data, env, input_fd, p_fd, is_last_cmd); // enfant
+		execution_process(data, env, input_fd, p_fd, is_last_cmd); // enfant
     }
-    else
+    else // pid different de 0
     {
         second_process(input_fd, p_fd, is_last_cmd); // parents
     }
+	
 }
 
 char **pipex(t_data_rule *data, int num_commands, char **envv)
