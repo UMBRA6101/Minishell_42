@@ -34,15 +34,15 @@ void	signal_treatment(int sig)
 	else if (sig == SIGINT)
 	{
 		printf("\n");
-		rl_on_new_line();
 		rl_replace_line("", 0);
+		rl_on_new_line();
 		rl_redisplay();
 		write_temp_file(TMP_FILES, 1024);
 	}
 	else if (sig == SIGQUIT)
 	{
-		rl_on_new_line();
 		rl_redisplay();
+		rl_on_new_line();
 		printf("  \b\b");
 	}
 }

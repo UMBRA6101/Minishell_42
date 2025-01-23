@@ -142,6 +142,7 @@ char	**pipex(t_data_rule *data, t_erreur *err, int num_commands, char **envv)
 	if (tchoupi(data, &struct_exec, err) == -1)
 		return (struct_exec.env);
 	wait_for_children();
+	g_pid = 0;
 	return (err->exit_value = ask_tmp_files(), free(struct_exec.tab_heredoc),
 		struct_exec.env);
 }
