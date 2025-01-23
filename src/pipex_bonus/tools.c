@@ -45,7 +45,7 @@ int	handle_heredoc(char *delimiter)
 
 	if (pipe(pipe_fds) == -1)
 		return (perror("Erreur pipe"), -1);
-	write_temp_file(TMP_FILES, 1024);
+	write_temp_file(TMP_FILES, 1023);
 	while (1)
 	{
 		if (ask_tmp_files() == 1024)

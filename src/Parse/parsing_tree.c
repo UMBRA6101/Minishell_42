@@ -53,8 +53,7 @@ static int	init_rqst(t_data_rule *rqst, t_split *split, \
 	add_command(&rqst[k], split);
 	if (ft_strncmp(rqst[k].command, "exit", ft_strlen(rqst[k].command)) == 0)
 		return (1);
-	if (ft_strncmp(rqst[k].command, "echo", ft_strlen(rqst[k].command)) == 0
-		&& ft_strlen(split[1].word) != ft_occ(split[1].word + 1, 'n') + 1)
+	if (echo_test(rqst + k, split, nb_node))
 		return (1);
 	rqst[k].nb_opt = ft_nbr_option(split + 1, nb_node);
 	if (rqst[k].nb_opt == -1)

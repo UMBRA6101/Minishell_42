@@ -36,3 +36,16 @@ int	ft_occ(char *str, char c)
 		i++;
 	return (i);
 }
+
+int	echo_test(t_data_rule *rqst, t_split *split, int nb_node)
+{
+	if (ft_strncmp(rqst->command, "echo", ft_strlen(rqst->command)) == 0)
+	{
+		if (nb_node >= 2)
+		{
+			if (ft_strlen(split[1].word) != ft_occ(split[1].word + 1, 'n') + 1)
+				return (1);
+		}
+	}
+	return (0);
+}
