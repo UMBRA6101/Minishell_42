@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
+/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:06:10 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/22 21:49:32 by rafaria          ###   ########.fr       */
+/*   Updated: 2025/01/25 11:43:54 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,6 @@ int	ft_is_real_digit(char *str)
 
 int	built_exit(char **arguments)
 {
-	int	n;
-
-	n = 0;
 	if (arguments == NULL)
 	{
 		return (1);

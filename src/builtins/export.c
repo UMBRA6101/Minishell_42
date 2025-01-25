@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
+/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:28:32 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/22 21:56:39 by rafaria          ###   ########.fr       */
+/*   Updated: 2025/01/25 17:37:12 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,9 @@
 int	check_export_before_equal(char *args)
 {
 	int	i;
-	int	j;
 	int	found;
 
 	i = 0;
-	j = 0;
 	found = 0;
 	while (args[i] != '\0')
 	{
@@ -83,6 +81,48 @@ char	**export(char *command, char **arguments, char **envv)
 	return (result);
 }
 
+//-------------------------------------------------------------------------------------------------------------------------------
+int check_lign_in_envv(int limiter, char *argument, char *ligne_envv)
+{
+	int j;
+	j = 0;
+	while (j <= limiter)
+	{
+		if (argument[j] == ligne_envv[j])
+			j++;
+		else
+			return (-1);
+	}
+	if (j == limiter + 1)
+		return (1);
+	return(0);
+	
+}
+
+
+
+int check_if_in_envv(char *argument, char **envv)
+{
+	int i;
+	i = 0;
+	
+	int limiter;
+	limiter = 0;
+
+	while (argument[limiter] != '=' && argument[limiter] != '\0')
+	{
+		limiter++;
+	}
+	while (envv[i] != NULL)
+	{
+		if (check_lign_in_envv(limiter, argument, envv[i]) == 1)
+			return (i);
+		i++;	
+	}
+	return (-1);
+	
+}
+
 // Fonction cmd_export qui ajoute un nouvel argument à l'environnement
 char	**cmd_export(char *argument, char **env)
 {
@@ -98,14 +138,51 @@ char	**cmd_export(char *argument, char **env)
 	}
 	if (check_var(argument) == 1)
 		return (env);
-	new_env = allocate_new_env_to_add_variable(env, argument);
+	if (check_if_in_envv(argument, env) != -1)
+	{
+		check = check_if_in_envv(argument, env);
+		new_env = allocate_new_env_to_modify_variable(check, env, argument);
+	}
+	else
+		new_env = allocate_new_env_to_add_variable(env, argument);
+	
 	if (new_env == NULL)
 		return (NULL);
 	free_env(env);
 	return (new_env);
 }
 
-// allouer nouvel environnement
+
+// alouer nouvel env + modif variable existante
+char	**allocate_new_env_to_modify_variable(int pin, char **env, char *arguments)
+{
+	int		i;
+	int		size;
+	char	**new_env;
+
+	i = 0;
+	size = 0;
+	while (env[size] != NULL)
+		size++;
+	new_env = (char **)malloc(sizeof(char *) * (size + 1));
+	if (new_env == NULL)
+		return (NULL);
+	while (env[i] != NULL)
+	{
+		if (i == pin)
+			new_env[i] = ft_strdup(arguments);
+		else
+			new_env[i] = ft_strdup(env[i]);
+		i++;
+	}
+	new_env[i] = NULL;
+	return (new_env);
+}
+
+
+
+
+// allouer nouvel environnement + nouvel varaible
 char	**allocate_new_env_to_add_variable(char **env, char *arguments)
 {
 	int		i;
@@ -126,6 +203,7 @@ char	**allocate_new_env_to_add_variable(char **env, char *arguments)
 		new_env[i] = ft_strdup(env[i]);
 		i++;
 	}
+	
 	new_env[i] = ft_strdup(arguments);
 	new_env[++i] = NULL;
 	return (new_env);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
+/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:17:46 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/23 04:43:53 by rafaria          ###   ########.fr       */
+/*   Updated: 2025/01/25 17:23:55 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 pid_t		g_pid;
 
-/*void print_request(t_data_rule *request)
+void print_request(t_data_rule *request)
 {
 	int	i;
 	int	k;
@@ -71,7 +71,7 @@ pid_t		g_pid;
 		k++;
 	}
 	printf("------------------------------------------\n");
-}*/
+}
 /*	initialisation of minishell struct	*/
 int	init(t_info **info, char **envp)
 {
@@ -106,6 +106,7 @@ static int	parse_exec(t_info **info, char *rule)
 		print_parsing_error((*info)->err);
 	else
 	{
+		print_request((*info)->cmd);
 		(*info)->envv = pipex((*info)->cmd, (*info)->err,
 				(*info)->cmd->nb_command, (*info)->envv);
 		if ((*info)->envv == NULL)
@@ -153,15 +154,14 @@ char	**ft_strdup_env(char **envp)
 	int		i;
 	char	**new_env;
 
+	if (count_arguments(envp) == 0 || count_arguments(envp) == 2)
+		return (init_minimal_env());
 	i = 0;
 	while (envp[i])
 		i++;
 	new_env = (char **)malloc(sizeof(char *) * (i + 1));
 	if (new_env == NULL)
-	{
-		perror("malloc");
-		return (NULL);
-	}
+		return (perror("malloc"), NULL);
 	i = 0;
 	while (envp[i])
 	{
@@ -176,3 +176,24 @@ char	**ft_strdup_env(char **envp)
 	new_env[i] = NULL;
 	return (new_env);
 }
+
+char **init_minimal_env(void)
+{
+	char **new_env;
+	char pwd[1024];
+
+	getcwd(pwd, sizeof(pwd));
+	new_env = (char **)malloc(sizeof(char *) * (7));
+
+	new_env[0] = strdup("SHLVL=1");
+	new_env[1] = strdup("TERM=xterm");
+	new_env[2] = strdup("_=./minishell");
+	new_env[3] = ft_strjoin("PWD=", pwd, 0);
+	new_env[4] = ft_strjoin("OLDPWD=", "/home/raphox/Music/minishell", 0);
+	new_env[5] = strdup("PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin");
+	new_env[6] = NULL;
+	return (new_env);
+}
+
+
+

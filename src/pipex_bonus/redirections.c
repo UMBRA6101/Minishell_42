@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
+/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 22:37:42 by rafaria           #+#    #+#             */
-/*   Updated: 2025/01/23 03:39:27 by rafaria          ###   ########.fr       */
+/*   Updated: 2025/01/25 17:20:46 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,11 +88,14 @@ char	*find_path_in_paths(char **paths, char *cmd)
 	return (NULL);
 }
 
-char	*find_path(char *cmd, char **envv)
+char	*find_path(char *cmd_brut, char *cmd, char **envv)
 {
 	int		i;
 	char	**paths;
 	char	*path;
+
+	if (access(cmd_brut, F_OK | X_OK) == 0)
+			return (cmd_brut);
 
 	i = 0;
 	while (envv[i] && ft_strnstr(envv[i], "PATH", 4) == 0)

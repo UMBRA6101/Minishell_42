@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
+/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:30:17 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/22 20:17:31 by rafaria          ###   ########.fr       */
+/*   Updated: 2025/01/25 15:40:56 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ char	**cd(char *command, char **args, char **envp)
 	getcwd(old_pwd, sizeof(old_pwd));
 	if (args != NULL)
 		handle_cd_errors(args);
+	if (args != NULL && args[0][0] == '.' && args[0][1] == '\0')
+		return (envp);
 	if (command != NULL && args == NULL)
 		chdir(home = getenv("HOME"));
 	else if (command != NULL && args != NULL && strcmp(args[0], "..") == 0)

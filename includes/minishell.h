@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thodos-s <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 05:53:31 by thodos-s          #+#    #+#             */
-/*   Updated: 2025/01/23 05:53:33 by thodos-s         ###   ########.fr       */
+/*   Updated: 2025/01/25 17:07:36 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,15 @@
 # define PROMPT "Minishell-> "
 # define TMP_FILES "/tmp/minishell_tmp"
 
+
 extern pid_t	g_pid;
+
+
+
+char	**allocate_new_env_to_modify_variable(int pin, char **env, char *arguments);
+char **init_minimal_env(void);
+
+
 
 int				tchoupi(t_data_rule *data, t_struc_process *struct_exec,
 					t_erreur *err);
@@ -135,7 +143,7 @@ int				handle_entry_redirections(t_data_rule data, char oper,
 					char *input);
 int				handle_exit_redirections(t_data_rule data, char oper,
 					char *output);
-char			*find_path(char *cmd, char **envv);
+char			*find_path(char *cmd_brut, char *cmd, char **envv);
 void			wait_for_children(void);
 
 void			is_tmpfile_90(int pipe_lecutre, int pipe_ecriture);

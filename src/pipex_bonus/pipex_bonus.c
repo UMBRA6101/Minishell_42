@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
+/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 17:25:04 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/23 04:11:58 by rafaria          ###   ########.fr       */
+/*   Updated: 2025/01/25 17:15:50 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,6 @@ void	execution_process(t_data_rule *struct_data, t_data_rule data,
 
 void	second_process(t_struc_process struct_exec)
 {
-	int	i;
-
-	i = 0;
 	if (struct_exec.input_fd != NULL && *struct_exec.input_fd != -1)
 		close(*struct_exec.input_fd);
 	if (struct_exec.is_last_command != 1)

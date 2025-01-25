@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
+/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 17:47:30 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/22 20:05:42 by rafaria          ###   ########.fr       */
+/*   Updated: 2025/01/25 11:44:49 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,8 @@ char	**cmd_unset(char **env, char *var)
 int	check_var(char *str)
 {
 	int	size;
-	int	size_var;
 
 	size = 0;
-	size_var = ft_strlen(str);
 	while (str[size])
 	{
 		if (str[size] == '=')
