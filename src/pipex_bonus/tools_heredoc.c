@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
+/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 02:53:54 by rafaria           #+#    #+#             */
-/*   Updated: 2025/01/23 02:57:32 by rafaria          ###   ########.fr       */
+/*   Updated: 2025/01/27 19:42:54 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,15 +80,14 @@ void	free_heredoc(int *tab_heredoc, int num_commands)
 	k = 0;
 	if (tab_heredoc == NULL)
 		return ;
-	while (k < num_commands)
+	while (k < num_commands + 1)
 	{
-		if (tab_heredoc[k] == 0)
-			k++;
-		if (tab_heredoc[k] != -1)
+		if (tab_heredoc[k] != -1 && tab_heredoc[k] != 0)
 		{
 			close(tab_heredoc[k]);
 		}
 		k++;
 	}
-	free(tab_heredoc);
+	if (tab_heredoc != NULL)
+		free(tab_heredoc);
 }

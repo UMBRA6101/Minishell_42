@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 17:25:04 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/25 17:15:50 by raphox           ###   ########.fr       */
+/*   Updated: 2025/01/27 19:32:26 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,9 +128,9 @@ char	**pipex(t_data_rule *data, t_erreur *err, int num_commands, char **envv)
 	i = 0;
 	input_fd = -1;
 	tab_heredoc = prepare_heredocs(data, num_commands);
-	if (tab_heredoc == NULL || num_commands == 0)
-		return (envv);
 	struct_exec.env = envv;
+	if (tab_heredoc == NULL || num_commands == 0)
+		return (struct_exec.env);
 	struct_exec.cmd = NULL;
 	struct_exec.input_fd = &input_fd;
 	struct_exec.fd_heredoc = tab_heredoc[i];

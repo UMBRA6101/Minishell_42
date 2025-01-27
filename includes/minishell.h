@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 05:53:31 by thodos-s          #+#    #+#             */
-/*   Updated: 2025/01/25 17:07:36 by raphox           ###   ########.fr       */
+/*   Updated: 2025/01/27 13:00:15 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,17 @@
 # define PROMPT "Minishell-> "
 # define TMP_FILES "/tmp/minishell_tmp"
 
-
 extern pid_t	g_pid;
 
+int				check_export_before_equal(char *args);
 
+int				check_lign_in_envv(int limiter, char *argument,
+					char *ligne_envv);
+int				check_if_in_envv(char *argument, char **envv);
 
-char	**allocate_new_env_to_modify_variable(int pin, char **env, char *arguments);
-char **init_minimal_env(void);
-
-
+char			**allocate_new_env_to_modify_variable(int pin, char **env,
+					char *arguments);
+char			**init_minimal_env(void);
 
 int				tchoupi(t_data_rule *data, t_struc_process *struct_exec,
 					t_erreur *err);
@@ -197,7 +199,7 @@ void			display_env(char **envp);
 /* Export */
 char			**export(char *command, char **arguments, char **envv);
 char			**cmd_export(char *arguments, char **env);
-		// ajouter variable a l env 2 ou+
+// ajouter variable a l env 2 ou+
 char			**allocate_new_env_to_add_variable(char **env, char *arguments);
 int				size_env(char **env, char **new_env);
 

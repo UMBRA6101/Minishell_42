@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
+/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 20:02:35 by rafaria           #+#    #+#             */
-/*   Updated: 2025/01/23 03:40:59 by rafaria          ###   ########.fr       */
+/*   Updated: 2025/01/27 13:03:28 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,43 @@ void	handle_cd_errors(char **arguments)
 		return ;
 	}
 	closedir(dir);
+}
+
+// export suite
+
+int	check_lign_in_envv(int limiter, char *argument, char *ligne_envv)
+{
+	int	j;
+
+	j = 0;
+	while (j <= limiter)
+	{
+		if (argument[j] == ligne_envv[j])
+			j++;
+		else
+			return (-1);
+	}
+	if (j == limiter + 1)
+		return (1);
+	return (0);
+}
+
+int	check_if_in_envv(char *argument, char **envv)
+{
+	int		i;
+	int		limiter;
+
+	i = 0;
+	limiter = 0;
+	while (argument[limiter] != '=' && argument[limiter] != '\0')
+	{
+		limiter++;
+	}
+	while (envv[i] != NULL)
+	{
+		if (check_lign_in_envv(limiter, argument, envv[i]) == 1)
+			return (i);
+		i++;
+	}
+	return (-1);
 }

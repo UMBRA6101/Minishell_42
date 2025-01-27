@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_bonus_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
+/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 02:57:57 by rafaria           #+#    #+#             */
-/*   Updated: 2025/01/23 03:03:16 by rafaria          ###   ########.fr       */
+/*   Updated: 2025/01/27 19:45:11 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,18 @@ int	*prepare_heredocs(t_data_rule *data, int num_commands)
 	tab_heredoc = malloc(sizeof(int) * (num_commands + 1));
 	if (tab_heredoc == NULL)
 		return (perror("malloc"), NULL);
+
+	int pq;
+	pq = 0;
+
+	while (pq < num_commands + 1)
+	{
+		tab_heredoc[pq] = 0;
+		pq++;
+	}
+
+
+		
 	i = 0;
 	while (i < num_commands)
 	{

@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:30:17 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/25 15:40:56 by raphox           ###   ########.fr       */
+/*   Updated: 2025/01/27 14:43:04 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	update_env(char **envp, char *old_pwd, char *new_pwd)
 char	**cd(char *command, char **args, char **envp)
 {
 	char	old_pwd[1024];
-	char	new_pwd[1024];
-	char	*resolved_path;
+	char	npwd[1024];
+	char	*rslvepath;
 	char	*home;
 
 	getcwd(old_pwd, sizeof(old_pwd));
@@ -45,15 +45,13 @@ char	**cd(char *command, char **args, char **envp)
 		chdir(args[0]);
 	else if (command != NULL && args != NULL && args[0][0] != '/')
 	{
-		getcwd(new_pwd, sizeof(new_pwd));
-		resolved_path = resolve_path(new_pwd, args[0]);
-		if (resolved_path == NULL)
+		(getcwd(npwd, sizeof(npwd)), rslvepath = resolve_path(npwd, args[0]));
+		if (rslvepath == NULL)
 			return (NULL);
-		chdir(resolved_path);
-		free(resolved_path);
+		(chdir(rslvepath), free(rslvepath));
 	}
-	return (getcwd(new_pwd, sizeof(new_pwd)),
-		update_env(envp, old_pwd, new_pwd), envp);
+	return (getcwd(npwd, sizeof(npwd)),
+		update_env(envp, old_pwd, npwd), envp);
 }
 
 char	*resolve_path(const char *cwd, const char *relative_path)

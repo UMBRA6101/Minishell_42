@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:17:46 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/25 17:23:55 by raphox           ###   ########.fr       */
+/*   Updated: 2025/01/27 19:49:06 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,65 +14,67 @@
 
 pid_t		g_pid;
 
-void print_request(t_data_rule *request)
-{
-	int	i;
-	int	k;
+// void	print_request(t_data_rule *request)
+// {
+// 	int	i;
+// 	int	k;
 
-	i = 0;
-	k = 0;
-	if (!request)
-		return ;
-	while (k < request[0].nb_command) {
-		i = 0;
-		printf("-----------------\n");
-		printf("command : %s\n", request[k].command);
-		printf("nbr_arg : %d\n", request[k].nbr_args);
-		if (request[k].options)
-		{
-			i = 0;
-			while (request[k].options[i])
-			{
-				printf("option[%d] : %s\n", i, request[k].options[i]);
-				i++;
-			}
-		}
-		if (request[k].arguments)
-		{
-			i = 0;
-			while(i < request[k].nbr_args)
-			{
-				printf("arg[%d] : |%s|\n", i, request[k].arguments[i]);
-				i++;
-			}
-		}
-		if (request[k].out)
-		{
-			i = 0;
-			printf("nb_dir : %d\n", request[k].nb_rdir);
-			while(request[k].out[i] && i < request[k].nb_rdir)
-			{
-				printf("out : %s\n", request[k].out[i]);
-				i++;
-			}
-		}
-		printf("input : %s\n", request[k].input);
-		if (request[k].oper && i <= request[k].nb_rdir)
-		{
-			i = 0;
-			while (request[k].oper[i])
-			{
-				printf("oper : %c\n", request[k].oper[i]);
-				i++;
-			}
-		}
-		printf("pipe : %d\n", request[k].pipe);
-		printf("nb_command : %d\n", request[k].nb_command);
-		k++;
-	}
-	printf("------------------------------------------\n");
-}
+// 	i = 0;
+// 	k = 0;
+// 	if (!request)
+// 		return ;
+// 	while (k < request[0].nb_command)
+// 	{
+// 		i = 0;
+// 		printf("-----------------\n");
+// 		printf("command : %s\n", request[k].command);
+// 		printf("nbr_arg : %d\n", request[k].nbr_args);
+// 		if (request[k].options)
+// 		{
+// 			i = 0;
+// 			while (request[k].options[i])
+// 			{
+// 				printf("option[%d] : %s\n", i, request[k].options[i]);
+// 				i++;
+// 			}
+// 		}
+// 		if (request[k].arguments)
+// 		{
+// 			i = 0;
+// 			while (i < request[k].nbr_args)
+// 			{
+// 				printf("arg[%d] : |%s|\n", i, request[k].arguments[i]);
+// 				i++;
+// 			}
+// 		}
+// 		if (request[k].out)
+// 		{
+// 			i = 0;
+// 			printf("nb_dir : %d\n", request[k].nb_rdir);
+// 			while (request[k].out[i] && i < request[k].nb_rdir)
+// 			{
+// 				printf("out : %s\n", request[k].out[i]);
+// 				i++;
+// 			}
+// 		}
+// 		printf("input : %s\n", request[k].input);
+// 		if (request[k].oper && i <= request[k].nb_rdir)
+// 		{
+// 			i = 0;
+// 			while (request[k].oper[i])
+// 			{
+// 				printf("oper : %c\n", request[k].oper[i]);
+// 				i++;
+// 			}
+// 		}
+// 		printf("pipe : %d\n", request[k].pipe);
+// 		printf("nb_command : %d\n", request[k].nb_command);
+// 		k++;
+// 	}
+// 	printf("------------------------------------------\n");
+// }
 /*	initialisation of minishell struct	*/
+
 int	init(t_info **info, char **envp)
 {
 	signal(SIGINT, signal_treatment);
@@ -99,6 +101,7 @@ int	init(t_info **info, char **envp)
 	return (0);
 }
 
+		// print_request((*info)->cmd);
 static int	parse_exec(t_info **info, char *rule)
 {
 	(*info)->cmd = parsing((*info), &rule);
@@ -106,7 +109,6 @@ static int	parse_exec(t_info **info, char *rule)
 		print_parsing_error((*info)->err);
 	else
 	{
-		print_request((*info)->cmd);
 		(*info)->envv = pipex((*info)->cmd, (*info)->err,
 				(*info)->cmd->nb_command, (*info)->envv);
 		if ((*info)->envv == NULL)
@@ -132,6 +134,7 @@ int	main(int argc, char **argv, char **envp)
 		return (0);
 	while (42)
 	{
+		// rl_event_hook = NULL;
 		info->err->error_code = -1;
 		rule = readline(PROMPT);
 		if (rule == NULL || !rule)
@@ -177,14 +180,13 @@ char	**ft_strdup_env(char **envp)
 	return (new_env);
 }
 
-char **init_minimal_env(void)
+char	**init_minimal_env(void)
 {
-	char **new_env;
-	char pwd[1024];
+	char	**new_env;
+	char	pwd[1024];
 
 	getcwd(pwd, sizeof(pwd));
 	new_env = (char **)malloc(sizeof(char *) * (7));
-
 	new_env[0] = strdup("SHLVL=1");
 	new_env[1] = strdup("TERM=xterm");
 	new_env[2] = strdup("_=./minishell");
@@ -194,6 +196,3 @@ char **init_minimal_env(void)
 	new_env[6] = NULL;
 	return (new_env);
 }
-
-
-
