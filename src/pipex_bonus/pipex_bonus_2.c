@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 02:57:57 by rafaria           #+#    #+#             */
-/*   Updated: 2025/01/27 19:45:11 by raphox           ###   ########.fr       */
+/*   Updated: 2025/01/27 20:13:31 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,18 @@ int	tchoupi(t_data_rule *data, t_struc_process *struct_exec, t_erreur *err)
 	return (0);
 }
 
+void	innit_tab_heredoc(int *tab_heredoc, int num_commands)
+{
+	int	pq;
+
+	pq = 0;
+	while (pq < num_commands + 1)
+	{
+		tab_heredoc[pq] = 0;
+		pq++;
+	}
+}
+
 int	*prepare_heredocs(t_data_rule *data, int num_commands)
 {
 	int	*tab_heredoc;
@@ -57,19 +69,7 @@ int	*prepare_heredocs(t_data_rule *data, int num_commands)
 	tab_heredoc = malloc(sizeof(int) * (num_commands + 1));
 	if (tab_heredoc == NULL)
 		return (perror("malloc"), NULL);
-
-	int pq;
-	pq = 0;
-
-	while (pq < num_commands + 1)
-	{
-		tab_heredoc[pq] = 0;
-		pq++;
-	}
-
-
-		
-	i = 0;
+	(innit_tab_heredoc(tab_heredoc, num_commands), i = 0);
 	while (i < num_commands)
 	{
 		if (data[i].oper != NULL)

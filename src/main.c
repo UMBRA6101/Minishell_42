@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:17:46 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/27 19:49:06 by raphox           ###   ########.fr       */
+/*   Updated: 2025/01/27 20:15:29 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,6 @@ int	main(int argc, char **argv, char **envp)
 		return (0);
 	while (42)
 	{
-		// rl_event_hook = NULL;
 		info->err->error_code = -1;
 		rule = readline(PROMPT);
 		if (rule == NULL || !rule)

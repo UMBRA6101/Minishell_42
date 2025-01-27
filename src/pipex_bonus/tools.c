@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 15:38:34 by rafaria           #+#    #+#             */
-/*   Updated: 2025/01/27 19:47:41 by raphox           ###   ########.fr       */
+/*   Updated: 2025/01/27 20:14:43 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	handle_redirection(t_data_rule data)
 	return (0);
 }
 
-int handle_sig_heredoc(void)
+int	handle_sig_heredoc(void)
 {
 	if (ask_tmp_files() == 1024)
 	{
@@ -47,7 +47,6 @@ int handle_sig_heredoc(void)
 	}
 	return (0);
 }
-
 
 int	handle_heredoc(char *delimiter)
 {
@@ -61,22 +60,18 @@ int	handle_heredoc(char *delimiter)
 	while (1)
 	{
 		if (ask_tmp_files() == 1024)
-			return (is_tmpfile_90(pipe_fds[0], pipe_fds[1]), rl_event_hook=NULL, -1);
+			return (close(pipe_fds[0]), close(pipe_fds[1]),
+				rl_event_hook = NULL, -1);
 		line = readline("> ");
 		if (!line)
 			return (ctrl_d(NULL, delimiter), close(pipe_fds[1]), pipe_fds[0]);
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
-			return (free(line), close(pipe_fds[1]), rl_event_hook=NULL, pipe_fds[0]);
+			return (free(line), close(pipe_fds[1]), rl_event_hook = NULL,
+				pipe_fds[0]);
 		write(pipe_fds[1], line, ft_strlen(line));
 		write(pipe_fds[1], "\n", 1);
 		free(line);
 	}
-}
-
-void	is_tmpfile_90(int pipe_lecutre, int pipe_ecriture)
-{
-	close(pipe_lecutre);
-	close(pipe_ecriture);
 }
 
 void	ctrl_d(char *line, char *delimiter)
@@ -139,10 +134,6 @@ void	wait_for_children(void)
 // 	close(pipe_fds[1]);
 // 	return (pipe_fds[0]);
 // }
-
-
-
-
 
 // void (*old_sigint)(int);
 // void (*old_sigquit)(int);
