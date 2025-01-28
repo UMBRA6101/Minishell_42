@@ -6,7 +6,7 @@
 /*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 03:52:10 by thodos-s          #+#    #+#             */
-/*   Updated: 2025/01/23 05:26:34 by rafaria          ###   ########.fr       */
+/*   Updated: 2025/01/28 14:40:35 by umbra            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	process_traitment(int sig)
 		}
 		else if (sig == SIGQUIT)
 		{
-			ft_putstr_fd("Quit (core dumped)\n", 1);
+			ft_putstr_fd("Quit (core dumped)\n", 0);
 		}
 	}
 }

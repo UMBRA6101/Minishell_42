@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 17:25:04 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/27 19:32:26 by raphox           ###   ########.fr       */
+/*   Updated: 2025/01/28 14:40:17 by umbra            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	execute(t_data_rule *struct_data, t_data_rule data,
 void	execution_process(t_data_rule *struct_data, t_data_rule data,
 		t_struc_process struct_exec)
 {
+	signal(SIGQUIT, &signal_treatment);
 	if (data.oper != NULL && data.oper[0] == 'h')
 	{
 		dup2(struct_exec.fd_heredoc, STDIN_FILENO);
@@ -70,6 +71,7 @@ void	execution_process(t_data_rule *struct_data, t_data_rule data,
 
 void	second_process(t_struc_process struct_exec)
 {
+	signal(SIGQUIT, &signal_treatment);
 	if (struct_exec.input_fd != NULL && *struct_exec.input_fd != -1)
 		close(*struct_exec.input_fd);
 	if (struct_exec.is_last_command != 1)

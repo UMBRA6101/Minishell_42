@@ -13,6 +13,7 @@
 #include "minishell.h"
 
 pid_t		g_pid;
+pid_t		g_statue;
 
 // void	print_request(t_data_rule *request)
 // {
@@ -78,7 +79,7 @@ pid_t		g_pid;
 int	init(t_info **info, char **envp)
 {
 	signal(SIGINT, signal_treatment);
-	signal(SIGQUIT, signal_treatment);
+	signal(SIGQUIT, SIG_IGN);
 	*info = malloc(sizeof(t_info) * 1);
 	if (!*info)
 		return (-1);
@@ -137,7 +138,7 @@ int	main(int argc, char **argv, char **envp)
 		info->err->error_code = -1;
 		rule = readline(PROMPT);
 		if (rule == NULL || !rule)
-			free_all(&info, rule, 131);
+			free_all(&info, rule, 0);
 		if (rule != NULL)
 		{
 			add_history(rule);
