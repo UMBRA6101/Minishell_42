@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 05:53:31 by thodos-s          #+#    #+#             */
-/*   Updated: 2025/01/27 13:00:15 by raphox           ###   ########.fr       */
+/*   Updated: 2025/01/28 15:13:33 by umbra            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # define TMP_FILES "/tmp/minishell_tmp"
 
 extern pid_t	g_pid;
+extern pid_t	g_statue;
 
 int				check_export_before_equal(char *args);
 

@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:17:46 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/27 20:15:29 by raphox           ###   ########.fr       */
+/*   Updated: 2025/01/28 15:33:27 by umbra            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,8 +145,8 @@ int	main(int argc, char **argv, char **envp)
 			if (parse_exec(&info, rule) == -1)
 				return (0);
 		}
-		if (ask_tmp_files() == 1024)
-			info->err->exit_value = 130;
+		if (ask_tmp_files() == 1024 || ask_tmp_files() == 1025)
+			info->err->exit_value = ask_tmp_files() - 894;
 	}
 	unlink(TMP_FILES);
 	return (0);
