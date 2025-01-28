@@ -6,14 +6,13 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:17:46 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/28 15:33:27 by umbra            ###   ########.fr       */
+/*   Updated: 2025/01/28 15:39:06 by umbra            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 pid_t		g_pid;
-pid_t		g_statue;
 
 // void	print_request(t_data_rule *request)
 // {
