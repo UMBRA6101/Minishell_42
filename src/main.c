@@ -6,11 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:17:46 by raphox            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/01/29 14:55:55 by thodos-s         ###   ########.fr       */
-=======
-/*   Updated: 2025/01/29 14:02:33 by raphox           ###   ########.fr       */
->>>>>>> refs/remotes/origin/main
+/*   Updated: 2025/01/29 15:09:12 by thodos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +14,7 @@
 
 pid_t		g_pid;
 
-void	print_request(t_data_rule *request)
+/*void	print_request(t_data_rule *request)
 {
 	int	i;
 	int	k;
@@ -76,7 +72,7 @@ void	print_request(t_data_rule *request)
 		k++;
 	}
 	printf("------------------------------------------\n");
-}
+}*/
 /*	initialisation of minishell struct	*/
 
 int	init(t_info **info, char **envp)
@@ -112,7 +108,6 @@ static int	parse_exec(t_info **info, char *rule)
 		print_parsing_error((*info)->err);
 	else
 	{
-		print_request((*info)->cmd);
 		(*info)->envv = pipex((*info)->cmd, (*info)->err,
 				(*info)->cmd->nb_command, (*info)->envv);
 		if ((*info)->envv == NULL)
