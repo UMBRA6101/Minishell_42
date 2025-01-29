@@ -6,7 +6,7 @@
 /*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:30:17 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/29 17:29:10 by rafaria          ###   ########.fr       */
+/*   Updated: 2025/01/29 18:42:07 by rafaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	**cd(char *command, char **args, char **envp)
 		return (envp);
 	if (command != NULL && args == NULL)
 		chdir(home = getenv("HOME"));
-	else if (command != NULL && args != NULL && strcmp(args[0], "..") == 0)
+	else if (command != NULL && args != NULL && ft_strcmp(args[0], "..") == 0)
 		chdir("..");
 	else if (command != NULL && args != NULL && args[0][0] == '/')
 		chdir(args[0]);
