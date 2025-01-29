@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:30:17 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/29 15:24:02 by raphox           ###   ########.fr       */
+/*   Updated: 2025/01/29 16:13:08 by rafaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ void	update_env(char **envp, char *old_pwd, char *new_pwd)
 	{
 		free(envp[oldpwd_index]);
 		envp[oldpwd_index] = ft_strjoin("OLDPWD=", old_pwd, 0);
-		
 	}
-		
 	pwd_index = find_in_envv(envp, "PWD");
 	if (pwd_index != -1)
 	{
@@ -41,7 +39,8 @@ char	**cd(char *command, char **args, char **envp)
 	char	*home;
 
 	getcwd(old_pwd, sizeof(old_pwd));
-	if (args != NULL && (args[0][0] == '.' && args[0][1] == '\0') || (handle_cd_errors(args) == -1))
+	if (args != NULL && ((args[0][0] == '.' && args[0][1] == '\0')
+			|| (handle_cd_errors(args) == -1)))
 		return (envp);
 	if (command != NULL && args == NULL)
 		chdir(home = getenv("HOME"));
@@ -56,8 +55,7 @@ char	**cd(char *command, char **args, char **envp)
 			return (NULL);
 		(chdir(rslvepath), free(rslvepath));
 	}
-	return (getcwd(npwd, sizeof(npwd)),
-		update_env(envp, old_pwd, npwd), envp);
+	return (getcwd(npwd, sizeof(npwd)), update_env(envp, old_pwd, npwd), envp);
 }
 
 char	*resolve_path(const char *cwd, const char *relative_path)
@@ -104,8 +102,8 @@ void	parse_segments(const char *path, char **segments, int *segment_count)
 	}
 }
 
-void	handle_special_segments(char *temp, char **segments,
-		int *segment_count, int start)
+void	handle_special_segments(char *temp, char **segments, int *segment_count,
+		int start)
 {
 	int	i;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   real_command_builder.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 17:14:05 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/29 14:59:27 by raphox           ###   ########.fr       */
+/*   Updated: 2025/01/29 16:14:18 by rafaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	append_elements(char **cmd, char **elements, int index, char *type)
 	while (elements[i])
 	{
 		cmd[index] = ft_strdup(elements[i++]);
-		if (cmd[index++] == NULL) 
+		if (cmd[index++] == NULL)
 		{
 			write(2, "Error: Failed to duplicate ", 27);
 			write(2, type, ft_strlen(type));

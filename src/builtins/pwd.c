@@ -3,37 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 18:35:49 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/29 13:54:43 by raphox           ###   ########.fr       */
+/*   Updated: 2025/01/29 16:13:33 by rafaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	pwd(char *command, char **envv)
-// {
-// 	int	index;
-
-// 	index = find_in_envv(envv, "PWD");
-// 	if (index == -1)
-// 	{
-// 		write_temp_file(TMP_FILES, 1);
-// 		return ;
-// 	}
-// 	if (ft_strncmp(command, "pwd", ft_strlen(command)) == 0)
-// 	{
-// 		write(1, envv[index] + 4, ft_strlen(envv[index] + 4));
-// 		write(1, "\n", 1);
-// 	}
-// 	return ;
-// }
-
-
 void	pwd(char *command, char **envv)
 {
-	char pwd[10000];
+	char	pwd[10000];
 
 	getcwd(pwd, sizeof(pwd));
 	write(1, pwd, ft_strlen(pwd));
