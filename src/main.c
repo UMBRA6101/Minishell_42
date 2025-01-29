@@ -6,7 +6,7 @@
 /*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:17:46 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/29 16:14:57 by rafaria          ###   ########.fr       */
+/*   Updated: 2025/01/29 17:25:41 by rafaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,16 +163,13 @@ char	**ft_strdup_env(char **envp)
 		i++;
 	new_env = (char **)malloc(sizeof(char *) * (i + 1));
 	if (new_env == NULL)
-		return (perror("malloc"), NULL);
+		return (NULL);
 	i = 0;
 	while (envp[i])
 	{
 		new_env[i] = ft_strdup(envp[i]);
 		if (new_env[i] == NULL)
-		{
-			perror("ft_strdup");
 			return (NULL);
-		}
 		i++;
 	}
 	new_env[i] = NULL;
