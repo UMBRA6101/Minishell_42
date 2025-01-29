@@ -78,7 +78,7 @@ pid_t		g_pid;
 int	init(t_info **info, char **envp)
 {
 	signal(SIGINT, signal_treatment);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, signal_treatment);
 	*info = malloc(sizeof(t_info) * 1);
 	if (!*info)
 		return (-1);

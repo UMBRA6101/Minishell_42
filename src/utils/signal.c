@@ -41,4 +41,10 @@ void	signal_treatment(int sig)
 		rl_redisplay();
 		write_temp_file(TMP_FILES, 1024);
 	}
+	else
+	{
+		rl_on_new_line();
+		rl_redisplay();
+		ft_putstr_fd("  \b\b", STDOUT_FILENO);
+	}
 }

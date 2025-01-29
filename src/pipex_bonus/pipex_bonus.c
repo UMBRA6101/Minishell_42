@@ -43,7 +43,6 @@ void	execute(t_data_rule *struct_data, t_data_rule data,
 void	execution_process(t_data_rule *struct_data, t_data_rule data,
 		t_struc_process struct_exec)
 {
-	signal(SIGQUIT, &signal_treatment);
 	if (data.oper != NULL && data.oper[0] == 'h')
 	{
 		dup2(struct_exec.fd_heredoc, STDIN_FILENO);
