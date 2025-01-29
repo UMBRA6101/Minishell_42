@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 15:38:34 by rafaria           #+#    #+#             */
-/*   Updated: 2025/01/27 20:14:43 by raphox           ###   ########.fr       */
+/*   Updated: 2025/01/29 15:00:25 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	handle_heredoc(char *delimiter)
 			return (close(pipe_fds[0]), close(pipe_fds[1]),
 				rl_event_hook = NULL, -1);
 		line = readline("> ");
-		if (!line)
+		if (line == NULL)
 			return (ctrl_d(NULL, delimiter), close(pipe_fds[1]), pipe_fds[0]);
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
 			return (free(line), close(pipe_fds[1]), rl_event_hook = NULL,

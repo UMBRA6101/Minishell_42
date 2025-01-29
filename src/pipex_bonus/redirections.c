@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 22:37:42 by rafaria           #+#    #+#             */
-/*   Updated: 2025/01/27 12:35:04 by raphox           ###   ########.fr       */
+/*   Updated: 2025/01/29 15:00:06 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,11 @@ char	*find_path_in_paths(char **paths, char *cmd)
 	while (paths[i])
 	{
 		part_path = ft_strjoin(paths[i], "/", 0);
-		if (!part_path)
+		if (part_path == NULL)
 			return (NULL);
 		path = ft_strjoin(part_path, cmd, 0);
 		free(part_path);
-		if (!path)
+		if (path == NULL)
 			return (NULL);
 		if (access(path, F_OK | X_OK) == 0)
 			return (path);
@@ -99,10 +99,10 @@ char	*find_path(char *cmd_brut, char *cmd, char **envv)
 	i = 0;
 	while (envv[i] && ft_strnstr(envv[i], "PATH", 4) == 0)
 		i++;
-	if (!envv[i])
+	if (envv[i] == NULL)
 		return (NULL);
 	paths = ft_split(envv[i] + 5, ':');
-	if (!paths)
+	if (paths == NULL)
 		return (NULL);
 	path = find_path_in_paths(paths, cmd);
 	free_split(paths);

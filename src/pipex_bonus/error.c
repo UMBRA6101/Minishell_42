@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
+/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 03:26:25 by rafaria           #+#    #+#             */
-/*   Updated: 2025/01/23 03:37:29 by rafaria          ###   ########.fr       */
+/*   Updated: 2025/01/29 14:58:03 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	free_command(char **cmd)
 	int	i;
 
 	i = 0;
-	if (!cmd)
+	if (cmd == NULL)
 		return ;
 	while (cmd[i])
 	{

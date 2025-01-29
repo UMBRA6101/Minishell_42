@@ -6,11 +6,10 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 17:47:30 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/25 11:44:49 by raphox           ###   ########.fr       */
+/*   Updated: 2025/01/29 14:55:31 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// envp deja copier auparavant !!!!!! sinon ne marche pas !!!!!!!
 
 #include "minishell.h"
 
