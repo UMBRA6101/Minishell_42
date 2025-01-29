@@ -6,7 +6,7 @@
 /*   By: thodos-s <thodos-s@sudent.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:10:34 by thodos-s          #+#    #+#             */
-/*   Updated: 2025/01/29 13:27:21 by umbra            ###   ########.fr       */
+/*   Updated: 2025/01/29 14:56:37 by thodos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,6 @@ int	add_char(char *c, char **str, int *itr, t_info **data)
 		(*itr)++;
 		bs = true;
 		c++;
-		/*if (c[1] == '$')
-			(*itr)++;
-		return (1);*/
 	}
 	if (c[0] == '$' && !bs && !(*data)->sq && dollard_exist(c, data, &i))
 		return (1);

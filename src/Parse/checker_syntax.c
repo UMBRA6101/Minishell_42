@@ -6,7 +6,7 @@
 /*   By: thodos-s <thodos-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 11:41:26 by thodos-s          #+#    #+#             */
-/*   Updated: 2025/01/22 11:57:15 by thodos-s         ###   ########.fr       */
+/*   Updated: 2025/01/29 14:46:04 by thodos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static int	valid_stx(t_split *split, int i, t_erreur *err, const int nb_word)
 		if (oper_check(err, split[i].word, i, nb_word) == -1)
 			return (-1);
 	}
-	else if ((split[i - 1].sep != '|' && (i == 0 || i + 1 == nb_word))
+	else if ((!previous_pipe(split, i) && (i == 0 || i + 1 == nb_word))
 		&& (split[i].sep == '>' || split[i].sep == '<'))
 		if (quote_check(split[i].word, err, i, nb_word) == -1)
 			return (-1);

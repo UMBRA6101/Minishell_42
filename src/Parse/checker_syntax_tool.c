@@ -6,7 +6,7 @@
 /*   By: thodos-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 12:23:54 by thodos-s          #+#    #+#             */
-/*   Updated: 2024/11/20 12:23:55 by thodos-s         ###   ########.fr       */
+/*   Updated: 2025/01/29 14:46:56 by thodos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,14 @@ int	valid_braquet(char *str, int *b_left, int *b_right)
 			(*b_right)++;
 		i++;
 	}
+	return (0);
+}
+
+int	previous_pipe(t_split *split, int i)
+{
+	if (i <= 0)
+		return (0);
+	if (split[i - 1].sep == '|')
+		return (1);
 	return (0);
 }

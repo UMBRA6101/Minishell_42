@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 21:12:57 by thodos-s          #+#    #+#             */
-/*   Updated: 2025/01/29 13:12:38 by umbra            ###   ########.fr       */
+/*   Updated: 2025/01/29 14:45:18 by thodos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int					trim_useless(char **str, t_erreur *err);
 int					request_count(t_split *split, int count_word);
 struct s_data_rule	*parsing(t_info *data, char **rqst);
 struct s_data_rule	*parsing_tree(t_split *split, const int count_word);
+int					previous_pipe(t_split *split, int i);
 int					r_node(t_split *split, int i);
 int					r_value(char *command, int i, t_token *token);
 int					valid_braquet(char *str, int *b_left, int *b_right);
