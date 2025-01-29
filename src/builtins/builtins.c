@@ -6,7 +6,7 @@
 /*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 11:32:59 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/23 03:37:54 by rafaria          ###   ########.fr       */
+/*   Updated: 2025/01/29 19:00:31 by rafaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	**exec_builtins(t_data_rule data, char **envv)
 	else if (ft_strcmp(data.command, "export") == 0)
 		return (export(data.command, data.arguments, envv));
 	else if (ft_strcmp(data.command, "pwd") == 0)
-		pwd(data.command, envv);
+		pwd();
 	else if (ft_strcmp(data.command, "unset") == 0)
 		return (unset(data.arguments, envv));
 	else if (ft_strcmp(data.command, "exit") == 0)

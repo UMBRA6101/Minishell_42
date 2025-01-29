@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 17:25:04 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/28 14:40:17 by umbra            ###   ########.fr       */
+/*   Updated: 2025/01/29 19:10:00 by rafaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	execute(t_data_rule *struct_data, t_data_rule data,
 			struct_exec.env) == -1)
 	{
 		display_error(data.command, NULL, data.arguments, 1);
-		free(pathname);
+		if (pathname != NULL)
+			free(pathname);
 		free_execution_process(struct_data, struct_exec);
 	}
 	exit(EXIT_FAILURE);

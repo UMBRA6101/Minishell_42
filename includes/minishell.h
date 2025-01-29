@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 05:53:31 by thodos-s          #+#    #+#             */
-/*   Updated: 2025/01/29 15:23:00 by raphox           ###   ########.fr       */
+/*   Updated: 2025/01/29 19:00:06 by rafaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ char			**allocate_new_env_to_add_variable(char **env, char *arguments);
 int				size_env(char **env, char **new_env);
 
 /* Pwd GOOD */
-void			pwd(char *command, char **envv); // recopie pwd
+void			pwd(void);
 
 /* Unset */
 char			**unset(char **arguments, char **envp);

@@ -75,7 +75,7 @@ OBJS = $(addprefix $(OBJDIR), $(OBJ))
 
 ### COMPILE ###
 CC = cc
-# CCFLAG = -Wall -Werror -Wextra -g3
+CCFLAG = -Wall -Werror -Wextra -g3
 INCFLAG = -I$(DIRINC)
 LIBFTDIR = ./lib/libft/
 PIPEXDIR = pipex/

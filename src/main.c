@@ -6,7 +6,7 @@
 /*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:17:46 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/29 18:00:49 by thodos-s         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:03:21 by rafaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,6 @@ static int	parse_exec(t_info **info, char *rule)
 				(*info)->cmd->nb_command, (*info)->envv);
 		if ((*info)->envv == NULL)
 		{
-			killer_request((*info)->cmd);
 			unlink(TMP_FILES);
 			return (-1);
 		}

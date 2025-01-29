@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 13:09:05 by thodos-s          #+#    #+#             */
-/*   Updated: 2025/01/22 20:07:41 by thodos-s         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:04:19 by rafaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	killer_request(t_data_rule *request)
 	nb_command = request[0].nb_command;
 	while (k < nb_command)
 	{
-		if (request[k].command)
+		if (request[k].command != NULL)
 			free(request[k].command);
 		if (request[k].nbr_args > 0 && request[k].arguments)
 			killer_array(request[k].arguments, request[k].nbr_args);
