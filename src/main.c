@@ -6,7 +6,7 @@
 /*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:17:46 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/29 17:25:41 by rafaria          ###   ########.fr       */
+/*   Updated: 2025/01/29 18:00:49 by thodos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,8 +144,6 @@ int	main(int argc, char **argv, char **envp)
 			if (parse_exec(&info, rule) == -1)
 				return (0);
 		}
-		if (ask_tmp_files() == 1024 || ask_tmp_files() == 1025)
-			info->err->exit_value = ask_tmp_files() - 894;
 	}
 	unlink(TMP_FILES);
 	return (0);

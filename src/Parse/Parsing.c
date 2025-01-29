@@ -6,7 +6,7 @@
 /*   By: thodos-s <thodos-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 13:13:38 by thodos-s          #+#    #+#             */
-/*   Updated: 2025/01/22 19:00:40 by thodos-s         ###   ########.fr       */
+/*   Updated: 2025/01/29 18:01:58 by thodos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ t_data_rule	*parsing(t_info *data, char **rqst)
 	cmd = NULL;
 	split = NULL;
 	word_count = 1;
+	if (ask_tmp_files() == 1024 || ask_tmp_files() == 1025)
+		data->err->exit_value = ask_tmp_files() - 894;
 	if (trim_useless(rqst, data->err))
 		return (NULL);
 	if (!dollar_traitment(&data, rqst))
@@ -149,10 +151,7 @@ t_data_rule	*parsing(t_info *data, char **rqst)
 	data->err->error_code = -1;
 	if (!fill_split(*rqst, &word_count, &split)
 		|| syntax_check(split, word_count, data->err))
-	{
-		killer_split(split, word_count);
-		return (NULL);
-	}
+		return (killer_split(split, word_count), NULL);
 	data->err->error_code = -1;
 	cmd = parsing_tree(split, word_count);
 	return (cmd);

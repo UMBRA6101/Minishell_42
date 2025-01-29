@@ -71,7 +71,6 @@ void	execution_process(t_data_rule *struct_data, t_data_rule data,
 
 void	second_process(t_struc_process struct_exec)
 {
-	signal(SIGQUIT, &signal_treatment);
 	if (struct_exec.input_fd != NULL && *struct_exec.input_fd != -1)
 		close(*struct_exec.input_fd);
 	if (struct_exec.is_last_command != 1)

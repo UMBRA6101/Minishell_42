@@ -41,10 +41,4 @@ void	signal_treatment(int sig)
 		rl_redisplay();
 		write_temp_file(TMP_FILES, 1024);
 	}
-	else if (sig == SIGQUIT)
-	{
-		rl_redisplay();
-		rl_on_new_line();
-		printf("  \b\b");
-	}
 }
