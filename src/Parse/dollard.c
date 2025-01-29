@@ -6,7 +6,7 @@
 /*   By: thodos-s <thodos-s@sudent.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:10:34 by thodos-s          #+#    #+#             */
-/*   Updated: 2025/01/22 19:59:14 by thodos-s         ###   ########.fr       */
+/*   Updated: 2025/01/29 13:27:21 by umbra            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,20 @@ int	add_char(char *c, char **str, int *itr, t_info **data)
 	char	buff[2];
 	char	*tmp;
 	int		i;
+	bool	bs;
 
 	i = 0;
-	if (c[0] == '\\')
+	bs = false;
+	if (c[0] == '\\' && !(*data)->sq)
 	{
 		(*itr)++;
-		if (c[1] == '$')
+		bs = true;
+		c++;
+		/*if (c[1] == '$')
 			(*itr)++;
-		return (1);
+		return (1);*/
 	}
-	if (c[0] == '$' && !(*data)->sq && dollard_exist(c, data, &i))
+	if (c[0] == '$' && !bs && !(*data)->sq && dollard_exist(c, data, &i))
 		return (1);
 	buff[0] = *c;
 	buff[1] = '\0';
@@ -95,7 +99,7 @@ static int	fuck_norm(t_info **data, char **str, char **rqst)
 			((*rqst)[i + 1] != '\'' && (*rqst)[i + 1] != '"') && \
 			(ft_isalpha((*rqst)[i + 1]) || (*rqst)[i + 1] == '?' || \
 			(*rqst)[i + 1] == '_')
-			&& (*rqst)[i - 1] != '\\' && !(*data)->sq && \
+			&& !back_slash((*rqst), i) && !(*data)->sq && \
 			!add_dollar((*rqst), &i, str, data))
 			return (0);
 		else if ((*rqst)[i] && !add_char((*rqst) + i, str, &i, data))

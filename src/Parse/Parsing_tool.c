@@ -6,7 +6,7 @@
 /*   By: thodos-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:08:20 by thodos-s          #+#    #+#             */
-/*   Updated: 2025/01/22 11:53:29 by thodos-s         ###   ########.fr       */
+/*   Updated: 2025/01/29 13:11:44 by umbra            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,14 @@ int	echo_test(t_data_rule *rqst, t_split *split, int nb_node)
 				return (1);
 		}
 	}
+	return (0);
+}
+
+int	back_slash(char *str, int i)
+{
+	if (i <= 0)
+		return (0);
+	if (str[i - 1] == '\\')
+		return (1);
 	return (0);
 }

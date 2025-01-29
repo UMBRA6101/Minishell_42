@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 21:12:57 by thodos-s          #+#    #+#             */
-/*   Updated: 2025/01/25 17:51:24 by raphox           ###   ########.fr       */
+/*   Updated: 2025/01/29 13:12:38 by umbra            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int					add_opt_request(t_data_rule *request, t_split *split,
 						const int nb_opt);
 int					add_semicolon(t_split *split);
 int					braquet_check(char *str, t_erreur *err);
+int					back_slash(char *str, int i);
 bool				b_quote(char c);
 int					check_rdir(char *buff, int len);
 char				*delete_space(char *command);
