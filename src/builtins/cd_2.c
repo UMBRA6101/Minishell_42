@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 20:02:35 by rafaria           #+#    #+#             */
-/*   Updated: 2025/01/29 13:57:24 by raphox           ###   ########.fr       */
+/*   Updated: 2025/01/29 15:23:10 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*custom_realpath(const char *path)
 	return (build_resolved_path(segments, segment_count));
 }
 
-void	handle_cd_errors(char **arguments)
+int	handle_cd_errors(char **arguments)
 {
 	DIR	*dir;
 
@@ -57,16 +57,17 @@ void	handle_cd_errors(char **arguments)
 	{
 		write_temp_file(TMP_FILES, 1);
 		write(2, "cd: too many arguments\n", 23);
-		return ;
+		return (-1);
 	}
 	dir = opendir(arguments[0]);
 	if (dir == NULL)
 	{
 		display_error("cd", NULL, arguments, 0);
 		write_temp_file(TMP_FILES, 1);
-		return ;
+		return (-1);
 	}
 	closedir(dir);
+	return (0);
 }
 
 // export suite

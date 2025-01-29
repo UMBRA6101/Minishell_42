@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 05:53:31 by thodos-s          #+#    #+#             */
-/*   Updated: 2025/01/28 15:39:13 by umbra            ###   ########.fr       */
+/*   Updated: 2025/01/29 15:23:00 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ int				check_if_in_builtins(t_data_rule struc);
 
 int				count_arguments(char **tab);
 
-void			handle_cd_errors(char **arguments);
+int				handle_cd_errors(char **arguments);
 
 void			update_env(char **envp, char *old_pwd, char *new_pwd);
 

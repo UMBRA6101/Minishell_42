@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:30:17 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/29 12:36:59 by raphox           ###   ########.fr       */
+/*   Updated: 2025/01/29 15:24:02 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,7 @@ char	**cd(char *command, char **args, char **envp)
 	char	*home;
 
 	getcwd(old_pwd, sizeof(old_pwd));
-	if (args != NULL)
-		handle_cd_errors(args);
-	if (args != NULL && args[0][0] == '.' && args[0][1] == '\0')
+	if (args != NULL && (args[0][0] == '.' && args[0][1] == '\0') || (handle_cd_errors(args) == -1))
 		return (envp);
 	if (command != NULL && args == NULL)
 		chdir(home = getenv("HOME"));
