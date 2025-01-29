@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 20:02:35 by rafaria           #+#    #+#             */
-/*   Updated: 2025/01/27 13:03:28 by raphox           ###   ########.fr       */
+/*   Updated: 2025/01/29 13:57:24 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*build_resolved_path(char **segments, int segment_count)
 	int		i;
 
 	resolved_path = malloc(1024);
-	if (!resolved_path)
+	if (resolved_path == NULL)
 	{
 		i = 0;
 		while (i < segment_count)

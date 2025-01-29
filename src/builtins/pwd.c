@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 18:35:49 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/29 12:30:48 by raphox           ###   ########.fr       */
+/*   Updated: 2025/01/29 13:54:43 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ void	pwd(char *command, char **envv)
 
 	getcwd(pwd, sizeof(pwd));
 	write(1, pwd, ft_strlen(pwd));
+	write(1, "\n", 1);
 	return ;
 }
