@@ -65,7 +65,6 @@ SRC =		main.c \
 			Parse/free.c \
 			utils/free_all.c \
 			utils/signal.c \
-			# builtins/tools.c \
 
 SRCS = $(addprefix $(SRCDIR), $(SRC))
 
@@ -76,7 +75,7 @@ OBJS = $(addprefix $(OBJDIR), $(OBJ))
 
 ### COMPILE ###
 CC = cc
-CCFLAG = -Wall -Werror -Wextra -g3
+# CCFLAG = -Wall -Werror -Wextra -g3
 INCFLAG = -I$(DIRINC)
 LIBFTDIR = ./lib/libft/
 PIPEXDIR = pipex/

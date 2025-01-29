@@ -6,7 +6,7 @@
 /*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:30:17 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/27 14:43:04 by raphox           ###   ########.fr       */
+/*   Updated: 2025/01/29 12:36:59 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,19 @@ void	update_env(char **envp, char *old_pwd, char *new_pwd)
 	int	pwd_index;
 
 	oldpwd_index = find_in_envv(envp, "OLDPWD");
+	if (oldpwd_index != -1)
+	{
+		free(envp[oldpwd_index]);
+		envp[oldpwd_index] = ft_strjoin("OLDPWD=", old_pwd, 0);
+		
+	}
+		
 	pwd_index = find_in_envv(envp, "PWD");
-	free(envp[oldpwd_index]);
-	envp[oldpwd_index] = ft_strjoin("OLDPWD=", old_pwd, 0);
-	free(envp[pwd_index]);
-	envp[pwd_index] = ft_strjoin("PWD=", new_pwd, 0);
+	if (pwd_index != -1)
+	{
+		free(envp[pwd_index]);
+		envp[pwd_index] = ft_strjoin("PWD=", new_pwd, 0);
+	}
 }
 
 char	**cd(char *command, char **args, char **envp)
@@ -65,10 +73,7 @@ char	*resolve_path(const char *cwd, const char *relative_path)
 	rel_len = ft_strlen(relative_path);
 	path = malloc(cwd_len + rel_len + 2);
 	if (path == NULL)
-	{
-		perror("malloc");
 		return (NULL);
-	}
 	ft_strlcpy(path, cwd, cwd_len + 1);
 	ft_strlcat(path, "/", cwd_len + 2);
 	ft_strlcat(path, relative_path, cwd_len + rel_len + 2);
