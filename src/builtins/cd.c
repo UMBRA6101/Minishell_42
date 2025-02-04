@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
+/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:30:17 by raphox            #+#    #+#             */
-/*   Updated: 2025/02/04 17:30:23 by rafaria          ###   ########.fr       */
+/*   Updated: 2025/02/04 23:20:32 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,22 @@ void	update_env(char **envp, char *old_pwd, char *new_pwd)
 	}
 }
 
+char *modify_arg(char **argv)
+{
+	int size;
+	size = ft_strlen(argv[0]);
+
+	char *modified_size;
+	modified_size = malloc(ft_strlen(argv[0]) + 2);
+
+	ft_strlcpy(modified_size, argv[0], size + 1);
+	ft_strlcat(modified_size, "/",  size + 2);
+	free(argv[0]);
+	argv[0] = modified_size;
+	printf("%s\n", argv[0]);
+	return (argv[0]);
+}
+
 char	**cd(char *command, char **args, char **envp)
 {
 	char	old_pwd[1024];
@@ -38,6 +54,8 @@ char	**cd(char *command, char **args, char **envp)
 	char	*rslvepath;
 	char	*home;
 
+	if (args[0][ft_strlen(args[0]) - 1] != '/')
+		modify_arg(&args[0]);
 	getcwd(old_pwd, sizeof(old_pwd));
 	if (args != NULL && ((args[0][0] == '.' && args[0][1] == '\0')
 			|| (handle_cd_errors(args) == -1)))
@@ -73,6 +91,9 @@ char	*resolve_path(const char *cwd, const char *relative_path)
 	ft_strlcpy(path, cwd, cwd_len + 1);
 	ft_strlcat(path, "/", cwd_len + 2);
 	ft_strlcat(path, relative_path, cwd_len + rel_len + 2);
+	printf("le path %s \n", path);
+
+
 	resolved_path = custom_realpath(path);
 	free(path);
 	return (resolved_path);

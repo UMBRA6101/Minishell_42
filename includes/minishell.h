@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
+/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 05:53:31 by thodos-s          #+#    #+#             */
-/*   Updated: 2025/01/29 19:00:06 by rafaria          ###   ########.fr       */
+/*   Updated: 2025/02/04 23:24:35 by raphox           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,8 @@ int				check_if_in_builtins(t_data_rule struc);
 /* CD GOOOD */
 
 int				count_arguments(char **tab);
+
+char 			*modify_arg(char **argv);
 
 int				handle_cd_errors(char **arguments);
 
