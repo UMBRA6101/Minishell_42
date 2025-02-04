@@ -6,7 +6,7 @@
 /*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 17:25:04 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/29 19:10:00 by rafaria          ###   ########.fr       */
+/*   Updated: 2025/02/04 17:00:45 by rafaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,10 @@ char	**pipex(t_data_rule *data, t_erreur *err, int num_commands, char **envv)
 	struct_exec.tab_heredoc = tab_heredoc;
 	struct_exec.num_commands = num_commands;
 	if (tchoupi(data, &struct_exec, err) == -1)
+	{
+		free(struct_exec.tab_heredoc);
 		return (struct_exec.env);
+	}
 	wait_for_children();
 	g_pid = 0;
 	return (err->exit_value = ask_tmp_files(), free(struct_exec.tab_heredoc),
