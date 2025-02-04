@@ -19,7 +19,7 @@ int	trim_space(char *str)
 
 	itr_str = ft_strlen(str) - 1;
 	if (itr_str < 0)
-		return (0);
+		return (1);
 	while (itr_str >= 0)
 	{
 		if (!ft_isspace(str[itr_str]))
@@ -54,7 +54,8 @@ int	trim_quote(char *str)
 /*	deletion of all useless element	*/
 int	trim_useless(char **str, t_erreur *err)
 {
-	trim_space(*str);
+	if (trim_space(*str))
+		return (1);
 	if (ft_strlen(*str) <= 0)
 	{
 		err->error_code = -1;

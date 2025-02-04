@@ -48,11 +48,9 @@ int	r_node(t_split *split, int nb_node)
 	if (node_finish(split[nb_node].word, split[nb_node].len_word))
 		return (nb_node + 1);
 	node_type = check_rdir(split->word, split->len_word);
+	nb_node++;
 	if (node_type == OTHER)
-	{
-		nb_node++;
 		return (r_node(split, nb_node));
-	}
 	else if (node_type == RDIR || node_type == D_INPUT || node_type == PIPE)
 		return (r_node(split, nb_node));
 	return (-1);

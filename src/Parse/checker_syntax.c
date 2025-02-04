@@ -19,6 +19,8 @@ static int	quote_check(char *word, t_erreur *err, int i, const int nb_word)
 	err->c = word[0];
 	if ((ft_strlen(word) <= 2))
 	{
+		if (check_rdir(word, ft_strlen(word)) == D_INPUT && i == 0 && nb_word != 0)
+			return (0);
 		if (err->sw)
 		{
 			err->error_code = SYNTAX;

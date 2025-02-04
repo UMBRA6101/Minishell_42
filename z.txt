@@ -1,9 +1,0 @@
-includes
-lib
-libft.a
-makefile
-minishell
-obj
-readline.supp
-src
-z.txt

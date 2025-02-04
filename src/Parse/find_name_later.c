@@ -15,7 +15,7 @@
 /*	identify other character	*/
 int	ft_isspace(char c)
 {
-	if (c == ' ' || (c >= 10 && c <= 13))
+	if (c == ' ' || (c >= 9 && c <= 13))
 		return (1);
 	return (0);
 }
@@ -39,7 +39,7 @@ int	is_oper(char c)
 /*	end condition	*/
 int	ft_isend(const char c)
 {
-	if (ft_isspace(c) || c == '|' || c == ';')
+	if (ft_isspace(c) || c == '|' || c == ';' || is_rdir(c))
 		return (1);
 	return (0);
 }

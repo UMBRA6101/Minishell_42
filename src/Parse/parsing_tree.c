@@ -46,11 +46,14 @@ static	int	converte_rdir(t_data_rule *request, t_split *split)
 static int	init_rqst(t_data_rule *rqst, t_split *split, \
 		int k, const int nb_node)
 {
+	int i;
+
+	i = 0;
 	if (nb_node <= 0)
 		return (-1);
 	rqst[k].nbr_args = 0;
 	rqst[k].nb_rdir = 0;
-	add_command(&rqst[k], split);
+	i += add_command(&rqst[k], split);
 	if (ft_strncmp(rqst[k].command, "exit", ft_strlen(rqst[k].command)) == 0)
 		return (1);
 	if (echo_test(rqst + k, split, nb_node))
@@ -62,7 +65,7 @@ static int	init_rqst(t_data_rule *rqst, t_split *split, \
 		if (add_opt_request(&rqst[k], split + 1, rqst[k].nb_opt) == -1)
 			return (-1);
 	rqst[k].pipe = false;
-	return (1 + rqst[k].nb_opt);
+	return (i + rqst[k].nb_opt);
 }
 
 /**/

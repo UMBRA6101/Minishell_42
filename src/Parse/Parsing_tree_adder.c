@@ -17,7 +17,13 @@ int	add_command(t_data_rule *request, t_split *split)
 {
 	if (!split)
 		return (-1);
-	request->command = ft_strdup(split[0].word);
+	if (check_rdir(split[0].word, ft_strlen(split[0].word)) == D_INPUT)
+	{
+		request->command = ft_strdup("cat");
+		return (0);
+	}
+	else
+		request->command = ft_strdup(split[0].word);
 	return (1);
 }
 
