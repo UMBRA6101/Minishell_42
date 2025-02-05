@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/22 22:37:42 by rafaria           #+#    #+#             */
-/*   Updated: 2025/02/05 14:29:26 by rafaria          ###   ########.fr       */
+/*   Created: 2025/02/05 14:34:39 by rafaria           #+#    #+#             */
+/*   Updated: 2025/02/05 14:34:42 by rafaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ char	*find_path(char *cmd_brut, char *cmd, char **envv)
 	char	*path;
 
 	if (access(cmd_brut, F_OK | X_OK) == 0)
-		return (ft_strdupcmd_brut);
+		return (ft_strdup(cmd_brut));
 	i = 0;
 	while (envv[i] && ft_strnstr(envv[i], "PATH", 4) == 0)
 		i++;

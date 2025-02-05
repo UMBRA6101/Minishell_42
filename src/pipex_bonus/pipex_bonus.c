@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/09 17:25:04 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/28 14:40:17 by umbra            ###   ########.fr       */
+/*   Created: 2025/02/05 14:34:07 by rafaria           #+#    #+#             */
+/*   Updated: 2025/02/05 14:40:24 by rafaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	execute(t_data_rule *struct_data, t_data_rule data,
 			struct_exec.env) == -1)
 	{
 		display_error(data.command, NULL, data.arguments, 1);
-		free(pathname);
+		if (pathname != NULL)
+			free(pathname);
 		free_execution_process(struct_data, struct_exec);
 	}
 	exit(EXIT_FAILURE);
@@ -137,7 +138,10 @@ char	**pipex(t_data_rule *data, t_erreur *err, int num_commands, char **envv)
 	struct_exec.tab_heredoc = tab_heredoc;
 	struct_exec.num_commands = num_commands;
 	if (tchoupi(data, &struct_exec, err) == -1)
+	{
+		free(struct_exec.tab_heredoc);
 		return (struct_exec.env);
+	}
 	wait_for_children();
 	g_pid = 0;
 	return (err->exit_value = ask_tmp_files(), free(struct_exec.tab_heredoc),

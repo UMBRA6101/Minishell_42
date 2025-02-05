@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/23 05:53:31 by thodos-s          #+#    #+#             */
-/*   Updated: 2025/01/29 15:23:00 by raphox           ###   ########.fr       */
+/*   Created: 2025/02/05 14:39:02 by rafaria           #+#    #+#             */
+/*   Updated: 2025/02/05 14:39:41 by rafaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,8 @@ int				check_if_in_builtins(t_data_rule struc);
 
 int				count_arguments(char **tab);
 
+char 			*modify_arg(char **argv);
+
 int				handle_cd_errors(char **arguments);
 
 void			update_env(char **envp, char *old_pwd, char *new_pwd);
@@ -204,7 +206,7 @@ char			**allocate_new_env_to_add_variable(char **env, char *arguments);
 int				size_env(char **env, char **new_env);
 
 /* Pwd GOOD */
-void			pwd(char *command, char **envv); // recopie pwd
+void			pwd(void);
 
 /* Unset */
 char			**unset(char **arguments, char **envp);

@@ -8,8 +8,13 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
+<<<<<<< HEAD
       "cwd": "/home/raphox/Music/minishell/src/pipex_bonus",
       "program": "/home/raphox/Music/minishell/src/pipex_bonus/build/Debug/outDebug",
+=======
+      "cwd": "/home/rafaria/Pictures/login",
+      "program": "/home/rafaria/Pictures/login/build/Debug/outDebug",
+>>>>>>> origin/raphael_main
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

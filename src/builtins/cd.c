@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/22 16:30:17 by raphox            #+#    #+#             */
-/*   Updated: 2025/01/29 17:29:10 by rafaria          ###   ########.fr       */
+/*   Created: 2025/02/05 14:34:57 by rafaria           #+#    #+#             */
+/*   Updated: 2025/02/05 14:36:21 by rafaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	update_env(char **envp, char *old_pwd, char *new_pwd)
 	}
 }
 
+
 char	**cd(char *command, char **args, char **envp)
 {
 	char	old_pwd[1024];
@@ -38,13 +39,15 @@ char	**cd(char *command, char **args, char **envp)
 	char	*rslvepath;
 	char	*home;
 
+	if (args[0][ft_strlen(args[0]) - 1] != '/')
+		modify_arg(&args[0]);
 	getcwd(old_pwd, sizeof(old_pwd));
 	if (args != NULL && ((args[0][0] == '.' && args[0][1] == '\0')
 			|| (handle_cd_errors(args) == -1)))
 		return (envp);
 	if (command != NULL && args == NULL)
 		chdir(home = getenv("HOME"));
-	else if (command != NULL && args != NULL && strcmp(args[0], "..") == 0)
+	else if (command != NULL && args != NULL && ft_strcmp(args[0], "..") == 0)
 		chdir("..");
 	else if (command != NULL && args != NULL && args[0][0] == '/')
 		chdir(args[0]);
@@ -73,6 +76,7 @@ char	*resolve_path(const char *cwd, const char *relative_path)
 	ft_strlcpy(path, cwd, cwd_len + 1);
 	ft_strlcat(path, "/", cwd_len + 2);
 	ft_strlcat(path, relative_path, cwd_len + rel_len + 2);
+	printf("le path %s \n", path);
 	resolved_path = custom_realpath(path);
 	free(path);
 	return (resolved_path);
