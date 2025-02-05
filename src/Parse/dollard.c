@@ -6,7 +6,7 @@
 /*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:10:34 by thodos-s          #+#    #+#             */
-/*   Updated: 2025/02/05 14:41:08 by rafaria          ###   ########.fr       */
+/*   Updated: 2025/02/05 17:20:48 by rafaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,19 +108,20 @@ static int	fuck_norm(t_info **data, char **str, char **rqst)
 			return (0);
 		else if ((*rqst)[i] && !add_char((*rqst) + i, str, &i, data))
 			return (0);
-	}
+	} 
 	return (1);
 }
 
 /*	set and add environment variable in buffer	*/
-int	dollar_traitment(t_info **data, char **rqst)
+int	dollar_traitment(t_info **data, char **rqst, bool hd)
 {
 	char	*str;
 
 	str = ft_strdup("");
 	if (fuck_norm(data, &str, rqst) == 0)
 		return (0);
-	free(*rqst);
+	if (!hd)
+		free(*rqst);
 	if (ft_strlen(str) <= 0)
 	{
 		free(str);

@@ -6,7 +6,7 @@
 /*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 14:34:07 by rafaria           #+#    #+#             */
-/*   Updated: 2025/02/05 14:40:24 by rafaria          ###   ########.fr       */
+/*   Updated: 2025/02/05 16:43:00 by rafaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	do_pipe(t_data_rule *struct_data, t_data_rule data,
 	}
 }
 
-char	**pipex(t_data_rule *data, t_erreur *err, int num_commands, char **envv)
+char	**pipex(t_info **info)
 {
 	int				i;
 	int				input_fd;
@@ -128,22 +128,22 @@ char	**pipex(t_data_rule *data, t_erreur *err, int num_commands, char **envv)
 
 	i = 0;
 	input_fd = -1;
-	tab_heredoc = prepare_heredocs(data, num_commands);
-	struct_exec.env = envv;
-	if (tab_heredoc == NULL || num_commands == 0)
+	tab_heredoc = prepare_heredocs(info);
+	struct_exec.env = (*info)->envv;
+	if (tab_heredoc == NULL || (*info)->cmd->nb_command == 0)
 		return (struct_exec.env);
 	struct_exec.cmd = NULL;
 	struct_exec.input_fd = &input_fd;
 	struct_exec.fd_heredoc = tab_heredoc[i];
 	struct_exec.tab_heredoc = tab_heredoc;
-	struct_exec.num_commands = num_commands;
-	if (tchoupi(data, &struct_exec, err) == -1)
+	struct_exec.num_commands = (*info)->cmd->nb_command;
+	if (tchoupi((*info)->cmd, &struct_exec, (*info)->err) == -1)
 	{
 		free(struct_exec.tab_heredoc);
 		return (struct_exec.env);
 	}
 	wait_for_children();
 	g_pid = 0;
-	return (err->exit_value = ask_tmp_files(), free(struct_exec.tab_heredoc),
+	return ((*info)->err->exit_value = ask_tmp_files(), free(struct_exec.tab_heredoc),
 		struct_exec.env);
 }

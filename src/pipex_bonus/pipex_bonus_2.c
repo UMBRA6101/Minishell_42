@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_bonus_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 02:57:57 by rafaria           #+#    #+#             */
-/*   Updated: 2025/01/29 15:26:19 by raphox           ###   ########.fr       */
+/*   Updated: 2025/02/05 17:15:01 by rafaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,31 +54,31 @@ void	innit_tab_heredoc(int *tab_heredoc, int num_commands)
 	int	pq;
 
 	pq = 0;
-	while (pq <= num_commands)
+	while (pq < num_commands)
 	{
 		tab_heredoc[pq] = 0;
 		pq++;
 	}
 }
 
-int	*prepare_heredocs(t_data_rule *data, int num_commands)
+int	*prepare_heredocs(t_info **info)
 {
 	int	*tab_heredoc;
 	int	i;
 
-	tab_heredoc = malloc(sizeof(int) * (num_commands + 1));
+	tab_heredoc = malloc(sizeof(int) * (*info)->cmd->nb_command + 1);
 	if (tab_heredoc == NULL)
 		return (NULL);
-	(innit_tab_heredoc(tab_heredoc, num_commands), i = 0);
-	while (i < num_commands)
+	(innit_tab_heredoc(tab_heredoc, (*info)->cmd->nb_command), i = 0);
+	while (i < (*info)->cmd->nb_command)
 	{
-		if (data[i].oper != NULL)
+		if ((*info)->cmd[i].oper != NULL)
 		{
-			if (check_if_h_is_find(data[i].oper) != 0)
+			if (check_if_h_is_find((*info)->cmd[i].oper) != 0)
 			{
-				tab_heredoc[i] = give_latest_heredoc(data[i]);
+				tab_heredoc[i] = give_latest_heredoc(info, (*info)->cmd[i]);
 				if (tab_heredoc[i] == -1)
-					return (free_heredoc(tab_heredoc, num_commands), NULL);
+					return (free_heredoc(tab_heredoc,  (*info)->cmd->nb_command), NULL);
 			}
 			else
 				tab_heredoc[i] = -1;

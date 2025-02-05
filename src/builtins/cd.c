@@ -6,7 +6,7 @@
 /*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 14:34:57 by rafaria           #+#    #+#             */
-/*   Updated: 2025/02/05 14:36:21 by rafaria          ###   ########.fr       */
+/*   Updated: 2025/02/05 15:48:26 by rafaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	**cd(char *command, char **args, char **envp)
 	char	*rslvepath;
 	char	*home;
 
-	if (args[0][ft_strlen(args[0]) - 1] != '/')
+	if (args != NULL && args[0][ft_strlen(args[0]) - 1] != '/')
 		modify_arg(&args[0]);
 	getcwd(old_pwd, sizeof(old_pwd));
 	if (args != NULL && ((args[0][0] == '.' && args[0][1] == '\0')
@@ -76,7 +76,6 @@ char	*resolve_path(const char *cwd, const char *relative_path)
 	ft_strlcpy(path, cwd, cwd_len + 1);
 	ft_strlcat(path, "/", cwd_len + 2);
 	ft_strlcat(path, relative_path, cwd_len + rel_len + 2);
-	printf("le path %s \n", path);
 	resolved_path = custom_realpath(path);
 	free(path);
 	return (resolved_path);

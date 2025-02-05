@@ -85,7 +85,10 @@ TOTAL := $(words $(SRCS))
 COUNT := 0
 
 all: progress $(NAME)
-	@echo "$(tput bold)$(GREEN)\n$(NAME) is compile$(END)";
+	@if [ -f "$NAME" ]; then \
+		echo "$(tput bold)$(GREEN)\n$(NAME) is compile$(END)"; \
+	fi;
+	
 
 libft:
 	@if [ ! -f "libft.a" ]; then \

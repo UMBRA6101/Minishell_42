@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 21:12:57 by thodos-s          #+#    #+#             */
-/*   Updated: 2025/01/29 14:45:18 by thodos-s         ###   ########.fr       */
+/*   Updated: 2025/02/05 17:21:10 by rafaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char				*delete_inutile_quote(char *command);
 int					dollard_exist(char *rqst, t_info **data, int *index);
 void				dollard_env(char *rqst, int *index, char **str,
 						t_info **data);
-int					dollar_traitment(t_info **data, char **rqst);
+int					dollar_traitment(t_info **data, char **rqst, bool hd);
 int					empty_braquet(char *str);
 int					ft_nbr_option(const t_split *split, const int nb_node);
 int					ft_nb_rdir(t_split *split);

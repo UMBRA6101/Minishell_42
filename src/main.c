@@ -6,7 +6,7 @@
 /*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 14:39:17 by rafaria           #+#    #+#             */
-/*   Updated: 2025/02/05 14:39:20 by rafaria          ###   ########.fr       */
+/*   Updated: 2025/02/05 16:33:52 by rafaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,7 @@ static int	parse_exec(t_info **info, char *rule)
 		print_parsing_error((*info)->err);
 	else
 	{
-		(*info)->envv = pipex((*info)->cmd, (*info)->err,
-				(*info)->cmd->nb_command, (*info)->envv);
+		(*info)->envv = pipex(info);
 		if ((*info)->envv == NULL)
 		{
 			killer_request((*info)->cmd);

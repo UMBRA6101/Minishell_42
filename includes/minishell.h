@@ -6,7 +6,7 @@
 /*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 14:39:02 by rafaria           #+#    #+#             */
-/*   Updated: 2025/02/05 14:39:41 by rafaria          ###   ########.fr       */
+/*   Updated: 2025/02/05 16:49:09 by rafaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int				is_directory(const char *path);
 
 int				check_if_h_is_find(char *str);
 
-int				give_latest_heredoc(t_data_rule data);
+int				give_latest_heredoc(t_info **info, t_data_rule data);
 
 int				check_slash(char *cmd);
 
@@ -109,8 +109,7 @@ char			*read_temp_file(const char *filename);
 
 int				ft_strcmp(char *s1, char *s2);
 
-char			**pipex(t_data_rule *data, t_erreur *err, int num_commands,
-					char **envv);
+char			**pipex(t_info **info);
 void			do_pipe(t_data_rule *struct_data, t_data_rule data,
 					t_struc_process struct_exec);
 void			execution_process(t_data_rule *struct_data, t_data_rule data,
@@ -138,8 +137,8 @@ int				append_elements(char **cmd, char **elements, int index,
 					char *type);
 
 /* TOOLS */
-int				handle_heredoc(char *delimiter);
-int				*prepare_heredocs(t_data_rule *data, int num_commands);
+int				handle_heredoc(t_info **info, char *delimiter);
+int				*prepare_heredocs(t_info **info);
 int				handle_redirection(t_data_rule data);
 int				handle_entry_redirections(t_data_rule data, char oper,
 					char *input);

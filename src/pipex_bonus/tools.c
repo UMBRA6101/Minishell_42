@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 15:38:34 by rafaria           #+#    #+#             */
-/*   Updated: 2025/01/29 15:00:25 by raphox           ###   ########.fr       */
+/*   Updated: 2025/02/05 17:21:43 by rafaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,12 @@ int	handle_sig_heredoc(void)
 	return (0);
 }
 
-int	handle_heredoc(char *delimiter)
+int	handle_heredoc(t_info **info, char *delimiter)
 {
 	char	*line;
 	int		pipe_fds[2];
 
+	(void)info;
 	if (pipe(pipe_fds) == -1)
 		return (perror("Erreur pipe"), -1);
 	write_temp_file(TMP_FILES, 1023);
@@ -65,6 +66,7 @@ int	handle_heredoc(char *delimiter)
 		line = readline("> ");
 		if (line == NULL)
 			return (ctrl_d(NULL, delimiter), close(pipe_fds[1]), pipe_fds[0]);
+		dollar_traitment(info, &line, true);
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
 			return (free(line), close(pipe_fds[1]), rl_event_hook = NULL,
 				pipe_fds[0]);

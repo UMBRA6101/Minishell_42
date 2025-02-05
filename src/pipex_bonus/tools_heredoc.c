@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raphox <raphox@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 02:53:54 by rafaria           #+#    #+#             */
-/*   Updated: 2025/01/29 15:28:55 by raphox           ###   ########.fr       */
+/*   Updated: 2025/02/05 17:14:07 by rafaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	get_h_position(char *str)
 	return (count);
 }
 
-int	give_latest_heredoc(t_data_rule data)
+int	give_latest_heredoc(t_info **info, t_data_rule data)
 {
 	int	i;
 	int	result;
@@ -58,7 +58,7 @@ int	give_latest_heredoc(t_data_rule data)
 	{
 		if (data.oper[i] == 'h')
 		{
-			result = handle_heredoc(data.out[i]);
+			result = handle_heredoc(info, data.out[i]);
 			if (get_h_position(data.oper) == i)
 			{
 				return (result);
@@ -80,7 +80,7 @@ void	free_heredoc(int *tab_heredoc, int num_commands)
 	k = 0;
 	if (tab_heredoc == NULL)
 		return ;
-	while (k < num_commands + 1)
+	while (k < num_commands)
 	{
 		if (tab_heredoc[k] != -1 && tab_heredoc[k] != 0)
 		{

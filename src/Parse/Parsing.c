@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thodos-s <thodos-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 13:13:38 by thodos-s          #+#    #+#             */
-/*   Updated: 2025/01/29 18:01:58 by thodos-s         ###   ########.fr       */
+/*   Updated: 2025/02/05 17:21:32 by rafaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ t_data_rule	*parsing(t_info *data, char **rqst)
 		data->err->exit_value = ask_tmp_files() - 894;
 	if (trim_useless(rqst, data->err))
 		return (NULL);
-	if (!dollar_traitment(&data, rqst))
+	if (!dollar_traitment(&data, rqst, false))
 		return (0);
 	data->err->error_code = STX_NL;
 	if (braquet_check(*rqst, data->err) == -1)
