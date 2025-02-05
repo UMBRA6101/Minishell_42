@@ -66,7 +66,7 @@ int	handle_heredoc(t_info **info, char *delimiter)
 		line = readline("> ");
 		if (line == NULL)
 			return (ctrl_d(line, delimiter), close(pipe_fds[1]), pipe_fds[0]);
-		dollar_traitment(info, &line, true);
+		dollar_traitment(info, &line);
 		if (line && ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
 			return (free(line), close(pipe_fds[1]), rl_event_hook = NULL,
 				pipe_fds[0]);

@@ -143,7 +143,7 @@ t_data_rule	*parsing(t_info *data, char **rqst)
 		data->err->exit_value = ask_tmp_files() - 894;
 	if (trim_useless(rqst, data->err))
 		return (NULL);
-	if (!dollar_traitment(&data, rqst, false))
+	if (!dollar_traitment(&data, rqst))
 		return (0);
 	data->err->error_code = STX_NL;
 	if (braquet_check(*rqst, data->err) == -1)
