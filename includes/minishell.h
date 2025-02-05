@@ -171,7 +171,7 @@ int				check_if_in_builtins(t_data_rule struc);
 
 int				count_arguments(char **tab);
 
-char 			*modify_arg(char **argv);
+char			*modify_arg(char **argv);
 
 int				handle_cd_errors(char **arguments);
 

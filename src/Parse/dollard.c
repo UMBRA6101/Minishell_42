@@ -108,7 +108,7 @@ static int	fuck_norm(t_info **data, char **str, char **rqst)
 			return (0);
 		else if ((*rqst)[i] && !add_char((*rqst) + i, str, &i, data))
 			return (0);
-	} 
+	}
 	return (1);
 }
 
@@ -117,11 +117,12 @@ int	dollar_traitment(t_info **data, char **rqst, bool hd)
 {
 	char	*str;
 
+	(void)hd;
 	str = ft_strdup("");
 	if (fuck_norm(data, &str, rqst) == 0)
 		return (0);
-	if (!hd)
-		free(*rqst);
+	free(*rqst);
+	(*rqst) = NULL;
 	if (ft_strlen(str) <= 0)
 	{
 		free(str);

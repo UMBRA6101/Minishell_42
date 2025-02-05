@@ -138,12 +138,10 @@ char	**pipex(t_info **info)
 	struct_exec.tab_heredoc = tab_heredoc;
 	struct_exec.num_commands = (*info)->cmd->nb_command;
 	if (tchoupi((*info)->cmd, &struct_exec, (*info)->err) == -1)
-	{
-		free(struct_exec.tab_heredoc);
-		return (struct_exec.env);
-	}
+		return (free(struct_exec.tab_heredoc), struct_exec.env);
 	wait_for_children();
 	g_pid = 0;
-	return ((*info)->err->exit_value = ask_tmp_files(), free(struct_exec.tab_heredoc),
+	return ((*info)->err->exit_value = ask_tmp_files(),
+		free(struct_exec.tab_heredoc),
 		struct_exec.env);
 }

@@ -72,16 +72,13 @@ int	*prepare_heredocs(t_info **info)
 	(innit_tab_heredoc(tab_heredoc, (*info)->cmd->nb_command), i = 0);
 	while (i < (*info)->cmd->nb_command)
 	{
-		if ((*info)->cmd[i].oper != NULL)
+		if ((*info)->cmd[i].oper != NULL
+			&& (check_if_h_is_find((*info)->cmd[i].oper) != 0))
 		{
-			if (check_if_h_is_find((*info)->cmd[i].oper) != 0)
-			{
-				tab_heredoc[i] = give_latest_heredoc(info, (*info)->cmd[i]);
-				if (tab_heredoc[i] == -1)
-					return (free_heredoc(tab_heredoc,  (*info)->cmd->nb_command), NULL);
-			}
-			else
-				tab_heredoc[i] = -1;
+			tab_heredoc[i] = give_latest_heredoc(info, (*info)->cmd[i]);
+			if (tab_heredoc[i] == -1)
+				return (free_heredoc(tab_heredoc, (*info)->cmd->nb_command),
+					NULL);
 		}
 		else
 			tab_heredoc[i] = -1;

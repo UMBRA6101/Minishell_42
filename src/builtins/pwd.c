@@ -23,16 +23,15 @@ void	pwd(void)
 }
 // cd extra ++
 
-char *modify_arg(char **argv)
+char	*modify_arg(char **argv)
 {
-	int size;
+	int		size;
+	char	*modified_size;
+
 	size = ft_strlen(argv[0]);
-
-	char *modified_size;
 	modified_size = malloc(ft_strlen(argv[0]) + 2);
-
 	ft_strlcpy(modified_size, argv[0], size + 1);
-	ft_strlcat(modified_size, "/",  size + 2);
+	ft_strlcat(modified_size, "/", size + 2);
 	free(argv[0]);
 	argv[0] = modified_size;
 	return (argv[0]);

@@ -31,7 +31,6 @@ void	update_env(char **envp, char *old_pwd, char *new_pwd)
 	}
 }
 
-
 char	**cd(char *command, char **args, char **envp)
 {
 	char	old_pwd[1024];
