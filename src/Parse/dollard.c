@@ -46,7 +46,14 @@ int	add_dollar(char *rqst, int *i, char **str, t_info **data)
 	else
 	{
 		(*i)++;
-		while (rqst[*i] && (ft_isalnum(rqst[*i]) || rqst[*i] == '_'))
+		if (rqst[*i] && (ft_isdigit(rqst[*i])))
+		{
+			(*i)++;
+			return (1);
+		}
+		while (rqst[*i] && (ft_isalpha(rqst[*i]) || rqst[*i] == '_'))
+			(*i)++;
+		while (rqst[*i] && ft_isdigit(rqst[*i]))
 			(*i)++;
 	}
 	return (1);
@@ -94,7 +101,7 @@ static int	fuck_norm(t_info **data, char **str, char **rqst)
 		quote_id(&(*data)->sq, &dq, NULL, (*rqst)[i]);
 		if ((*rqst)[i] && (*rqst)[i + 1] && (*rqst)[i] == '$' && \
 			((*rqst)[i + 1] != '\'' && (*rqst)[i + 1] != '"') && \
-			(ft_isalpha((*rqst)[i + 1]) || (*rqst)[i + 1] == '?' || \
+			(ft_isalnum((*rqst)[i + 1]) || (*rqst)[i + 1] == '?' || \
 			(*rqst)[i + 1] == '_')
 			&& !back_slash((*rqst), i) && !(*data)->sq && \
 			!add_dollar((*rqst), &i, str, data))
