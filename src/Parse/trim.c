@@ -55,7 +55,10 @@ int	trim_quote(char *str)
 int	trim_useless(char **str, t_erreur *err)
 {
 	if (trim_space(*str))
+	{
+		free(*str);
 		return (1);
+	}
 	if (ft_strlen(*str) <= 0)
 	{
 		err->error_code = -1;
