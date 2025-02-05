@@ -53,7 +53,7 @@ char				*delete_inutile_quote(char *command);
 int					dollard_exist(char *rqst, t_info **data, int *index);
 void				dollard_env(char *rqst, int *index, char **str,
 						t_info **data);
-int					dollar_traitment(t_info **data, char **rqst, bool hd);
+int					dollar_traitment(t_info **data, char **rqst);
 int					empty_braquet(char *str);
 int					ft_nbr_option(const t_split *split, const int nb_node);
 int					ft_nb_rdir(t_split *split);

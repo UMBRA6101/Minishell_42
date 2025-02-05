@@ -36,8 +36,8 @@ char	**cd(char *command, char **args, char **envp)
 	char	old_pwd[1024];
 	char	npwd[1024];
 	char	*rslvepath;
-	char	*home;
 
+	(ft_bzero(npwd, 1024), ft_bzero(old_pwd, 1024));
 	if (args != NULL && args[0][ft_strlen(args[0]) - 1] != '/')
 		modify_arg(&args[0]);
 	getcwd(old_pwd, sizeof(old_pwd));
@@ -45,7 +45,7 @@ char	**cd(char *command, char **args, char **envp)
 			|| (handle_cd_errors(args) == -1)))
 		return (envp);
 	if (command != NULL && args == NULL)
-		chdir(home = getenv("HOME"));
+		chdir(getenv("HOME"));
 	else if (command != NULL && args != NULL && ft_strcmp(args[0], "..") == 0)
 		chdir("..");
 	else if (command != NULL && args != NULL && args[0][0] == '/')

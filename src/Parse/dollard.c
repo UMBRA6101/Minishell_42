@@ -113,11 +113,10 @@ static int	fuck_norm(t_info **data, char **str, char **rqst)
 }
 
 /*	set and add environment variable in buffer	*/
-int	dollar_traitment(t_info **data, char **rqst, bool hd)
+int	dollar_traitment(t_info **data, char **rqst)
 {
 	char	*str;
 
-	(void)hd;
 	str = ft_strdup("");
 	if (fuck_norm(data, &str, rqst) == 0)
 		return (0);
