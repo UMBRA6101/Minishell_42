@@ -6,7 +6,7 @@
 /*   By: thodos-s <thodos-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 11:41:26 by thodos-s          #+#    #+#             */
-/*   Updated: 2025/02/05 10:34:35 by thodos-s         ###   ########.fr       */
+/*   Updated: 2025/02/05 11:51:05 by thodos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static int	quote_check(char *word, t_erreur *err, int i, const int nb_word)
 	err->c = word[0];
 	if ((ft_strlen(word) <= 2))
 	{
-		if (check_rdir(word, ft_strlen(word)) == D_INPUT && i == 0 && nb_word > 1)
+		if (check_rdir(word, ft_strlen(word)) == D_INPUT
+			&& i == 0 && nb_word > 1)
 			return (0);
 		if (err->sw)
 		{
@@ -29,9 +30,7 @@ static int	quote_check(char *word, t_erreur *err, int i, const int nb_word)
 			return (-1);
 		}
 		else if ((i == 0) || (i + 1) == nb_word)
-		{
 			err->error_code = STX_NL;
-		}
 	}
 	else if (occ_rdir(word) >= 2)
 	{

@@ -6,7 +6,7 @@
 /*   By: thodos-s <thodos-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:04:30 by umbra             #+#    #+#             */
-/*   Updated: 2025/01/22 21:52:20 by thodos-s         ###   ########.fr       */
+/*   Updated: 2025/02/05 11:49:40 by thodos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static	int	converte_rdir(t_data_rule *request, t_split *split)
 static int	init_rqst(t_data_rule *rqst, t_split *split, \
 		int k, const int nb_node)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (nb_node <= 0)
