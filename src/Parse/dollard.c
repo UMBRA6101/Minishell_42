@@ -121,6 +121,7 @@ int	dollar_traitment(t_info **data, char **rqst)
 	if (fuck_norm(data, &str, rqst) == 0)
 		return (0);
 	free(*rqst);
+	*rqst = NULL;
 	if (ft_strlen(str) <= 0)
 	{
 		free(str);
