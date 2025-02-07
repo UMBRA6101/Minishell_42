@@ -6,7 +6,7 @@
 /*   By: rafaria <rafaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 15:38:34 by rafaria           #+#    #+#             */
-/*   Updated: 2025/02/06 12:39:20 by umbra            ###   ########.fr       */
+/*   Updated: 2025/02/07 10:46:12 by thodos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	handle_heredoc(t_info **info, char *delimiter)
 	char	*line;
 	int		pipe_fds[2];
 
-	(void)info;
 	if (pipe(pipe_fds) == -1)
 		return (perror("Erreur pipe"), -1);
 	write_temp_file(TMP_FILES, 1023);
@@ -62,8 +61,8 @@ int	handle_heredoc(t_info **info, char *delimiter)
 	{
 		line = readline("> ");
 		if (ask_tmp_files() == 1024)
-			return (close(pipe_fds[0]), close(pipe_fds[1]),
-					rl_event_hook = NULL, -1);
+			return (free(line), close(pipe_fds[0]), close(pipe_fds[1]),
+				rl_event_hook = NULL, -1);
 		if (line == NULL)
 			return (ctrl_d(line, delimiter), close(pipe_fds[1]), pipe_fds[0]);
 		dollar_traitment(info, &line);
